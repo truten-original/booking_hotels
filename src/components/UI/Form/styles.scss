@@ -1,0 +1,13 @@
+
+.form_container {
+   &.MuiBox-root {
+    height: 100vh - 21vh;
+    margin-top: 21vh;
+   }
+   
+}
+.form_textField {
+   &.MuiInputBase-input {
+      background-color: white;
+   }
+}
