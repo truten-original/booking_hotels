@@ -1,4 +1,4 @@
-*{
+* {
   box-sizing: border-box;
 }
 body {
@@ -7,7 +7,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(to top, #ffff66 -35%, #cc6699 113%);
-
 }
 
-@import"./components/UI/Form/styles.scss"
+@import './components/UI/Form/styles.scss';

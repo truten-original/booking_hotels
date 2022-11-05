@@ -1,12 +1,17 @@
-import React from 'react'
-import AppRouter from './router/AppRouter'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import Header from './components/common/Header/Header'
-import { Container } from '@mui/system'
+import AppRouter from './router/AppRouter'
+import { loadRooms } from './store/roomsSlice'
 const App = () => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(loadRooms())
+  }, [])
   return (
     <BrowserRouter>
-    <Header/>
+      <Header />
       <AppRouter />
     </BrowserRouter>
   )

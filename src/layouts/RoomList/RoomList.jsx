@@ -1,18 +1,23 @@
-import { useState } from "react"
-import { Container } from "@mui/system"
-import { Box, TextField } from "@mui/material"
-import InputLabel from "@mui/material/InputLabel"
-import MenuItem from "@mui/material/MenuItem"
-import FormControl from "@mui/material/FormControl"
-import Select from "@mui/material/Select"
-import { Outlet, useParams } from "react-router-dom"
-import RoomItem from "../../components/UI/NavProfile/RoomItem"
-import { rooms } from "../../assets/mockData/mockData"
-import DescSort from "../../components/common/DescSort/DescSort"
+import { useEffect, useState } from 'react'
+import { Container } from '@mui/system'
+import { Box, TextField } from '@mui/material'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import Select from '@mui/material/Select'
+import { Outlet, useParams } from 'react-router-dom'
+import RoomItem from '../../components/UI/NavProfile/RoomItem'
+import { rooms } from '../../assets/mockData/mockData'
+import DescSort from '../../components/common/DescSort/DescSort'
+import roomService from '../../service/rooms.service'
+import { useSelector } from 'react-redux'
+import { getRooms, getRoomsLoadingStatus } from '../../store/roomsSlice'
 const RoomList = () => {
+  const rooms = useSelector(getRooms())
+
   const { roomId } = useParams()
-  const [searchQuery, setSearchQuery] = useState("")
-  const [sortParam, setSortParam] = useState({ value: "", desc: true })
+  const [searchQuery, setSearchQuery] = useState('')
+  const [sortParam, setSortParam] = useState({ value: '', desc: true })
   const filteredRooms = searchQuery
     ? rooms.filter((room) => room.name.toLowerCase().includes(searchQuery))
     : rooms
@@ -21,8 +26,8 @@ const RoomList = () => {
       {roomId ? (
         <Outlet />
       ) : (
-        <Container sx={{ mt: "80px" }}>
-          <Box sx={{ display: "flex", alignItems: "baseline" }}>
+        <Container sx={{ mt: '80px', height: '100vh' }}>
+          <Box sx={{ display: 'flex', alignItems: 'baseline' }}>
             <TextField
               color="secondary"
               label="Поиск"
@@ -34,10 +39,10 @@ const RoomList = () => {
               }}
               sx={{
                 mb: 2,
-                fontSize: "20px",
-                width: "33%",
-                backgroundColor: "#eee",
-                borderRadius: "10px",
+                fontSize: '20px',
+                width: '33%',
+                backgroundColor: '#eee',
+                borderRadius: '10px',
               }}
             />
             <FormControl
@@ -46,16 +51,14 @@ const RoomList = () => {
               sx={{
                 m: 1,
                 minWidth: 210,
-                backgroundColor: "#eee",
-                borderRadius: "10px",
+                backgroundColor: '#eee',
+                borderRadius: '10px',
               }}
             >
               <InputLabel id="demo-simple-select-standard-label">
-                сортировка по:
+                Сортировка по:
               </InputLabel>
               <Select
-                labelId="demo-simple-select-standard-label"
-                id="demo-simple-select-standard"
                 value={sortParam.value}
                 onChange={(e) => {
                   setSortParam((prev) => ({ ...prev, value: e.target.value }))
@@ -70,12 +73,12 @@ const RoomList = () => {
               onClick={() =>
                 setSortParam((prev) => ({ ...prev, desc: !prev.desc }))
               }
-              style={{ backgroundColor: "#eee", borderRadius: "10px" }}
+              style={{ backgroundColor: '#eee', borderRadius: '10px' }}
             >
               <DescSort isDecreasing={sortParam.desc} />
             </div>
           </Box>
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
             {filteredRooms.map((room) => (
               <RoomItem room={room} key={room.id} />
             ))}

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 export const rooms = [
   {
     id: '-vrUNEnN4H4d2A2G9BTXC',
@@ -50,7 +51,7 @@ export const rooms = [
     facilities: ['3GjSFCgAoDLAEU7y990kc', 'j9kMAaoN0cfYIsTT97goH'],
     sleepingPlaces: 2,
     images: ['https://i.ibb.co/FHFbm7P/1.jpg'],
-    name: "Everything for life"
+    name: 'Everything for life',
   },
   {
     id: '-7DyM0dyMh-eJdL0gXvxbP',
@@ -59,7 +60,7 @@ export const rooms = [
     facilities: ['3GjSFCgAoDLAEU7y990kc', 'j9kMAaoN0cfYIsTT97goH'],
     sleepingPlaces: 2,
     images: ['https://i.ibb.co/nrCjn68/2.jpg'],
-    name: "Cosy room"
+    name: 'Cosy room',
   },
   {
     id: '-2MnogYbGPqNw93gWlEDGl',
@@ -75,8 +76,7 @@ export const rooms = [
     ],
     sleepingPlaces: 5,
     images: ['https://i.ibb.co/txZgS6n/3.jpg'],
-    name: 'Residence'
-
+    name: 'Residence',
   },
   {
     id: '-URzRDMXJ7YNZRlayOZxCq',
@@ -92,7 +92,7 @@ export const rooms = [
     ],
     sleepingPlaces: 4,
     images: ['https://i.ibb.co/vCFL7RW/4.jpg'],
-    name: "Business room"
+    name: 'Business room',
   },
   {
     id: '-XGiQuSzm5EqrHtFjwR1oT',
@@ -105,7 +105,7 @@ export const rooms = [
     ],
     sleepingPlaces: 2,
     images: ['https://i.ibb.co/tB002xt/5.jpg'],
-    name: "Good vibe"
+    name: 'Good vibe',
   },
   {
     id: '-iFE26mlX_iSimAwCzv4wp',
@@ -118,7 +118,7 @@ export const rooms = [
     ],
     sleepingPlaces: 2,
     images: ['https://i.ibb.co/t3hq7w3/6.jpg'],
-    name: "Simply room"
+    name: 'Simply room',
   },
   {
     id: '-0ICbVbEnvUurFhvj4YeZ0',
@@ -150,7 +150,7 @@ export const rooms = [
     ],
     sleepingPlaces: 5,
     images: ['https://i.ibb.co/n1b81Z9/7.jpg'],
-    name: "King's room"
+    name: 'King room',
   },
 ]
 

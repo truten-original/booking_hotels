@@ -1,18 +1,18 @@
-import * as React from "react"
-import AppBar from "@mui/material/AppBar"
-import Box from "@mui/material/Box"
-import Toolbar from "@mui/material/Toolbar"
-import IconButton from "@mui/material/IconButton"
-import Typography from "@mui/material/Typography"
-import Menu from "@mui/material/Menu"
-import MenuIcon from "@mui/icons-material/Menu"
-import Container from "@mui/material/Container"
-import Avatar from "@mui/material/Avatar"
-import Tooltip from "@mui/material/Tooltip"
-import MenuItem from "@mui/material/MenuItem"
-import { NavLink } from "react-router-dom"
-import { navRoutes, profileRoutes } from "../../../router/routes"
-import classes from "./Header.module.scss"
+import * as React from 'react'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Menu from '@mui/material/Menu'
+import MenuIcon from '@mui/icons-material/Menu'
+import Container from '@mui/material/Container'
+import Avatar from '@mui/material/Avatar'
+import Tooltip from '@mui/material/Tooltip'
+import MenuItem from '@mui/material/MenuItem'
+import { NavLink } from 'react-router-dom'
+import { navRoutes, profileRoutes } from '../../../router/routes'
+import classes from './Header.module.scss'
 const pages = navRoutes
 const auth = false
 function Header() {
@@ -38,8 +38,8 @@ function Header() {
     <AppBar
       position="absolute"
       sx={{
-        backgroundColor: "transparent",
-        margin: "0 auto",
+        backgroundColor: 'transparent',
+        margin: '0 auto',
       }}
     >
       <Container maxWidth="xl">
@@ -51,17 +51,17 @@ function Header() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
+              display: { xs: 'none', md: 'flex' },
+              fontFamily: 'monospace',
               fontWeight: 300,
-              color: "inherit",
-              textDecoration: "none",
+              color: 'inherit',
+              textDecoration: 'none',
             }}
           >
             Your Palace
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -76,25 +76,25 @@ function Header() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
+                vertical: 'bottom',
+                horizontal: 'left',
               }}
               keepMounted
               transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
+                vertical: 'top',
+                horizontal: 'left',
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { xs: 'block', md: 'none' },
               }}
             >
               {navRoutes.map((page) => (
                 <MenuItem key={page.path} onClick={handleCloseNavMenu}>
                   {
                     <NavLink to={page.path}>
-                      <Typography textAlign="center" sx={{ color: "black" }}>
+                      <Typography textAlign="center" sx={{ color: 'black' }}>
                         {page.name}
                       </Typography>
                     </NavLink>
@@ -111,13 +111,13 @@ function Header() {
             sx={{
               ml: 1,
               mr: 2,
-              display: { xs: "flex", md: "none" },
+              display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: "monospace",
+              fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              letterSpacing: '.3rem',
+              color: 'inherit',
+              textDecoration: 'none',
             }}
           >
             Your Palace
@@ -125,8 +125,8 @@ function Header() {
           <Box
             sx={{
               flexGrow: 1,
-              display: { xs: "none", md: "flex" },
-              justifyContent: "center",
+              display: { xs: 'none', md: 'flex' },
+              justifyContent: 'center',
             }}
           >
             {navRoutes.map((page) => (
@@ -139,11 +139,11 @@ function Header() {
                   variant="h5"
                   sx={{
                     mr: 2,
-                    display: "flex",
+                    display: 'flex',
                     flexGrow: 3,
-                    fontFamily: "monospace",
+                    fontFamily: 'monospace',
                     fontWeight: 700,
-                    color: "white",
+                    color: 'white',
                   }}
                 >
                   {page.name}
@@ -165,17 +165,17 @@ function Header() {
                 </Tooltip>
 
                 <Menu
-                  sx={{ mt: "45px" }}
+                  sx={{ mt: '45px' }}
                   id="menu-appbar"
                   anchorEl={anchorElUser}
                   anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   keepMounted
                   transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
+                    vertical: 'top',
+                    horizontal: 'right',
                   }}
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
@@ -194,12 +194,12 @@ function Header() {
                   variant="h5"
                   sx={{
                     mr: 2,
-                    display: "flex",
+                    display: 'flex',
                     flexGrow: 3,
-                    fontFamily: "monospace",
+                    fontFamily: 'monospace',
                     fontWeight: 700,
-                    color: "white",
-                    textDecoration: "none",
+                    color: 'white',
+                    textDecoration: 'none',
                   }}
                 >
                   авторизация

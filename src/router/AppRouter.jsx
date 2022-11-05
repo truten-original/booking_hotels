@@ -1,5 +1,5 @@
-import { Routes, Route, Navigate } from "react-router-dom"
-import { publicRoutes, privateRoutes, adminRoutes } from "./routes"
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { publicRoutes, privateRoutes, adminRoutes } from './routes'
 const AppRouter = () => {
   const isAuth = true
   const isAdmin = true

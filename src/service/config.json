@@ -1,4 +1,4 @@
 {
-    "apiEndpoint": "https://booking-hotel-react-default-rtdb.europe-west1.firebasedatabase.app/",
-    "fireBase": true  
+  "apiEndpoint": "https://booking-hotel-react-default-rtdb.europe-west1.firebasedatabase.app/",
+  "isFireBase": true
 }

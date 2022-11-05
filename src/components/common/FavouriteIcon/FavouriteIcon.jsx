@@ -1,6 +1,6 @@
-import { useState } from "react"
-import FavoriteIcon from "@mui/icons-material/Favorite"
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
+import { useState } from 'react'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 const FavouriteIcon = () => {
   const [favourite, setFavourite] = useState(false)
   const changeFavourite = () => {
@@ -8,7 +8,7 @@ const FavouriteIcon = () => {
   }
   return (
     <div onClick={changeFavourite}>
-      {favourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}{" "}
+      {favourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}{' '}
     </div>
   )
 }

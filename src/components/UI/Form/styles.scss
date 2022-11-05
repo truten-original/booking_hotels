@@ -1,13 +1,13 @@
-
 .form_container {
-   &.MuiBox-root {
+  &.MuiBox-root {
     height: 100vh - 21vh;
     margin-top: 21vh;
-   }
-   
+    margin-inline: auto;
+    width: 50%;
+  }
 }
 .form_textField {
-   &.MuiInputBase-input {
-      background-color: white;
-   }
+  &.MuiInputBase-input {
+    background-color: white;
+  }
 }

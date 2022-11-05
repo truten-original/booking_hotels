@@ -29,6 +29,7 @@ export const publicRoutes = [
   {
     path: 'about',
     element: <About />,
+
   },
   {
     path: 'rooms',
@@ -36,14 +37,11 @@ export const publicRoutes = [
     element: <RoomList />,
     nestedElement: <RoomPage />,
   },
-  
 ]
 
 export const privateRoutes = [
   { path: '/profile/:profileId', element: <ProfilePage /> },
-  {path: '/logout', element: <Logout/>}
+  { path: '/logout', element: <Logout /> },
 ]
 
-export const adminRoutes = [
-  {path: '/adminPage', element: <AdminPage/>}
-]
+export const adminRoutes = [{ path: '/adminPage', element: <AdminPage /> }]
