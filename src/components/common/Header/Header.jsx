@@ -13,7 +13,6 @@ import MenuItem from '@mui/material/MenuItem'
 import { NavLink } from 'react-router-dom'
 import { navRoutes, profileRoutes } from '../../../router/routes'
 import classes from './Header.module.scss'
-const pages = navRoutes
 const auth = false
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null)
@@ -43,7 +42,7 @@ function Header() {
       }}
     >
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography
             variant="h6"
             noWrap
@@ -104,10 +103,10 @@ function Header() {
             </Menu>
           </Box>
           <Typography
-            variant="h5"
+            variant="h6"
             noWrap
             component="a"
-            to=""
+            href="/"
             sx={{
               ml: 1,
               mr: 2,
@@ -115,7 +114,7 @@ function Header() {
               flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
-              letterSpacing: '.3rem',
+              wordSpacing: 'none',
               color: 'inherit',
               textDecoration: 'none',
             }}
@@ -152,7 +151,7 @@ function Header() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
             {auth && (
               <>
                 <Tooltip title="Open settings">
@@ -191,12 +190,12 @@ function Header() {
             {!auth && (
               <NavLink to="login">
                 <Typography
-                  variant="h5"
+                  variant="h6"
                   sx={{
-                    mr: 2,
                     display: 'flex',
                     flexGrow: 3,
                     fontFamily: 'monospace',
+                    fontSize: { xs: '16px', md: '24px' },
                     fontWeight: 700,
                     color: 'white',
                     textDecoration: 'none',

@@ -5,19 +5,15 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import FavouriteIcon from '../../../common/FavouriteIcon'
-import { facilities } from '../../../../assets/mockData/mockData'
+import FavouriteIcon from '../../common/FavouriteIcon'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { getRoomsLoadingStatus } from '../../../../store/roomsSlice'
+import { getRoomsLoadingStatus } from '../../../store/roomsSlice'
 import RoomItemSkeleton from './RoomItemSkeleton'
+import RoomFacilities from '../RoomFacilities/RoomFacilities'
 const RoomItem = ({ room }) => {
   const navigate = useNavigate()
   const isLoading = useSelector(getRoomsLoadingStatus())
-  const facils = room.facilities.map((f) => {
-    const currentF = facilities.find((item) => item.id === f)
-    return currentF.name
-  })
   const AboutPageHandleClick = () => {
     navigate(`/rooms/${room.id}`)
   }
@@ -55,7 +51,7 @@ const RoomItem = ({ room }) => {
               >
                 Подробнее
               </Button>
-              <Button color="secondary" size="mrdium">
+              <Button color="secondary" size="medium">
                 <FavouriteIcon />
               </Button>
             </CardActions>
@@ -63,19 +59,7 @@ const RoomItem = ({ room }) => {
               <Typography gutterBottom variant="h5" component="div">
                 {room.name}
               </Typography>
-              <ul>
-                {facils.map((f) => (
-                  <li key={f}>
-                    <Typography
-                      variant="body2"
-                      color="text.secondary"
-                      component="span"
-                    >
-                      {f}
-                    </Typography>
-                  </li>
-                ))}
-              </ul>
+              <RoomFacilities facilitiesArr={room.facilities} />
             </CardContent>
           </div>
         </Card>

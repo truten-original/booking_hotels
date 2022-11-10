@@ -1,11 +1,11 @@
 import AdminPage from '../components/pages/AdminPage/AdminPage'
 import ProfilePage from '../components/pages/ProfilePage/ProfilePage'
 import RoomPage from '../components/pages/RoomPage/RoomPage'
-import Logout from '../components/UI/NavProfile/Logout/Logout'
+import Logout from '../components/UI/Logout/Logout'
 import About from '../layouts/About/About'
 import Login from '../layouts/Login/Login'
 import Main from '../layouts/Main/Main'
-import RoomList from '../layouts/RoomList/RoomList'
+import RoomList from './RoomList/RoomList'
 export const navRoutes = [
   { path: 'rooms', name: 'номера' },
   { path: 'contacts', name: 'контакты' },

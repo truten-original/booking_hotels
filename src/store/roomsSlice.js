@@ -3,7 +3,7 @@ import roomService from '../service/rooms.service'
 
 const initialState = {
   entities: [],
-  isLoading: false,
+  isLoading: true,
   error: null,
   lastFetch: null,
   sortItems: [
@@ -42,7 +42,7 @@ export const loadRooms = () => async (dispatch) => {
     dispatch(roomsRequestFailed(error.message ))
   }
 }
-
+export const getCurrentRoom = (id) => (state) => state.rooms.entities.find(room => room.id === id)
 export const getRooms = () => (state) => state.rooms.entities
 export const getRoomsLoadingStatus = () => (state) => state.rooms.isLoading
 export default roomsReducer

@@ -22,7 +22,7 @@ const ImagesSlider = ({ size, images }) => {
         >
           {images.map((image) => (
             <motion.div key={image} className={classes.carousel_item}>
-              <img src={image} />
+              <img alt="rooom img" src={image} />
             </motion.div>
           ))}
         </motion.div>

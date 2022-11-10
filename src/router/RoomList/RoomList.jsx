@@ -1,20 +1,16 @@
-import { useEffect, useState } from 'react'
-import { Container } from '@mui/system'
 import { Box, TextField } from '@mui/material'
+import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
-import FormControl from '@mui/material/FormControl'
 import Select from '@mui/material/Select'
-import { Outlet, useParams } from 'react-router-dom'
-import RoomItem from '../../components/UI/NavProfile/RoomItem'
-import { rooms } from '../../assets/mockData/mockData'
-import DescSort from '../../components/common/DescSort/DescSort'
-import roomService from '../../service/rooms.service'
+import { Container } from '@mui/system'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import { getRooms, getRoomsLoadingStatus } from '../../store/roomsSlice'
+import { Outlet, useParams } from 'react-router-dom'
+import RoomItem from '../../components/UI/RoomItem'
+import { getRooms } from '../../store/roomsSlice'
 const RoomList = () => {
   const rooms = useSelector(getRooms())
-
   const { roomId } = useParams()
   const [searchQuery, setSearchQuery] = useState('')
   const [sortParam, setSortParam] = useState({ value: '', desc: true })
@@ -26,7 +22,9 @@ const RoomList = () => {
       {roomId ? (
         <Outlet />
       ) : (
-        <Container sx={{ mt: '80px', height: '100vh' }}>
+        <Container
+          sx={{ mt: '80px', height: !!rooms.length ? '100%' : '100vh' }}
+        >
           <Box sx={{ display: 'flex', alignItems: 'baseline' }}>
             <TextField
               color="secondary"
@@ -74,9 +72,7 @@ const RoomList = () => {
                 setSortParam((prev) => ({ ...prev, desc: !prev.desc }))
               }
               style={{ backgroundColor: '#eee', borderRadius: '10px' }}
-            >
-              <DescSort isDecreasing={sortParam.desc} />
-            </div>
+            ></div>
           </Box>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
             {filteredRooms.map((room) => (

@@ -13,15 +13,29 @@ const Login = () => {
   }
   return (
     <Box className="form_container">
-      <Typography sx={{ color: '#eee' }} allign="center" variant="h2">
+      <Typography
+        sx={{
+          color: '#eee',
+          fontSize: { xs: '25px', md: '35px' },
+          mb: 1,
+          textAlign: 'center',
+        }}
+        variant="h2"
+      >
         {formType === 'login' ? 'вход' : 'регистрация'}:
       </Typography>
       {formType === 'login' ? <LoginForm /> : <RegisterForm />}
-      <a onClick={toggleFormType}>
-        <Typography variant="h4" sx={{ color: '#eee', cursor: 'pointer' }}>
-          {formType === 'login' ? 'зарегестрироваться' : 'войти'}
-        </Typography>
-      </a>
+      <Typography
+        onClick={toggleFormType}
+        sx={{
+          color: '#eee',
+          cursor: 'pointer',
+          fontSize: { xs: '25px', md: '35px' },
+          mt: 2,
+        }}
+      >
+        {formType === 'login' ? 'зарегестрироваться' : 'войти'}
+      </Typography>
     </Box>
   )
 }

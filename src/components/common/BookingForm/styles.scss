@@ -1,0 +1,18 @@
+@import '../../../styles/variables.scss';
+.bookingform_container {
+  &.MuiBox-root {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    background-color: #eee;
+    border-radius: 10px;
+    padding: 15px;
+    position: sticky;
+    grid-area: form;
+    @include breakpoint(sm) {
+      width: 95%;
+      margin-inline: auto;
+    }
+  }
+}

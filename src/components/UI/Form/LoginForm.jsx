@@ -2,51 +2,43 @@ import Box from '@mui/material/Box'
 import { TextField } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { schema } from '../../../utils/validationSchema'
+import { schemaLogin } from '../../../utils/validationSchema'
+import { loginFormFields } from './formsFields'
+import SubmitField from '../SubmitField/SubmitField'
+import { useDispatch, useSelector } from 'react-redux'
+import { signIn } from '../../../store/usersSlice'
 const LoginForm = () => {
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    reValidateMode: 'onBlur',
+    resolver: yupResolver(schemaLogin),
   })
-  const handlerFormSubmit = (data) => console.log(data)
-  const inputStyles = { backgroundColor: '#eee', borderRadius: '10px' }
+  const handlerFormSubmit = (data) => dispatch(signIn(data))
   return (
-    <div>
-      <Box
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { mb: 1, width: '100%', color: 'white' },
-        }}
-        onSubmit={handleSubmit(handlerFormSubmit)}
-      >
-        <TextField
-          sx={inputStyles}
-          label="Email"
-          type="email"
-          className="form_textField"
-          color="secondary"
-          {...register('email')}
-          helperText={errors.email?.message}
-        />
-        <TextField
-          sx={inputStyles}
-          label="Password"
-          type="password"
-          color="secondary"
-          helperText={errors.password?.message}
-          {...register('password')}
-        />
-        <TextField
-          type="submit"
-          sx={{ ...inputStyles, backgroundColor: 'blanchedalmond' }}
-          value="Войти"
-          disabled={!Object.keys(errors).length !== 0 ? false : true}
-        />
-      </Box>
-    </div>
+    <Box component="form" onSubmit={handleSubmit(handlerFormSubmit)}>
+      {loginFormFields.map((form) => {
+        if (form.type) {
+          return (
+            <SubmitField key={form.value} type={form.type} value={form.value} />
+          )
+        } else
+          return (
+            <TextField
+              key={form.name}
+              label={form.label}
+              type={form.name}
+              className="form_textField"
+              color="secondary"
+              {...register(`${form.name}`)}
+              helperText={errors[form.name]?.message}
+            />
+          )
+      })}
+    </Box>
   )
 }
 

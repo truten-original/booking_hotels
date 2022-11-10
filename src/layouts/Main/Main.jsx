@@ -5,19 +5,11 @@ import classes from './Main.module.scss'
 const Main = () => {
   return (
     <div className={classes.container}>
-      <Container>
-        <div
-          style={{
-            color: 'white',
-            paddingTop: '100px',
-            fontSize: '40px',
-            textDecorationStyle: 'italic',
-            width: '33%',
-          }}
-        >
-          <h3>Позаботимся о вашем комфорте</h3>
+      <Container className="title_container">
+        <div>
+          <h4 className="title">Позаботимся о вашем комфорте</h4>
         </div>
-        <div className={classes.slider_container}>
+        <div className="slider_container_main">
           <ImagesSlider size="500px" images={images} />
         </div>
       </Container>

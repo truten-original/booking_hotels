@@ -10,7 +10,6 @@ const http = axios.create({
 http.interceptors.request.use(
   async function (config) {
     if (configFile.isFireBase) {
-      // console.log(config)
       const containSlash = /\/$/gi.test(config.url)
       config.url =
         (containSlash ? config.url.slice(0, -1) : config.url) + '.json'
@@ -18,7 +17,6 @@ http.interceptors.request.use(
       const refreshToken = localStorageService.getRefreshToken()
       if (refreshToken && expiresDate < Date.now()) {
         const data = await authService.refresh()
-        console.log(data)
         localStorageService.setTokens({
           refreshToken: data.refresh_token,
           idToken: data.id_token,
@@ -58,7 +56,6 @@ http.interceptors.response.use(
       error.response.status < 500
 
     if (!expectedErrors) {
-      console.log(error)
       toast.error('Something was wrong. Try it later')
     }
     return Promise.reject(error)
