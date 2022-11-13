@@ -7,7 +7,9 @@ import { registerFormFields } from './formsFields'
 import SubmitField from '../SubmitField/SubmitField'
 import { useDispatch } from 'react-redux'
 import { signUp } from '../../../store/usersSlice'
+import { useNavigate } from 'react-router-dom'
 const RegisterForm = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const {
     register,
@@ -17,7 +19,10 @@ const RegisterForm = () => {
     reValidateMode: 'onBlur',
     resolver: yupResolver(schemaRegister),
   })
-  const handlerFormSubmit = (data) => dispatch(signUp(data))
+  const handlerFormSubmit = (data) => {
+    dispatch(signUp(data))
+    navigate('/rooms')
+  }
   return (
     <Box component="form" onSubmit={handleSubmit(handlerFormSubmit)}>
       {registerFormFields.map((form) => {

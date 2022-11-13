@@ -1,23 +1,62 @@
-import { TextareaAutosize, TextField, Typography } from '@mui/material'
+import { TextField, Typography } from '@mui/material'
 import { Box } from '@mui/system'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { createComment } from '../../../../store/commentsSlice'
+import { getAuthId } from '../../../../store/usersSlice'
+import { createId } from '../../../../utils/createId'
 import SubmitField from '../../../UI/SubmitField/SubmitField'
 
-const CommentForm = () => {
+const CommentForm = ({ roomId }) => {
+  const [inputValue, setInputValue] = useState('')
+  const dispatch = useDispatch()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    reValidateMode: 'onSubmit',
+  })
+  const currentUserId = useSelector(getAuthId())
+  const handlerSubmit = (data) => {
+    if (data.comment.trim().length === 0) return
+    if (data.comment.errors) return
+    const commentData = {
+      ...data,
+      roomId,
+      userId: currentUserId,
+      id: createId(),
+      createdTime: Date.now(),
+    }
+    setInputValue('')
+    dispatch(createComment(commentData))
+  }
   return (
-    <Box>
+    <Box
+      component="form"
+      onSubmit={handleSubmit(handlerSubmit)}
+      sx={{ mb: '2rem' }}
+    >
       <Typography variant="h6">оставить комментарий</Typography>
-      <TextareaAutosize
-        maxRows={6}
-        minRows={4}
-        aria-label="maximum height"
-        placeholder="комментарий"
-        style={{
-          width: '100%',
-          border: '1px solid grey',
-          borderRadius: '10px',
-        }}
+      <TextField
+        sx={{ mb: 1 }}
+        value={inputValue}
+        onChangeCapture={(e) => setInputValue(e.target.value)}
+        fullWidth
+        label="комментарий"
+        multiline
+        // rows="auto"
+        {...register('comment', {
+          required: {
+            value: true,
+            message: 'обязательное поле для отправки комментария',
+          },
+        })}
       />
-      <SubmitField value="опубликовать" type="submit" sixe="25%" />
+      <Typography>{errors.comment && errors.comment.message}</Typography>
+      <SubmitField value="опубликовать" type="submit" size="25%" />
     </Box>
   )
 }

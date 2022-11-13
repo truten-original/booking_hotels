@@ -1,13 +1,15 @@
-import Box from '@mui/material/Box'
-import { TextField } from '@mui/material'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { schemaLogin } from '../../../utils/validationSchema'
-import { loginFormFields } from './formsFields'
-import SubmitField from '../SubmitField/SubmitField'
-import { useDispatch, useSelector } from 'react-redux'
+import { TextField } from '@mui/material'
+import Box from '@mui/material/Box'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { signIn } from '../../../store/usersSlice'
+import { schemaLogin } from '../../../utils/validationSchema'
+import SubmitField from '../SubmitField/SubmitField'
+import { loginFormFields } from './formsFields'
 const LoginForm = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const {
     register,
@@ -17,7 +19,10 @@ const LoginForm = () => {
     reValidateMode: 'onBlur',
     resolver: yupResolver(schemaLogin),
   })
-  const handlerFormSubmit = (data) => dispatch(signIn(data))
+  const handlerFormSubmit = (data) => {
+    dispatch(signIn(data))
+    navigate('/rooms')
+  }
   return (
     <Box component="form" onSubmit={handleSubmit(handlerFormSubmit)}>
       {loginFormFields.map((form) => {

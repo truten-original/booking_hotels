@@ -1,5 +1,4 @@
 import { createAction, createSlice } from '@reduxjs/toolkit'
-import history from '../utils/history'
 import authService from '../service/auth.service'
 import localStorageService from '../service/localStorage.service'
 import usersService from '../service/user.service'
@@ -24,7 +23,10 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    usersRequested: (state) => (state.isLoading = true),
+    
+    usersRequested: (state) => {
+      state.isLoading = true
+    },
     usersRecieved: (state, { payload }) => {
       state.entities = payload
       state.isLoading = false
@@ -33,7 +35,8 @@ const usersSlice = createSlice({
       state.error = payload
       state.isLoading = false
     },
-    userCreatedRequest: (state) => (state.isLoading = true),
+
+    userCreatedRequest: (state) => {state.isLoading = true},
     userCreated: (state, { payload }) => {
       state.entities.push(payload)
       state.isLoading = false
@@ -59,14 +62,8 @@ const usersSlice = createSlice({
       state.isLoggedIn = true
       state.isLoading = false
     },
-    authRequestFailed: (state, { payload }) => {
-      state.isLoggedIn = false
-      state.auth = null
-      state.error = payload
-    },
   },
 })
-
 const userUpdateRequested = createAction('users/userUpdateRequested')
 const userUpdateRequestFailed = createAction('users/userUpdateRequestFailed')
 const userRemoveRequested = createAction('users/userRemoveRequest')
@@ -104,8 +101,8 @@ const userCreate = (payload) => async (dispatch) => {
   dispatch(userCreatedRequest())
   try {
     const data = await usersService.create(payload)
+    console.log(data)
     dispatch(userCreated(data))
-    // history.push('rooms')
   } catch (error) {
     dispatch(userCreateRequestFailed(error.message))
   }
@@ -124,15 +121,16 @@ const userCreate = (payload) => async (dispatch) => {
 // }
 export const signUp =
   ({ email, password, ...rest }) =>
-  async (dispatch, getState) => {
+  async (dispatch) => {
     dispatch(authRequested())
     try {
       const data = await authService.register({ email, password })
       localStorageService.setTokens(data)
+      console.log(data)
       dispatch(authRequestSucces({ userId: data.localId }))
       dispatch(
         userCreate({
-          _id: data.localId,
+          id: data.localId,
           email,
           image: `https://avatars.dicebear.com/api/avataaars/${(
             Math.random() + 1
@@ -161,6 +159,7 @@ export const updateUser = (payload) => async (dispatch) => {
   }
 }
 export const loadUsers = () => async (dispatch) => {
+  
   dispatch(usersRequested())
   try {
     const data = await usersService.get()
@@ -174,7 +173,8 @@ export const getUsers = () => (state) => state.users.entities
 export const getUsersLoadingStatus = () => (state) => state.users.isLoading
 export const getUserById = (id) => (state) =>
   state.users.entities.find((user) => user.id === id)
-export const getAuth = () => (state) => state.users.auth
+export const getAuthId = () => (state) => state.users.auth?.userId
+export const getCurrentUser = () => (state) => state.users.entities.find(user => user.id === state.users.auth?.userId)
 export const getLoggedStatus = () => (state) => state.users.isLoggedIn
 
 export default usersReducer

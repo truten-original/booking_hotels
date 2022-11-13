@@ -1,4 +1,5 @@
 import { Box, Container } from '@mui/material'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import {
@@ -13,6 +14,7 @@ import ImagesSlider from '../../common/Slider/ImagesSlider'
 import RoomFacilities from '../../UI/RoomFacilities/RoomFacilities'
 
 const RoomPage = () => {
+  useEffect(() => {}, [])
   const { roomId } = useParams()
   const currentRoom = useSelector(getCurrentRoom(roomId))
   const isLoading = useSelector(getRoomsLoadingStatus())
@@ -27,7 +29,7 @@ const RoomPage = () => {
             description={currentRoom?.type}
             facilitiesArr={currentRoom?.facilities}
           />
-          <CommentWrapper />
+          <CommentWrapper roomId={roomId} />
           <BookingForm room={currentRoom} />
         </>
       )}

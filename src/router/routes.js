@@ -5,7 +5,7 @@ import Logout from '../components/UI/Logout/Logout'
 import About from '../layouts/About/About'
 import Login from '../layouts/Login/Login'
 import Main from '../layouts/Main/Main'
-import RoomList from './RoomList/RoomList'
+import RoomList from '../layouts/RoomList/RoomList'
 export const navRoutes = [
   { path: 'rooms', name: 'номера' },
   { path: 'contacts', name: 'контакты' },
@@ -15,6 +15,7 @@ export const profileRoutes = [
   { path: 'profile', name: 'профиль' },
   { path: 'booking', name: 'забронированные номера' },
   { path: 'favourites', name: 'избранное' },
+  { path: 'logout', name: 'выйти' },
 ]
 
 export const publicRoutes = [
@@ -29,7 +30,6 @@ export const publicRoutes = [
   {
     path: 'about',
     element: <About />,
-
   },
   {
     path: 'rooms',

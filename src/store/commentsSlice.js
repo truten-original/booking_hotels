@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAction, createSlice } from '@reduxjs/toolkit'
 import commentsService from '../service/comment.service'
-
+import _ from 'lodash'
 const initialState = {
   entities: [],
   isLoading: true,
@@ -11,25 +11,23 @@ const commentsSlice = createSlice({
   name: 'comments',
   initialState,
   reducers: {
-    commentsRequested: (state) => (state.isLoading = true),
+    commentsRequested: (state) => {state.isLoading = true},
     commentsRecieved: (state, { payload }) => {
       state.entities = payload
       state.isLoading = false
     },
     commentsRequestFailed: (state, { payload }) => {
       state.entities = payload
-      state.isLoading = false
     },
-    commentRemoveRequest: (state) => (state.isLoading = true),
+    
     commentRemoved: (state, { payload }) => {
-      state.entities = state.entities.filter((room) => room.id !== payload)
-      state.isLoading = false
+      state.entities = state.entities.filter((comment) => comment.id !== payload)
     },
     commentRemoveRequestFailed: (state, { paylaod }) => {
       state.error = paylaod
       state.isLoading = false
     },
-    commentCreateRequest: (state) => (state.isLoading = true),
+    commentCreateRequest: (state) => {state.isLoading = true},
     commentCreateSucces: (state, { payload }) => {
       state.entities.push(payload)
       state.isLoading = false
@@ -48,12 +46,11 @@ const {
   commentCreateRequest,
   commentRemoveRequestFailed,
   commentRemoved,
-  commentRemoveRequest,
   commentsRequestFailed,
   commentsRecieved,
   commentsRequested,
 } = actions
-
+const commentRemoveRequest = createAction('comments/commentRemoveRequest')
 export const loadComments =  (roomId) => async (dispatch) => {
   dispatch(commentsRequested)
   try {
@@ -73,10 +70,10 @@ export const createComment = (payload) => async (dispatch) => {
   }
 } 
 
-export const removeComment = (id) => (dispatch) => {
+export const removeComment = (id) => async (dispatch) => {
   dispatch(commentRemoveRequest())
   try {
-    const data = commentsService.delete(id)
+    const data = await commentsService.delete(id)
     if (data === null) {
       dispatch(commentRemoved(id))
     }
@@ -84,5 +81,8 @@ export const removeComment = (id) => (dispatch) => {
     dispatch(commentRemoveRequestFailed(error.message))
   }
 }
+
+export const getCommentsForCurrentRoom = () => (state) => _.orderBy(state.comments.entities, ['createdTime'], ['desc']) 
+export const getCommentsLoadingStatus = () => (state) => state.comments.isLoading
 
 export default commentsReducer

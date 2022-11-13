@@ -14,13 +14,14 @@ const commentsService = {
     return content
   },
   create: async (payload) => {
-    const { data } = httpService.put(commentEndpoint + payload.id, payload)
+    const { data } = await httpService.put(commentEndpoint + payload.id, payload)
     const { content } = data
     return content
   },
   delete: async (id) => {
-    const { data } = httpService.delete(commentEndpoint + id)
-    console.log(data)
+    const { data } = await httpService.delete(commentEndpoint + id)
+    const { content } = data
+    return content
   },
 }
 

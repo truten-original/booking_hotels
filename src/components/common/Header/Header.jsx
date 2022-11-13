@@ -13,8 +13,22 @@ import MenuItem from '@mui/material/MenuItem'
 import { NavLink } from 'react-router-dom'
 import { navRoutes, profileRoutes } from '../../../router/routes'
 import classes from './Header.module.scss'
-const auth = false
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  getCurrentUser,
+  getLoggedStatus,
+  getUsersLoadingStatus,
+  loadUsers,
+} from '../../../store/usersSlice'
 function Header() {
+  const isLoggedIn = useSelector(getLoggedStatus())
+  const isLoading = useSelector(getUsersLoadingStatus())
+  const currentUser = useSelector(getCurrentUser())
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(loadUsers())
+  }, [])
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
 
@@ -152,14 +166,11 @@ function Header() {
           </Box>
 
           <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
-            {auth && (
+            {isLoggedIn && !isLoading && (
               <>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src="/static/images/avatar/2.jpg"
-                    />
+                    <Avatar alt={currentUser.name} src={currentUser.image} />
                   </IconButton>
                 </Tooltip>
 
@@ -187,7 +198,7 @@ function Header() {
                 </Menu>
               </>
             )}
-            {!auth && (
+            {!isLoggedIn && (
               <NavLink to="login">
                 <Typography
                   variant="h6"
