@@ -12,6 +12,7 @@ const DatePicker = ({
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DesktopDatePicker
+        disablePast
         label="Дата прибытия"
         inputFormat="DD/MM/YYYY"
         value={arrivalDate}
@@ -19,6 +20,7 @@ const DatePicker = ({
         renderInput={(params) => <TextField {...params} />}
       />
       <DesktopDatePicker
+        minDate={departureDate}
         label="Дата выезда"
         inputFormat="DD/MM/YYYY"
         value={departureDate}

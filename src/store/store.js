@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { combineReducers } from '@reduxjs/toolkit'
 import bookingReducer from './bookingsSlice'
+import bookmarksReducer from './bookmarksSlice'
 import commentsReducer from './commentsSlice'
 import facilitiesReducer from './facilitiesSlice'
 import roomsReducer from './roomsSlice'
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   facilities: facilitiesReducer,
   users: usersReducer,
   comments: commentsReducer,
-  bookings: bookingReducer
+  bookings: bookingReducer,
+  bookmarks: bookmarksReducer
 })
 const store = configureStore({
   reducer: rootReducer,

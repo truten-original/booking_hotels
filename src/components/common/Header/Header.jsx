@@ -10,7 +10,7 @@ import Container from '@mui/material/Container'
 import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import { navRoutes, profileRoutes } from '../../../router/routes'
 import classes from './Header.module.scss'
 import { useEffect } from 'react'
@@ -192,7 +192,11 @@ function Header() {
                 >
                   {profileRoutes.map((setting) => (
                     <MenuItem key={setting.path} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center">{setting.name}</Typography>
+                      <Link to={setting.path}>
+                        <Typography textAlign="center">
+                          {setting.name}
+                        </Typography>
+                      </Link>
                     </MenuItem>
                   ))}
                 </Menu>

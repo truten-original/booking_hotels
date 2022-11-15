@@ -56,7 +56,7 @@ const CommentForm = ({ roomId }) => {
         })}
       />
       <Typography>{errors.comment && errors.comment.message}</Typography>
-      <SubmitField value="опубликовать" type="submit" size="25%" />
+      <SubmitField value="опубликовать" type="submit" />
     </Box>
   )
 }

@@ -18,8 +18,9 @@ import {
 } from '../../../store/bookingsSlice'
 import { createId } from '../../../utils/createId'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import ErrorFormText from '../../UI/ErrorFormText/ErrorFormText'
 const BookingForm = ({ room }) => {
-  const arr = [[1668350030000, 1668782030000]]
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const currentRoomBookingIntervalsArr = useSelector(
@@ -29,7 +30,7 @@ const BookingForm = ({ room }) => {
   const [isFullPay, setIsFullPay] = useState(true)
   const [bookingData, setBookingData] = useState({
     arrivalDate: Date.now(),
-    departureDate: Date.now(),
+    departureDate: Date.now() + 86400000,
     userId,
     roomId: room.id,
     guestsCount: 1,
@@ -43,19 +44,31 @@ const BookingForm = ({ room }) => {
         : getRoomPrice(room.price).discount,
     },
   })
-  const [isValidDate, setIsValidDate] = useState(
-    checkBookingInterval(
-      [bookingData.arrivalDate, bookingData.departureDate],
-      arr
+
+  const [isValidDate, setIsValidDate] = useState(null)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    setIsValidDate(
+      checkBookingInterval(
+        [bookingData.arrivalDate, bookingData.departureDate],
+        currentRoomBookingIntervalsArr
+      )
     )
-  )
-  console.log(
-    isValidDate,
-    checkBookingInterval(
-      [bookingData.arrivalDate, bookingData.departureDate],
-      arr
-    )
-  )
+    if (bookingData.arrivalDate + 3600000 < Date.now()) {
+      setError({
+        message: ' нельзя забронировать номер в прошлом',
+      })
+    } else if (bookingData.arrivalDate > bookingData.departureDate + 3600000) {
+      setError({ message: 'дата отъезда не может быть меньше даты приезда' })
+    } else if (isValidDate !== null && !isValidDate) {
+      setError({
+        message: 'номер недоступен для бронирования на этот промежуток времени',
+      })
+    } else {
+      setError(null)
+    }
+  }, [bookingData.arrivalDate, bookingData.departureDate])
   const fullPayHandleChange = () => {
     setIsFullPay((prev) => !prev)
   }
@@ -64,19 +77,9 @@ const BookingForm = ({ room }) => {
   }
   const handleArrivalDateChange = (e) => {
     setBookingData((prev) => ({ ...prev, arrivalDate: e.$d.valueOf() }))
-    const isValid = checkBookingInterval(
-      [bookingData.arrivalDate, bookingData.departureDate],
-      currentRoomBookingIntervalsArr
-    )
-    setIsValidDate(isValid)
   }
   const handleDepatureDateChange = (e) => {
     setBookingData((prev) => ({ ...prev, departureDate: e.$d.valueOf() }))
-    const isValid = checkBookingInterval(
-      [bookingData.arrivalDate, bookingData.departureDate],
-      currentRoomBookingIntervalsArr
-    )
-    setIsValidDate(isValid)
   }
   const handleSubmit = (data) => {
     dispatch(createBooking(data))
@@ -85,7 +88,6 @@ const BookingForm = ({ room }) => {
   const { price, discount } = isFullPay
     ? getRoomPrice(room.price, 5)
     : getRoomPrice(room.price)
-
   return (
     <Box
       className="bookingform_container"
@@ -104,16 +106,14 @@ const BookingForm = ({ room }) => {
       <RoomPrice price={room.price} />
       <Divider light />
       <DatePicker
+        disablePast
         arrivalDate={bookingData.arrivalDate}
         departureDate={bookingData.departureDate}
         handleArrivalDateChange={handleArrivalDateChange}
         handleDepatureDateChange={handleDepatureDateChange}
       />
-      {!isValidDate && isValidDate && (
-        <Typography sx={{ color: 'red' }}>
-          номер недоступен для бронирования на этот промежуток времени
-        </Typography>
-      )}
+      {error && <ErrorFormText message={error.message} />}
+
       <GuestsCounter
         guestsCount={bookingData.guestsCount}
         handleChangeCount={handleChangeCount}
@@ -129,11 +129,7 @@ const BookingForm = ({ room }) => {
       <p>
         К оплате -<Typography component="span"> {price}</Typography> рублей
       </p>
-      <SubmitField
-        value="Забронировать"
-        type="submit"
-        disabled={!isValidDate}
-      />
+      <SubmitField value="Забронировать" type="submit" disabled={!!error} />
     </Box>
   )
 }

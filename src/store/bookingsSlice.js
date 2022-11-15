@@ -1,9 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAction, createSlice } from '@reduxjs/toolkit'
 import bookingService from '../service/booking.service'
 
 const initialState = {
   entities: [],
-  currentUserEntities: [],
+  currentRoomEntities: [],
   isLoading: true,
   error: null,
 }
@@ -23,23 +23,22 @@ const bookingsSlice = createSlice({
       state.error = paylaod
       state.isLoading = false
     },
-    currentUserBookingsRecieved: (state, { payload }) => {
-      state.currentUserEntities = payload
+    currentRoomBookingsRecieved: (state, {payload}) => {
+      state.currentRoomEntities = payload
       state.isLoading = false
     },
-    currentUserBookingsRequestFailed: (state, { payload }) => {
+    currentRoomBookingsRequestFailed: (state, { payload }) => {
       state.error = payload
       state.isLoading = false
     },
     bookingRemoved: (state, { payload }) => {
       state.entities = state.entities.filter((b) => b.id !== payload)
-      state.currentUserEntities = state.currentUserEntities.filter(
+      state.currentRoomEntities = state.currentRoomEntities.filter(
         (b) => b.id !== payload
       )
     },
     bookingCreated: (state, { payload }) => {
       state.entities.push(payload)
-      state.currentUserEntities.push(payload)
     },
   },
 })
@@ -48,32 +47,51 @@ const {
   bookingsRequested,
   booKingsRecieved,
   bookingsRequestFailed,
-  currentUserBookingsRecieved,
-  currentUserBookingsRequestFailed,
+  currentRoomBookingsRequestFailed,
+  currentRoomBookingsRecieved,
   bookingRemoveRequested,
   bookingRemoveRequestFailed,
   bookingRemoved,
-  bookingCreatedRequested,
-  bookingCreatedrequestFailed,
   bookingCreated,
 } = actions
-
+const bookingCreatedRequested = createAction('bookings/bookingCreatedRequested')
+const bookingCreatedrequestFailed = createAction(
+  'bookings/bookingCreatedrequestFailed'
+)
 export const loadBookings = () => async (dispatch) => {
   dispatch(bookingsRequested())
   try {
-    const data = await bookingService.get()
-    dispatch(booKingsRecieved(data))
+    let data = await bookingService.get()
+    if (data === null) {
+      data = []
+    }
+    const actualData = data.filter((b) => b.departureDate > Date.now())
+    dispatch(booKingsRecieved(actualData))
+    data.forEach((b) => {
+      if (b.departureDate < Date.now()) {
+        bookingService.delete(b.id)
+      }
+    })
   } catch (error) {
     dispatch(bookingsRequestFailed(error.message))
   }
 }
-export const loadCurrentBookings = (id) => async (dispatch) => {
+export const loadCurrentRoomBookings = (id) => async (dispatch) => {
   dispatch(bookingsRequested())
   try {
-    const data = bookingService.getCurrentBookings(id)
-    dispatch(currentUserBookingsRecieved(data))
+    let data = await bookingService.getCurrentBookings(id)
+    if (data === null) {
+      data = []
+    }
+    const actualData = data.filter((b) => b.departureDate > Date.now())
+    dispatch(currentRoomBookingsRecieved(actualData))
+    data.forEach((b) => {
+      if (b.departureDate < Date.now()) {
+        bookingService.delete(b.id)
+      }
+    })
   } catch (error) {
-    dispatch(currentUserBookingsRequestFailed(error.message))
+    dispatch(currentRoomBookingsRequestFailed(error.message))
   }
 }
 export const removeBooking = (id) => async (dispatch) => {
@@ -97,11 +115,16 @@ export const createBooking = (payload) => async (dispatch) => {
   }
 }
 
-export const currentRoomBookingsIntervals = (roomId) => (state) => {
-  const currentBookings = state.bookings.entities.filter(
-    (b) => b.roomId === roomId
-  )
-  return currentBookings.map((b) => [b.arrivalTime, b.departureTime])
+export const currentRoomBookingsIntervals = () => (state) => {
+  const currentBookings = state.bookings.currentRoomEntities.map((b) => [
+    b.arrivalDate,
+    b.departureDate,
+  ])
+  return currentBookings
 }
+export const getCurrentUserBookings = (id) => (state) => {
+ return state.bookings.entities.filter(b => b.userId === id)
+}
+export const getBookingLoadingStatus = () => (state) => state.bookings.isLoading
 
 export default bookingReducer

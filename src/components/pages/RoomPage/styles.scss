@@ -11,9 +11,9 @@
     grid-template-areas:
       'slider slider ...  form'
       'descrip descrip  ... form'
+      'bookmark bookmark  ... ...'
       'comment comment ... ...';
     row-gap: 10px;
-    column-gap: 5px;
     @include breakpoint(sm) {
       display: flex;
       flex-direction: column;

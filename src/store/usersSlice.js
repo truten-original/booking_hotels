@@ -23,7 +23,6 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    
     usersRequested: (state) => {
       state.isLoading = true
     },
@@ -36,7 +35,9 @@ const usersSlice = createSlice({
       state.isLoading = false
     },
 
-    userCreatedRequest: (state) => {state.isLoading = true},
+    userCreatedRequest: (state) => {
+      state.isLoading = true
+    },
     userCreated: (state, { payload }) => {
       state.entities.push(payload)
       state.isLoading = false
@@ -79,12 +80,11 @@ const {
   userUpdated,
   userRemoved,
   userCreated,
-  userCreatedRequest,
   usersRequestFailed,
   usersRecieved,
   usersRequested,
 } = actions
-
+const userCreatedRequest = createAction('users/userCreatedRequest')
 export const signIn =
   ({ email, password }) =>
   async (dispatch) => {
@@ -101,7 +101,6 @@ const userCreate = (payload) => async (dispatch) => {
   dispatch(userCreatedRequest())
   try {
     const data = await usersService.create(payload)
-    console.log(data)
     dispatch(userCreated(data))
   } catch (error) {
     dispatch(userCreateRequestFailed(error.message))
@@ -159,7 +158,6 @@ export const updateUser = (payload) => async (dispatch) => {
   }
 }
 export const loadUsers = () => async (dispatch) => {
-  
   dispatch(usersRequested())
   try {
     const data = await usersService.get()
@@ -174,7 +172,8 @@ export const getUsersLoadingStatus = () => (state) => state.users.isLoading
 export const getUserById = (id) => (state) =>
   state.users.entities.find((user) => user.id === id)
 export const getAuthId = () => (state) => state.users.auth?.userId
-export const getCurrentUser = () => (state) => state.users.entities.find(user => user.id === state.users.auth?.userId)
+export const getCurrentUser = () => (state) =>
+  state.users.entities.find((user) => user.id === state.users.auth?.userId)
 export const getLoggedStatus = () => (state) => state.users.isLoggedIn
 
 export default usersReducer

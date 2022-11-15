@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { getRoomsLoadingStatus } from '../../../store/roomsSlice'
 import RoomItemSkeleton from './RoomItemSkeleton'
 import RoomFacilities from '../RoomFacilities/RoomFacilities'
+import BookmarkComponent from '../BookmarkComponent/BookmarkComponent'
 const RoomItem = ({ room }) => {
   const navigate = useNavigate()
   const isLoading = useSelector(getRoomsLoadingStatus())
@@ -54,6 +55,7 @@ const RoomItem = ({ room }) => {
               <Button color="secondary" size="medium">
                 <FavouriteIcon />
               </Button>
+              <BookmarkComponent roomId={room.id} />
             </CardActions>
             <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography gutterBottom variant="h5" component="div">

@@ -8,18 +8,18 @@ const bookingService = {
     const { content } = data
     return content
   },
-  getCurrentBookings: async (userId) => {
+  getCurrentBookings: async (roomId) => {
     const { data } = await httpService.get(bookingEndpoint, {
       params: {
-        orderBy: '"userId"',
-        equalTo: `"${userId}"`,
+        orderBy: '"roomId"',
+        equalTo: `"${roomId}"`,
       },
     })
     const { content } = data
     return content
   },
   create: async (payload) => {
-    const { data } = await httpService.put(bookingService + payload.id, payload)
+    const { data } = await httpService.put(bookingEndpoint + payload.id, payload)
     const { content } = data
     return content
   },
