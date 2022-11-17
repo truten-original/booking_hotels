@@ -108,7 +108,7 @@ export const removeBooking = (id) => async (dispatch) => {
 export const createBooking = (payload) => async (dispatch) => {
   dispatch(bookingCreatedRequested())
   try {
-    const { data } = await bookingService.create(payload)
+    const  data  = await bookingService.create(payload)
     dispatch(bookingCreated(data))
   } catch (error) {
     dispatch(bookingCreatedrequestFailed(error.message))

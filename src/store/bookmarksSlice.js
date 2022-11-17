@@ -79,7 +79,7 @@ export const createOrUpadateBookmark =
     }
   }
 
-export const getBookmarks = () => (state) => state.bookmarks.entities
+export const getBookmarks = (state) => state.bookmarks.entities
 export const getCurrentRoomBookmarkArr = (roomId) => (state) =>
   state.bookmarks.entities.filter((book) => book.roomId === roomId)
 export const getCurrentUserForCurrentRoomBookmark = (payload) => (state) => {

@@ -46,27 +46,22 @@ const BookingForm = ({ room }) => {
   })
 
   const [isValidDate, setIsValidDate] = useState(null)
-  const [error, setError] = useState(null)
-
+  const { daysQuantity } = checkBookingInterval(
+    [bookingData.arrivalDate, bookingData.departureDate],
+    currentRoomBookingIntervalsArr
+  )
   useEffect(() => {
     setIsValidDate(
       checkBookingInterval(
         [bookingData.arrivalDate, bookingData.departureDate],
         currentRoomBookingIntervalsArr
-      )
+      ).isValid
     )
-    if (bookingData.arrivalDate + 3600000 < Date.now()) {
-      setError({
-        message: ' нельзя забронировать номер в прошлом',
-      })
-    } else if (bookingData.arrivalDate > bookingData.departureDate + 3600000) {
-      setError({ message: 'дата отъезда не может быть меньше даты приезда' })
-    } else if (isValidDate !== null && !isValidDate) {
-      setError({
-        message: 'номер недоступен для бронирования на этот промежуток времени',
-      })
-    } else {
-      setError(null)
+    if (bookingData.arrivalDate >= bookingData.departureDate) {
+      setBookingData((prev) => ({
+        ...prev,
+        departureDate: bookingData.arrivalDate + 86400000,
+      }))
     }
   }, [bookingData.arrivalDate, bookingData.departureDate])
   const fullPayHandleChange = () => {
@@ -86,8 +81,8 @@ const BookingForm = ({ room }) => {
     navigate('rooms', { replace: true })
   }
   const { price, discount } = isFullPay
-    ? getRoomPrice(room.price, 5)
-    : getRoomPrice(room.price)
+    ? getRoomPrice(room.price * daysQuantity, 5)
+    : getRoomPrice(room.price * daysQuantity)
   return (
     <Box
       className="bookingform_container"
@@ -112,7 +107,9 @@ const BookingForm = ({ room }) => {
         handleArrivalDateChange={handleArrivalDateChange}
         handleDepatureDateChange={handleDepatureDateChange}
       />
-      {error && <ErrorFormText message={error.message} />}
+      {!isValidDate && (
+        <ErrorFormText message="выбранный интервал недоступен для бронирования" />
+      )}
 
       <GuestsCounter
         guestsCount={bookingData.guestsCount}
@@ -129,7 +126,11 @@ const BookingForm = ({ room }) => {
       <p>
         К оплате -<Typography component="span"> {price}</Typography> рублей
       </p>
-      <SubmitField value="Забронировать" type="submit" disabled={!!error} />
+      <SubmitField
+        value="Забронировать"
+        type="submit"
+        disabled={!isValidDate}
+      />
     </Box>
   )
 }

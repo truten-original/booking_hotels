@@ -1,17 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSelector, createSlice } from '@reduxjs/toolkit'
 import roomService from '../service/rooms.service'
 import * as _ from 'lodash'
+import { getCurrentFilter } from './roomsFilterSlice'
+import { getBookmarks } from './bookmarksSlice'
+import { calculateRaiting } from '../utils/calculateRaiting'
 const initialState = {
   entities: [],
   isLoading: true,
   error: null,
   lastFetch: null,
-  sortItems: [
-    { value: 'raiting', description: 'сначала популярные' },
-    { value: 'facilities', description: 'сначала больше удобств' },
-    { value: 'expensive', description: 'дороже' },
-    { value: 'cheaper', description: 'дешевле' },
-  ],
 }
 const roomsSlice = createSlice({
   name: 'rooms',
@@ -21,12 +18,12 @@ const roomsSlice = createSlice({
       state.isLoading = true
     },
     roomsRecieved: (state, { payload }) => {
-      state.isLoading = false
       state.entities = payload
+      state.isLoading = false
     },
     roomsRequestFailed: (state, { payload }) => {
-      state.isLoading = false
       state.error = payload
+      state.isLoading = false
     },
   },
 })
@@ -40,21 +37,39 @@ export const loadRooms = () => async (dispatch) => {
     const data = await roomService.get()
     dispatch(roomsRecieved(data))
   } catch (error) {
-    dispatch(roomsRequestFailed(error.message ))
+    dispatch(roomsRequestFailed(error.message))
   }
 }
-export const getCurrentRoom = (id) => (state) => state.rooms.entities.find(room => room.id === id)
-export const getRooms = (filterParam) => (state) =>{
-  if(filterParam === "expensive") {
-    return _.orderBy(state.rooms.entities, ['price'], ['desc'])
+export const getCurrentRoom = (id) => (state) =>
+  state.rooms.entities.find((room) => room.id === id)
+const allRooms = (state) => state.rooms.entities
+export const getRooms = createSelector(
+  [allRooms, getCurrentFilter, getBookmarks],
+  (rooms, filter, books) => {
+    console.log(rooms, filter, books)
+    if (filter === 'expensive') {
+      console.log(_.orderBy(rooms, ['price'], ['desc']))
+      return _.orderBy(rooms, ['price'], ['desc'])
+    } else if (filter === 'cheaper') {
+      
+      return _.orderBy(rooms, ['price'], ['asc'])
+    } else if (filter === 'raiting') {
+      const roomsWithBooksArr = rooms.map((room) => {
+        const currentBookArr = books.filter((b) => b.roomId === room.id)
+        if (currentBookArr.length !== 0) {
+          return { ...room, bookmark: calculateRaiting(currentBookArr) }
+        } else {
+          return { ...room, bookmark: 0 }
+        }
+      })
+      return _.orderBy(roomsWithBooksArr, ['bookmark'], ['desc'])
+    } else {
+      console.log(filter)
+      return _.orderBy(rooms, [`${filter}`], ['desc'])
+    }
   }
-  else if(filterParam === "cheaper"){
-    return _.orderBy(state.rooms.entities, ['price'], ['asc'])
-  }
-  else {
-   return _.orderBy(state.rooms.entities, [`${filterParam}`], ['desc'])
-  }
-}
+)
+
 export const getRoomsSortParams = () => (state) => state.rooms.sortItems
 export const getRoomsLoadingStatus = () => (state) => state.rooms.isLoading
 export default roomsReducer

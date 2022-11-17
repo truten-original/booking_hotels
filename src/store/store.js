@@ -4,6 +4,7 @@ import bookingReducer from './bookingsSlice'
 import bookmarksReducer from './bookmarksSlice'
 import commentsReducer from './commentsSlice'
 import facilitiesReducer from './facilitiesSlice'
+import filterReducer from './roomsFilterSlice'
 import roomsReducer from './roomsSlice'
 import typesReducer from './typesSlice'
 import usersReducer from './usersSlice'
@@ -14,7 +15,8 @@ const rootReducer = combineReducers({
   users: usersReducer,
   comments: commentsReducer,
   bookings: bookingReducer,
-  bookmarks: bookmarksReducer
+  bookmarks: bookmarksReducer,
+  filters: filterReducer
 })
 const store = configureStore({
   reducer: rootReducer,
