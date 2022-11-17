@@ -1,3 +1,4 @@
+import FavouritesList from '../components/common/FavouritesList/FavouritesList'
 import AdminPage from '../components/pages/AdminPage/AdminPage'
 import ProfilePage from '../components/pages/ProfilePage/ProfilePage'
 import RoomPage from '../components/pages/RoomPage/RoomPage'
@@ -15,7 +16,7 @@ export const profileRoutes = [
   { path: 'profile', name: 'профиль' },
   { path: 'booking', name: 'забронированные номера' },
   { path: 'favourites', name: 'избранное' },
-  { path: 'logout', name: 'выйти' },
+  { path: 'logout', name: 'выйти',  element: <Logout />},
 ]
 
 export const publicRoutes = [
@@ -41,7 +42,8 @@ export const publicRoutes = [
 
 export const privateRoutes = [
   { path: '/profile/:profileId', element: <ProfilePage /> },
-  { path: '/logout', element: <Logout /> },
+  { path: '/logout',  },
+  {path: '/favourite', element: <FavouritesList/>}
 ]
 
 export const adminRoutes = [{ path: '/adminPage', element: <AdminPage /> }]

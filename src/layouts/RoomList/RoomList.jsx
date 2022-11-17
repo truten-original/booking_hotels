@@ -17,12 +17,13 @@ import {
   getBookmarksLoadingStatus,
   loadBookmarks,
 } from '../../store/bookmarksSlice'
+import { loadFavourites } from '../../store/favouritesSlice'
 import {
   changeFilter,
   getCurrentFilter,
   getFilters,
 } from '../../store/roomsFilterSlice'
-import { getRooms, getRoomsLoadingStatus } from '../../store/roomsSlice'
+import { getAllRooms, getRooms } from '../../store/roomsSlice'
 import { getAuthId } from '../../store/usersSlice'
 import { checkAvailableRooms } from '../../utils/checkAvailableRooms'
 import { paginate } from '../../utils/paginate'
@@ -35,7 +36,6 @@ const RoomList = () => {
   })
   const userId = useSelector(getAuthId())
   const isLoadingBookings = useSelector(getBookingLoadingStatus())
-  const isLoadingRooms = useSelector(getRoomsLoadingStatus())
   const isLoadingBookmarks = useSelector(getBookmarksLoadingStatus())
   const sortParams = useSelector(getFilters)
   const sortParam = useSelector(getCurrentFilter)
@@ -43,13 +43,14 @@ const RoomList = () => {
   const { roomId } = useParams()
   const rooms = useSelector(getRooms)
   const { arr, quantityPage } = paginate(
-    checkAvailableRooms(rooms, books),
+    checkAvailableRooms([...rooms], books),
     quantityItems.quantity,
     quantityItems.currentPage
   )
   useEffect(() => {
     dispatch(loadBookings())
     dispatch(loadBookmarks())
+    dispatch(loadFavourites())
   }, [dispatch])
   useEffect(() => {
     if (quantityPage < quantityItems.currentPage) {
@@ -142,7 +143,7 @@ const RoomList = () => {
                 </Select>
               </FormControl>
             </Box>
-            {!isLoadingBookings && !isLoadingRooms && !isLoadingBookmarks && (
+            {!isLoadingBookings && !isLoadingBookmarks && (
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
                 {filteredRooms.map((room) => (
                   <RoomItem room={room} key={room.id} />

@@ -42,16 +42,15 @@ export const loadRooms = () => async (dispatch) => {
 }
 export const getCurrentRoom = (id) => (state) =>
   state.rooms.entities.find((room) => room.id === id)
-const allRooms = (state) => state.rooms.entities
+const allRooms = () => (state) => state.rooms.entities // const allRooms = state => state.rooms.entities
 export const getRooms = createSelector(
-  [allRooms, getCurrentFilter, getBookmarks],
+  [allRooms(), getCurrentFilter, getBookmarks],
   (rooms, filter, books) => {
-    console.log(rooms, filter, books)
     if (filter === 'expensive') {
-      console.log(_.orderBy(rooms, ['price'], ['desc']))
-      return _.orderBy(rooms, ['price'], ['desc'])
+      const arr = _.orderBy(rooms, ['price'], ['desc'])
+      return arr
     } else if (filter === 'cheaper') {
-      
+
       return _.orderBy(rooms, ['price'], ['asc'])
     } else if (filter === 'raiting') {
       const roomsWithBooksArr = rooms.map((room) => {
@@ -64,12 +63,12 @@ export const getRooms = createSelector(
       })
       return _.orderBy(roomsWithBooksArr, ['bookmark'], ['desc'])
     } else {
-      console.log(filter)
       return _.orderBy(rooms, [`${filter}`], ['desc'])
     }
+   
   }
 )
-
+export const getAllRooms = (state) => state.rooms.entities
 export const getRoomsSortParams = () => (state) => state.rooms.sortItems
 export const getRoomsLoadingStatus = () => (state) => state.rooms.isLoading
 export default roomsReducer

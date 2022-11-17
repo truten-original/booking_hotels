@@ -12,15 +12,17 @@ import { getRoomsLoadingStatus } from '../../../store/roomsSlice'
 import RoomItemSkeleton from './RoomItemSkeleton'
 import RoomFacilities from '../RoomFacilities/RoomFacilities'
 import BookmarkComponent from '../BookmarkComponent/BookmarkComponent'
+import { getFavouritesLoadingStatus } from '../../../store/favouritesSlice'
 const RoomItem = ({ room }) => {
   const navigate = useNavigate()
   const isLoading = useSelector(getRoomsLoadingStatus())
+  const isLoadingFavourites = useSelector(getFavouritesLoadingStatus)
   const AboutPageHandleClick = () => {
     navigate(`/rooms/${room.id}`)
   }
   return (
     <>
-      {!isLoading ? (
+      {!isLoading && !isLoadingFavourites ? (
         <Card
           sx={{
             width: 350,
@@ -53,7 +55,7 @@ const RoomItem = ({ room }) => {
                 Подробнее
               </Button>
               <Button color="secondary" size="medium">
-                <FavouriteIcon />
+                <FavouriteIcon roomId={room.id} />
               </Button>
               <BookmarkComponent roomId={room.id} />
             </CardActions>
