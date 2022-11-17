@@ -16,7 +16,7 @@ export const profileRoutes = [
   { path: 'profile', name: 'профиль' },
   { path: 'booking', name: 'забронированные номера' },
   { path: 'favourites', name: 'избранное' },
-  { path: 'logout', name: 'выйти',  element: <Logout />},
+  { path: 'logout', name: 'выйти'},
 ]
 
 export const publicRoutes = [
@@ -42,7 +42,7 @@ export const publicRoutes = [
 
 export const privateRoutes = [
   { path: '/profile/:profileId', element: <ProfilePage /> },
-  { path: '/logout',  },
+  { path: '/logout',  element: <Logout />},
   {path: '/favourite', element: <FavouritesList/>}
 ]
 
