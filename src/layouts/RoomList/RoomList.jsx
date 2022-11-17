@@ -13,7 +13,10 @@ import {
   getCurrentUserBookings,
   loadBookings,
 } from '../../store/bookingsSlice'
-import { loadBookmarks } from '../../store/bookmarksSlice'
+import {
+  getBookmarksLoadingStatus,
+  loadBookmarks,
+} from '../../store/bookmarksSlice'
 import {
   changeFilter,
   getCurrentFilter,
@@ -33,7 +36,7 @@ const RoomList = () => {
   const userId = useSelector(getAuthId())
   const isLoadingBookings = useSelector(getBookingLoadingStatus())
   const isLoadingRooms = useSelector(getRoomsLoadingStatus())
-  const isLoadingBookmarks = useSelector(getBookingLoadingStatus())
+  const isLoadingBookmarks = useSelector(getBookmarksLoadingStatus())
   const sortParams = useSelector(getFilters)
   const sortParam = useSelector(getCurrentFilter)
   const books = useSelector(getCurrentUserBookings(userId))
