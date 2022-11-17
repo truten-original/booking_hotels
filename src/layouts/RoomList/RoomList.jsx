@@ -1,4 +1,4 @@
-import { Box, TextField } from '@mui/material'
+import { Box, Pagination, TextField } from '@mui/material'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
@@ -15,29 +15,46 @@ import {
 } from '../../store/bookingsSlice'
 import { loadBookmarks } from '../../store/bookmarksSlice'
 import {
-  getRooms,
-  getRoomsLoadingStatus,
-  getRoomsSortParams,
-} from '../../store/roomsSlice'
+  changeFilter,
+  getCurrentFilter,
+  getFilters,
+} from '../../store/roomsFilterSlice'
+import { getRooms, getRoomsLoadingStatus } from '../../store/roomsSlice'
 import { getAuthId } from '../../store/usersSlice'
 import { checkAvailableRooms } from '../../utils/checkAvailableRooms'
+import { paginate } from '../../utils/paginate'
 const RoomList = () => {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [sortParam, setSortParam] = useState('cheaper')
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(loadBookings())
-    dispatch(loadBookmarks())
-  }, [dispatch])
+  const [searchQuery, setSearchQuery] = useState('')
+  const [quantityItems, setQuantityItems] = useState({
+    currentPage: 1,
+    quantity: 3,
+  })
   const userId = useSelector(getAuthId())
   const isLoadingBookings = useSelector(getBookingLoadingStatus())
   const isLoadingRooms = useSelector(getRoomsLoadingStatus())
   const isLoadingBookmarks = useSelector(getBookingLoadingStatus())
-  const sortParams = useSelector(getRoomsSortParams())
+  const sortParams = useSelector(getFilters)
+  const sortParam = useSelector(getCurrentFilter)
   const books = useSelector(getCurrentUserBookings(userId))
   const { roomId } = useParams()
-  const rooms = useSelector(getRooms(sortParam))
-  const availableRooms = checkAvailableRooms(rooms, books)
+  const rooms = useSelector(getRooms)
+  const { arr, quantityPage } = paginate(
+    checkAvailableRooms(rooms, books),
+    quantityItems.quantity,
+    quantityItems.currentPage
+  )
+  useEffect(() => {
+    dispatch(loadBookings())
+    dispatch(loadBookmarks())
+  }, [dispatch])
+  useEffect(() => {
+    if (quantityPage < quantityItems.currentPage) {
+      setQuantityItems((prev) => ({ ...prev, currentPage: quantityPage }))
+    }
+  }, [quantityPage])
+  const availableRooms = arr
+  const quantityArr = [3, 6, 12]
   const filteredRooms = searchQuery
     ? availableRooms.filter((room) =>
         room.name.toLowerCase().includes(searchQuery)
@@ -84,7 +101,7 @@ const RoomList = () => {
                 <Select
                   value={sortParam}
                   onChange={(e) => {
-                    setSortParam(e.target.value)
+                    dispatch(changeFilter(e.target.value))
                   }}
                 >
                   {sortParams.map((item) => (
@@ -94,12 +111,33 @@ const RoomList = () => {
                   ))}
                 </Select>
               </FormControl>
-              <div
-                onClick={() =>
-                  setSortParam((prev) => ({ ...prev, desc: !prev.desc }))
-                }
-                style={{ backgroundColor: '#eee', borderRadius: '10px' }}
-              ></div>
+              <FormControl
+                color="secondary"
+                variant="standard"
+                sx={{
+                  m: 1,
+                  minWidth: 210,
+                  backgroundColor: '#eee',
+                  borderRadius: '10px',
+                }}
+              >
+                <InputLabel>отобразить:</InputLabel>
+                <Select
+                  value={quantityItems.quantity}
+                  onChange={(e) => {
+                    setQuantityItems((prev) => ({
+                      ...prev,
+                      quantity: e.target.value,
+                    }))
+                  }}
+                >
+                  {quantityArr.map((item) => (
+                    <MenuItem key={item} value={item}>
+                      {'по ' + item}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Box>
             {!isLoadingBookings && !isLoadingRooms && !isLoadingBookmarks && (
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
@@ -107,6 +145,16 @@ const RoomList = () => {
                   <RoomItem room={room} key={room.id} />
                 ))}
               </Box>
+            )}
+            {quantityPage !== 1 && (
+              <Pagination
+                onChange={(_, page) =>
+                  setQuantityItems((prev) => ({ ...prev, currentPage: page }))
+                }
+                sx={{ mt: '1rem', alignContent: 'center' }}
+                count={quantityPage}
+                color="secondary"
+              />
             )}
           </Container>
         )}
