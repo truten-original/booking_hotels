@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import FavouriteIcon from '../../common/FavouriteIcon'
+import FavouriteIcon from '../../common/Favourites/FavouriteIcon'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getRoomsLoadingStatus } from '../../../store/roomsSlice'
@@ -15,7 +15,7 @@ import BookmarkComponent from '../BookmarkComponent/BookmarkComponent'
 import { getFavouritesLoadingStatus } from '../../../store/favouritesSlice'
 const RoomItem = ({ room }) => {
   const navigate = useNavigate()
-  const isLoading = useSelector(getRoomsLoadingStatus())
+  const isLoading = useSelector(getRoomsLoadingStatus)
   const isLoadingFavourites = useSelector(getFavouritesLoadingStatus)
   const AboutPageHandleClick = () => {
     navigate(`/rooms/${room.id}`)
@@ -54,9 +54,9 @@ const RoomItem = ({ room }) => {
               >
                 Подробнее
               </Button>
-              <Button color="secondary" size="medium">
-                <FavouriteIcon roomId={room.id} />
-              </Button>
+              {/* <Button color="secondary" size="medium"> */}
+              <FavouriteIcon roomId={room.id} />
+              {/* </Button> */}
               <BookmarkComponent roomId={room.id} />
             </CardActions>
             <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>

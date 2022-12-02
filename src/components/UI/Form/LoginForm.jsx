@@ -1,15 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { TextField } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { signIn } from '../../../store/usersSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { getLoginError, signIn } from '../../../store/usersSlice'
 import { schemaLogin } from '../../../utils/validationSchema'
+import MyTextField from '../MyTextField/MyTextField'
 import SubmitField from '../SubmitField/SubmitField'
 import { loginFormFields } from './formsFields'
 const LoginForm = () => {
-  const navigate = useNavigate()
+  const error = useSelector(getLoginError)
   const dispatch = useDispatch()
   const {
     register,
@@ -20,25 +19,29 @@ const LoginForm = () => {
     resolver: yupResolver(schemaLogin),
   })
   const handlerFormSubmit = (data) => {
-    dispatch(signIn(data))
-    navigate('/rooms')
+    dispatch(signIn({ ...data, type: 'login' }))
   }
   return (
     <Box component="form" onSubmit={handleSubmit(handlerFormSubmit)}>
       {loginFormFields.map((form) => {
         if (form.type) {
           return (
-            <SubmitField key={form.value} type={form.type} value={form.value} />
+            <SubmitField
+              error={error}
+              key={form.value}
+              type={form.type}
+              value={form.value}
+            />
           )
         } else
           return (
-            <TextField
+            <MyTextField
               key={form.name}
               label={form.label}
               type={form.name}
-              className="form_textField"
               color="secondary"
-              {...register(`${form.name}`)}
+              register={register}
+              name={form.name}
               helperText={errors[form.name]?.message}
             />
           )

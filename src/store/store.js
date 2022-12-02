@@ -10,12 +10,12 @@ import roomsReducer from './roomsSlice'
 import typesReducer from './typesSlice'
 import usersReducer from './usersSlice'
 const rootReducer = combineReducers({
-  rooms: roomsReducer,
   types: typesReducer,
   facilities: facilitiesReducer,
+  bookings: bookingReducer,
+  rooms: roomsReducer,
   users: usersReducer,
   comments: commentsReducer,
-  bookings: bookingReducer,
   bookmarks: bookmarksReducer,
   filters: filterReducer,
   favourites: favouritesReducer

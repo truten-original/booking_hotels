@@ -11,7 +11,7 @@ import {
   getRoomsLoadingStatus,
 } from '../../../store/roomsSlice'
 import BookMarkForm from '../../common/BookamrkForm/BookMarkForm'
-import BookingForm from '../../common/BookingForm/BookingForm'
+import BookingForm from '../../common/Bookings/BookingForm/BookingForm'
 import CommentWrapper from '../../common/Comments/CommentWrapper/CommentWrapper'
 import RoomDescription from '../../common/RoomDescription/RoomDescription'
 import ImagesSlider from '../../common/Slider/ImagesSlider'
@@ -23,8 +23,8 @@ const RoomPage = () => {
   }, [])
   const { roomId } = useParams()
   const currentRoom = useSelector(getCurrentRoom(roomId))
-  const isLoading = useSelector(getRoomsLoadingStatus())
-  const isLoadingCurrentBooking = useSelector(getBookingLoadingStatus())
+  const isLoading = useSelector(getRoomsLoadingStatus)
+  const isLoadingCurrentBooking = useSelector(getBookingLoadingStatus)
   return (
     <Container className="card_container">
       {!isLoading && (

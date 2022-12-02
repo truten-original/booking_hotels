@@ -12,7 +12,7 @@ import SubmitField from '../../UI/SubmitField/SubmitField'
 
 const BookMarkForm = ({ roomId }) => {
   const dispatch = useDispatch()
-  const userId = useSelector(getAuthId())
+  const userId = useSelector(getAuthId)
   const book = useSelector(
     getCurrentUserForCurrentRoomBookmark({ userId, roomId })
   )

@@ -19,7 +19,7 @@ const CommentForm = ({ roomId }) => {
   } = useForm({
     reValidateMode: 'onSubmit',
   })
-  const currentUserId = useSelector(getAuthId())
+  const currentUserId = useSelector(getAuthId)
   const handlerSubmit = (data) => {
     if (data.comment.trim().length === 0) return
     if (data.comment.errors) return

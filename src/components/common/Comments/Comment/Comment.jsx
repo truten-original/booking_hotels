@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { removeComment } from '../../../../store/commentsSlice'
 const Comment = ({ comment }) => {
   const dispatch = useDispatch()
-  const authUserId = useSelector(getAuthId())
+  const authUserId = useSelector(getAuthId)
   const createdTime = displayDate(comment.createdTime)
   const currentUser = useSelector(getUserById(comment.userId))
   const handleClick = () => {

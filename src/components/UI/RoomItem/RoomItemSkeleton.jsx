@@ -3,7 +3,7 @@ import { Skeleton } from '@mui/material'
 const RoomItemSkeleton = () => {
   return (
     <Skeleton
-      animation="false"
+      animation={false}
       variant="rounded"
       width={350}
       height={400}

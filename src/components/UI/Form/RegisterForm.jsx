@@ -1,44 +1,51 @@
-import Box from '@mui/material/Box'
-import { TextField } from '@mui/material'
-import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import Box from '@mui/material/Box'
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { getSignUpError, signUp } from '../../../store/usersSlice'
 import { schemaRegister } from '../../../utils/validationSchema'
-import { registerFormFields } from './formsFields'
+import MyTextField from '../MyTextField/MyTextField'
+import SexField from '../SexField/SexField'
 import SubmitField from '../SubmitField/SubmitField'
-import { useDispatch } from 'react-redux'
-import { signUp } from '../../../store/usersSlice'
-import { useNavigate } from 'react-router-dom'
-const RegisterForm = () => {
-  const navigate = useNavigate()
+import { registerFormFields } from './formsFields'
+const RegisterForm = ({ isLoading }) => {
+  const error = useSelector(getSignUpError)
   const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    reValidateMode: 'onBlur',
+    reValidateMode: 'onChange',
     resolver: yupResolver(schemaRegister),
   })
   const handlerFormSubmit = (data) => {
-    dispatch(signUp(data))
-    navigate('/rooms')
+    dispatch(signUp({ ...data, registerDate: Date.now(), type: 'signUp' }))
   }
   return (
     <Box component="form" onSubmit={handleSubmit(handlerFormSubmit)}>
       {registerFormFields.map((form) => {
         if (form.type) {
           return (
-            <SubmitField key={form.value} type={form.type} value={form.value} />
+            <SubmitField
+              error={error}
+              key={form.value}
+              type={form.type}
+              value={form.value}
+            />
           )
+        } else if (form.name === 'sex') {
+          return <SexField key={form.name} register={register} />
         } else
           return (
-            <TextField
+            <MyTextField
+              defaultValue=""
               key={form.name}
               label={form.label}
               type={form.name}
-              className="form_textField"
               color="secondary"
-              {...register(`${form.name}`)}
+              register={register}
+              name={form.name}
               helperText={errors[form.name]?.message}
             />
           )

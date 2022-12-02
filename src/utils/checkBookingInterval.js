@@ -11,7 +11,6 @@ const checkBookingInterval = (currentDate, interval) => {
   const currentArrivalDateString = moment(getDate(arrivalCurrentDateObj).arr)
   const departureString = moment(getDate(departureCurrentDateObj).arr)
   const daysQuantity = departureString.diff(currentArrivalDateString, 'days')
-
   const boolResultArr = []
   if (!!interval.length) {
     const interArr = interval.map((i) => [
@@ -52,7 +51,7 @@ const checkBookingInterval = (currentDate, interval) => {
       }
     }
     if (boolResultArr.includes(true)) {
-      return false
+      return {isValid: false, daysQuantity}
     }
   }
   return { isValid: true, daysQuantity }

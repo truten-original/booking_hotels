@@ -3,10 +3,10 @@ import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
-import { Container } from '@mui/system'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useParams } from 'react-router-dom'
+import ContentLayout from '../../components/UI/ContentLayout/ContentLayout'
 import RoomItem from '../../components/UI/RoomItem'
 import {
   getBookingLoadingStatus,
@@ -23,7 +23,7 @@ import {
   getCurrentFilter,
   getFilters,
 } from '../../store/roomsFilterSlice'
-import { getAllRooms, getRooms } from '../../store/roomsSlice'
+import { getRooms } from '../../store/roomsSlice'
 import { getAuthId } from '../../store/usersSlice'
 import { checkAvailableRooms } from '../../utils/checkAvailableRooms'
 import { paginate } from '../../utils/paginate'
@@ -32,17 +32,17 @@ const RoomList = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [quantityItems, setQuantityItems] = useState({
     currentPage: 1,
-    quantity: 3,
+    quantity: 6,
   })
-  const userId = useSelector(getAuthId())
-  const isLoadingBookings = useSelector(getBookingLoadingStatus())
+  const userId = useSelector(getAuthId)
+  const isLoadingBookings = useSelector(getBookingLoadingStatus)
   const isLoadingBookmarks = useSelector(getBookmarksLoadingStatus())
   const sortParams = useSelector(getFilters)
   const sortParam = useSelector(getCurrentFilter)
   const books = useSelector(getCurrentUserBookings(userId))
   const { roomId } = useParams()
   const rooms = useSelector(getRooms)
-  const { arr, quantityPage } = paginate(
+  const arr = paginate(
     checkAvailableRooms([...rooms], books),
     quantityItems.quantity,
     quantityItems.currentPage
@@ -50,13 +50,11 @@ const RoomList = () => {
   useEffect(() => {
     dispatch(loadBookings())
     dispatch(loadBookmarks())
-    dispatch(loadFavourites())
+    dispatch(loadFavourites(userId))
   }, [dispatch])
   useEffect(() => {
-    if (quantityPage < quantityItems.currentPage) {
-      setQuantityItems((prev) => ({ ...prev, currentPage: quantityPage }))
-    }
-  }, [quantityPage])
+    setQuantityItems((prev) => ({ ...prev, currentPage: 1 }))
+  }, [quantityItems.quantity])
   const availableRooms = arr
   const quantityArr = [3, 6, 12]
   const filteredRooms = searchQuery
@@ -66,13 +64,11 @@ const RoomList = () => {
     : availableRooms
   if (rooms)
     return (
-      <>
+      <ContentLayout>
         {roomId ? (
           <Outlet />
         ) : (
-          <Container
-            sx={{ mt: '80px', height: !!rooms.length ? '100%' : '100vh' }}
-          >
+          <>
             <Box sx={{ display: 'flex', alignItems: 'baseline' }}>
               <TextField
                 color="secondary"
@@ -150,19 +146,18 @@ const RoomList = () => {
                 ))}
               </Box>
             )}
-            {quantityPage !== 1 && (
-              <Pagination
-                onChange={(_, page) =>
-                  setQuantityItems((prev) => ({ ...prev, currentPage: page }))
-                }
-                sx={{ mt: '1rem', alignContent: 'center' }}
-                count={quantityPage}
-                color="secondary"
-              />
-            )}
-          </Container>
+            <Pagination
+              page={quantityItems.currentPage}
+              onChange={(_, page) =>
+                setQuantityItems((prev) => ({ ...prev, currentPage: page }))
+              }
+              sx={{ mt: '1rem', alignContent: 'center' }}
+              count={Math.ceil(rooms.length / quantityItems.quantity)}
+              color="secondary"
+            />
+          </>
         )}
-      </>
+      </ContentLayout>
     )
 }
 

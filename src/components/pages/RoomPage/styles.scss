@@ -3,7 +3,8 @@
 .card_container {
   &.MuiContainer-root {
     position: relative;
-    margin-top: 10vh;
+    margin-top: 15vh;
+    min-height: 90vh;
     // height: 100vh - 15vh;
     display: grid;
     grid-template-columns: (1fr 1fr 10px 1fr);

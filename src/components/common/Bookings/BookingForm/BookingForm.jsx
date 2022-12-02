@@ -1,32 +1,33 @@
-import { useState } from 'react'
-import DatePicker from '../../UI/DatePicker/DatePicker'
-import GuestsCounter from '../../UI/GuestsCounter/GuestsCounter'
+import { Divider, Typography } from '@mui/material'
 import { Box } from '@mui/system'
-import { Button, Divider, Typography } from '@mui/material'
-import RoomType from '../../UI/RoomType/RoomType'
-import RoomPrice from '../../UI/RoomPrice/RoomPrice'
-import CheckBoxField from '../../UI/CheckBoxField/CheckBoxField'
-import { getRoomPrice } from '../../../utils/getRoomPrice'
-import SubmitField from '../../UI/SubmitField/SubmitField'
-import FavouriteIcon from '../FavouriteIcon/FavouriteIcon'
-import { getAuthId } from '../../../store/usersSlice'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import checkBookingInterval from '../../../utils/checkBookingInterval'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import {
   createBooking,
   currentRoomBookingsIntervals,
-} from '../../../store/bookingsSlice'
-import { createId } from '../../../utils/createId'
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
-import ErrorFormText from '../../UI/ErrorFormText/ErrorFormText'
+} from '../../../../store/bookingsSlice'
+import { getStringDate } from '../../../../utils/getStringDate'
+import { getAuthId } from '../../../../store/usersSlice'
+import checkBookingInterval from '../../../../utils/checkBookingInterval'
+import { createId } from '../../../../utils/createId'
+import { getRoomPrice } from '../../../../utils/getRoomPrice'
+import CheckBoxField from '../../../UI/CheckBoxField/CheckBoxField'
+import DatePicker from '../../../UI/DatePicker/DatePicker'
+import ErrorFormText from '../../../UI/ErrorFormText/ErrorFormText'
+import GuestsCounter from '../../../UI/GuestsCounter/GuestsCounter'
+import RoomPrice from '../../../UI/RoomPrice/RoomPrice'
+import RoomType from '../../../UI/RoomType/RoomType'
+import SubmitField from '../../../UI/SubmitField/SubmitField'
+import FavouriteIcon from '../../Favourites/FavouriteIcon'
 const BookingForm = ({ room }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const currentRoomBookingIntervalsArr = useSelector(
     currentRoomBookingsIntervals(room.id)
   )
-  const userId = useSelector(getAuthId())
+  const userId = useSelector(getAuthId)
   const [isFullPay, setIsFullPay] = useState(true)
   const [bookingData, setBookingData] = useState({
     arrivalDate: Date.now(),
@@ -77,8 +78,19 @@ const BookingForm = ({ room }) => {
     setBookingData((prev) => ({ ...prev, departureDate: e.$d.valueOf() }))
   }
   const handleSubmit = (data) => {
-    dispatch(createBooking(data))
-    navigate('rooms', { replace: true })
+    if (userId) {
+      dispatch(createBooking(data))
+      navigate('/rooms', { replace: true })
+      toast.success(
+        `Номер успешно забронирован c ${getStringDate(
+          bookingData.arrivalDate
+        )} по  ${getStringDate(bookingData.departureDate)}`
+      )
+    } else {
+      toast.warn(
+        'Бронирование доступно только для авторизованных пользователей'
+      )
+    }
   }
   const { price, discount } = isFullPay
     ? getRoomPrice(room.price * daysQuantity, 5)
@@ -92,9 +104,7 @@ const BookingForm = ({ room }) => {
         handleSubmit(bookingData)
       }}
     >
-      <Button color="secondary" sx={{ fontSize: '2rem' }}>
-        <FavouriteIcon />
-      </Button>
+      <FavouriteIcon roomId={room.id} />
       <Divider light />
       <Typography variant="h6">{room.name}</Typography>
       <RoomType type={room.type} />

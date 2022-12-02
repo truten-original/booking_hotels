@@ -7,6 +7,7 @@ const favouritesSlice = createSlice({
     isLoading: true,
     entities: [],
     error: null,
+    localEntities: JSON.parse(localStorage.getItem('favourites')) || [],
   },
   reducers: {
     favouritesRequested: (state) => {
@@ -26,6 +27,14 @@ const favouritesSlice = createSlice({
     favouriteRemoved: (state, { payload }) => {
       state.entities = state.entities.filter((item) => item.id !== payload)
     },
+    localFavouriteCreated: (state, { payload }) => {
+      state.localEntities.push(payload)
+    },
+    localFavouriteRemoved: (state, { payload }) => {
+      state.localEntities = state.localEntities.filter(
+        (item) => item.roomId !== payload
+      )
+    },
   },
 })
 
@@ -36,6 +45,8 @@ const {
   favouritesRequestFailed,
   favouriteCreated,
   favouriteRemoved,
+  localFavouriteCreated,
+  localFavouriteRemoved,
 } = actions
 const favouriteRemoveRequested = createAction(
   'favourites/favouriteRemoveRequested'
@@ -61,10 +72,10 @@ export const loadFavourites = (userId) => async (dispatch) => {
 }
 
 export const createFavourite = (payload) => async (dispatch, getState) => {
-  const  entities  = getState().favourites.entities
+  const entities = getState().favourites.entities
   dispatch(favouriteCreateRequested())
   try {
-    if (!entities.find(item => item.roomId === payload.roomId)) {
+    if (!entities.find((item) => item.roomId === payload.roomId)) {
       const data = await favouritesService.create(payload)
       dispatch(favouriteCreated(data))
     }
@@ -84,8 +95,25 @@ export const removeFavourite = (id) => async (dispatch) => {
     dispatch(favouriteRemoveRequesteFailed(error.message))
   }
 }
+
+export const createLocalFavourite = (payload) => (dispatch, getState) => {
+  const localFavs = getState().favourites.localEntities
+  localStorage.setItem('favourites', JSON.stringify([...localFavs, payload]))
+  dispatch(localFavouriteCreated(payload))
+}
+export const removeLocalFavourite = (payload) => (dispatch, getState) => {
+  const localFavs = getState().favourites.localEntities
+  localStorage.setItem('favourites', [
+    JSON.stringify(localFavs.filter((item) => item.roomId !== payload)),
+  ])
+  dispatch(localFavouriteRemoved(payload))
+}
+export const getLocalFavs = (state) => state.favourites.localEntities
 export const getFavouritesLoadingStatus = (state) => state.favourites.isLoading
 export const getFavourites = (state) => state.favourites.entities
 export const getCurrentRoomFavourite = (roomId) => (state) =>
   state.favourites.entities.find((item) => item.roomId === roomId)
+export const getCurrentRoomLocalFavourite = (roomId) => (state) =>
+  state.favourites.localEntities.find((item) => item.roomId === roomId)
+
 export default favouritesReducer

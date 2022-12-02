@@ -14,14 +14,13 @@ const usersService = {
     } ,
     create: async (payload) => {
         const {data} = await httpService.put(usersEndpoint + payload.id, payload)
-        console.log(data)
         const {content} = data
         return content
     }, 
     update: async (payload) => {
         const {data} = await httpService.patch(usersEndpoint + payload.id, payload)
-        console.log(data)
-        return data
+        const {content} = data
+        return content
     }
 }
 

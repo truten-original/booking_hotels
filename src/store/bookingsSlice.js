@@ -1,5 +1,7 @@
-import { createAction, createSlice } from '@reduxjs/toolkit'
+import { createAction, createSelector, createSlice } from '@reduxjs/toolkit'
 import bookingService from '../service/booking.service'
+import { getAllRooms } from './roomsSlice'
+import { getUsers } from './usersSlice'
 
 const initialState = {
   entities: [],
@@ -23,7 +25,7 @@ const bookingsSlice = createSlice({
       state.error = paylaod
       state.isLoading = false
     },
-    currentRoomBookingsRecieved: (state, {payload}) => {
+    currentRoomBookingsRecieved: (state, { payload }) => {
       state.currentRoomEntities = payload
       state.isLoading = false
     },
@@ -49,14 +51,16 @@ const {
   bookingsRequestFailed,
   currentRoomBookingsRequestFailed,
   currentRoomBookingsRecieved,
-  bookingRemoveRequested,
-  bookingRemoveRequestFailed,
   bookingRemoved,
   bookingCreated,
 } = actions
 const bookingCreatedRequested = createAction('bookings/bookingCreatedRequested')
 const bookingCreatedrequestFailed = createAction(
   'bookings/bookingCreatedrequestFailed'
+)
+const bookingRemoveRequested = createAction('bookings/bookingRemoveRequested')
+const bookingRemoveRequestFailed = createAction(
+  'bookings/bookingRemoveRequestFailed'
 )
 export const loadBookings = () => async (dispatch) => {
   dispatch(bookingsRequested())
@@ -108,13 +112,33 @@ export const removeBooking = (id) => async (dispatch) => {
 export const createBooking = (payload) => async (dispatch) => {
   dispatch(bookingCreatedRequested())
   try {
-    const  data  = await bookingService.create(payload)
+    const data = await bookingService.create(payload)
     dispatch(bookingCreated(data))
   } catch (error) {
     dispatch(bookingCreatedrequestFailed(error.message))
   }
 }
-
+export function getBookings(state) {
+  return state.bookings.entities
+}
+export const getFullInfoBookings = createSelector(
+  [getBookings, getAllRooms, getUsers],
+  (books, rooms, users) => {
+    if (rooms.length && users.length) {
+      const resArr = books.map((book) => {
+        const user = users.find((user) => user.id === book.userId)
+        const room = rooms.find((room) => room.id === book.roomId)
+        return {
+          ...book,
+          roomName: room.name,
+          userName: user.name,
+          userSurname: user.surname,
+        }
+      })
+      return resArr
+    } else return []
+  }
+)
 export const currentRoomBookingsIntervals = () => (state) => {
   const currentBookings = state.bookings.currentRoomEntities.map((b) => [
     b.arrivalDate,
@@ -123,8 +147,8 @@ export const currentRoomBookingsIntervals = () => (state) => {
   return currentBookings
 }
 export const getCurrentUserBookings = (id) => (state) => {
- return state.bookings.entities.filter(b => b.userId === id)
+  return state.bookings.entities.filter((b) => b.userId === id)
 }
-export const getBookingLoadingStatus = () => (state) => state.bookings.isLoading
+export const getBookingLoadingStatus = (state) => state.bookings.isLoading
 
 export default bookingReducer

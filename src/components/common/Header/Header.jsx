@@ -1,37 +1,38 @@
-import * as React from 'react'
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import Menu from '@mui/material/Menu'
 import MenuIcon from '@mui/icons-material/Menu'
-import Container from '@mui/material/Container'
+import AppBar from '@mui/material/AppBar'
 import Avatar from '@mui/material/Avatar'
-import Tooltip from '@mui/material/Tooltip'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import { Link, NavLink } from 'react-router-dom'
-import { navRoutes, profileRoutes } from '../../../router/routes'
-import classes from './Header.module.scss'
+import Toolbar from '@mui/material/Toolbar'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import * as React from 'react'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link, NavLink } from 'react-router-dom'
+import { navigateLinks, profileLinks } from '../../../router/links'
 import {
+  getAdminMeaning,
+  getAuthLoadingStatus,
   getCurrentUser,
   getLoggedStatus,
-  getUsersLoadingStatus,
   loadUsers,
 } from '../../../store/usersSlice'
+import classes from './Header.module.scss'
 function Header() {
+  const isAdmin = useSelector(getAdminMeaning)
   const isLoggedIn = useSelector(getLoggedStatus())
-  const isLoading = useSelector(getUsersLoadingStatus())
-  const currentUser = useSelector(getCurrentUser())
+  const isLoading = useSelector(getAuthLoadingStatus)
+  const currentUser = useSelector(getCurrentUser)
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(loadUsers())
   }, [])
   const [anchorElNav, setAnchorElNav] = React.useState(null)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
   }
@@ -103,17 +104,37 @@ function Header() {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {navRoutes.map((page) => (
-                <MenuItem key={page.path} onClick={handleCloseNavMenu}>
-                  {
-                    <NavLink to={page.path}>
+              {navigateLinks.map((page) => (
+                <NavLink to={page.path} key={page.path}>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    {
                       <Typography textAlign="center" sx={{ color: 'black' }}>
                         {page.name}
                       </Typography>
-                    </NavLink>
-                  }
-                </MenuItem>
+                    }
+                  </MenuItem>
+                </NavLink>
               ))}
+              {isAdmin && (
+                <NavLink to={'admin'}>
+                  <MenuItem onClick={handleCloseNavMenu}>
+                    {
+                      <Typography textAlign="center" sx={{ color: 'black' }}>
+                        панель администратора
+                      </Typography>
+                    }
+                  </MenuItem>
+                </NavLink>
+              )}
+              {!isLoggedIn && (
+                <NavLink to="favourite">
+                  <MenuItem>
+                    <Typography textAlign="center" sx={{ color: 'black' }}>
+                      избранное
+                    </Typography>
+                  </MenuItem>
+                </NavLink>
+              )}
             </Menu>
           </Box>
           <Typography
@@ -133,7 +154,7 @@ function Header() {
               textDecoration: 'none',
             }}
           >
-            Your Palace
+            YP
           </Typography>
           <Box
             sx={{
@@ -142,7 +163,7 @@ function Header() {
               justifyContent: 'center',
             }}
           >
-            {navRoutes.map((page) => (
+            {navigateLinks.map((page) => (
               <NavLink
                 key={page.path}
                 to={page.path}
@@ -163,13 +184,70 @@ function Header() {
                 </Typography>
               </NavLink>
             ))}
+            {isAdmin && (
+              <NavLink to={'admin'} className={classes.main_navigation_button}>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    mr: 2,
+                    display: 'flex',
+                    flexGrow: 3,
+                    fontFamily: 'monospace',
+                    fontWeight: 700,
+                    color: 'white',
+                  }}
+                >
+                  панель администратора
+                </Typography>
+              </NavLink>
+            )}
+
+            {!isLoggedIn && (
+              <NavLink
+                to="favourite"
+                className={classes.main_navigation_button}
+              >
+                <Typography
+                  variant="h5"
+                  sx={{
+                    mr: 2,
+                    display: 'flex',
+                    flexGrow: 3,
+                    fontFamily: 'monospace',
+                    fontWeight: 700,
+                    color: 'white',
+                  }}
+                >
+                  избранное
+                </Typography>
+              </NavLink>
+            )}
           </Box>
 
-          <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center' }}>
-            {isLoggedIn && !isLoading && (
+          <Box
+            sx={{
+              flexGrow: 0,
+              display: 'flex',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+            }}
+          >
+            {isLoggedIn && !isLoading && currentUser && (
               <>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 1 }}>
+                    <Typography
+                      sx={{
+                        mr: 2,
+                        display: 'flex',
+                        flexGrow: 3,
+                        fontFamily: 'monospace',
+                        fontWeight: 700,
+                        color: 'white',
+                      }}
+                    >
+                      {currentUser.name} {currentUser.surname}
+                    </Typography>
                     <Avatar alt={currentUser.name} src={currentUser.image} />
                   </IconButton>
                 </Tooltip>
@@ -190,7 +268,7 @@ function Header() {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {profileRoutes.map((setting) => (
+                  {profileLinks.map((setting) => (
                     <MenuItem key={setting.path} onClick={handleCloseUserMenu}>
                       <Link to={setting.path}>
                         <Typography textAlign="center">

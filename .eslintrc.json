@@ -4,7 +4,6 @@
     "no-console": "warn",
     "prefer-const": "error",
     "jsx-quotes": ["error", "prefer-double"],
-    "indent": ["warn", 2],
     "max-len": ["error", { "code": 120 }],
     "comma-dangle": "off",
     "semi": "off"

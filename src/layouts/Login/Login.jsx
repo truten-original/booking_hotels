@@ -1,10 +1,13 @@
 import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import LoginForm from '../../components/UI/Form/LoginForm'
 import RegisterForm from '../../components/UI/Form/RegisterForm'
+import { getAuthLoadingStatus } from '../../store/usersSlice'
 
 const Login = () => {
+  const isLoading = useSelector(getAuthLoadingStatus)
   const [formType, setFormType] = useState('login')
   const toggleFormType = () => {
     setFormType((prevState) =>
@@ -24,7 +27,11 @@ const Login = () => {
       >
         {formType === 'login' ? 'вход' : 'регистрация'}:
       </Typography>
-      {formType === 'login' ? <LoginForm /> : <RegisterForm />}
+      {formType === 'login' ? (
+        <LoginForm isLoading={isLoading} />
+      ) : (
+        <RegisterForm isLoading={isLoading} />
+      )}
       <Typography
         onClick={toggleFormType}
         sx={{

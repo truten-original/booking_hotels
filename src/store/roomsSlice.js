@@ -4,6 +4,7 @@ import * as _ from 'lodash'
 import { getCurrentFilter } from './roomsFilterSlice'
 import { getBookmarks } from './bookmarksSlice'
 import { calculateRaiting } from '../utils/calculateRaiting'
+import { getBookings } from './bookingsSlice'
 const initialState = {
   entities: [],
   isLoading: true,
@@ -42,15 +43,14 @@ export const loadRooms = () => async (dispatch) => {
 }
 export const getCurrentRoom = (id) => (state) =>
   state.rooms.entities.find((room) => room.id === id)
-const allRooms = () => (state) => state.rooms.entities // const allRooms = state => state.rooms.entities
+const allRooms = (state) => state.rooms.entities
 export const getRooms = createSelector(
-  [allRooms(), getCurrentFilter, getBookmarks],
+  [allRooms, getCurrentFilter, getBookmarks],
   (rooms, filter, books) => {
     if (filter === 'expensive') {
       const arr = _.orderBy(rooms, ['price'], ['desc'])
       return arr
     } else if (filter === 'cheaper') {
-
       return _.orderBy(rooms, ['price'], ['asc'])
     } else if (filter === 'raiting') {
       const roomsWithBooksArr = rooms.map((room) => {
@@ -65,10 +65,47 @@ export const getRooms = createSelector(
     } else {
       return _.orderBy(rooms, [`${filter}`], ['desc'])
     }
-   
   }
 )
+export const getRoomsWithBookingStatus = createSelector(
+  [allRooms, getBookings],
+  (rooms, books) => {
+    // const roomsWithBookingStatus = []
+    const roomsWithBookingStatus = rooms.map((room) => {
+      const currentBooks = books.filter((item) => item.roomId === room.id)
+      if (currentBooks.length) {
+        return  currentBooks.map((book) => {
+          return {
+            ...room,
+            booking: {
+              bookingId: book.id,
+              isBooking: true,
+              arrDate: book.arrivalDate,
+              depDate: book.depatureDate,
+            },
+          }
+        })
+        
+      } else return {...room, booking: false}
+    })
+    return roomsWithBookingStatus.flat()
+  }
+)
+export const getCurrentRooms = (favArr) => (state) => {
+  const resArr = []
+  const rooms = state.rooms.entities
+  for (const room of rooms) {
+    for (const fav of favArr) {
+      if (room.id === fav.roomId) {
+        resArr.push(room)
+      }
+    }
+  }
+  return resArr
+}
+export const getRoom = (id) => (state) =>
+  state.rooms.entities.find((r) => r.id === id)
 export const getAllRooms = (state) => state.rooms.entities
 export const getRoomsSortParams = () => (state) => state.rooms.sortItems
-export const getRoomsLoadingStatus = () => (state) => state.rooms.isLoading
+export const getRoomsLoadingStatus = (state) => state.rooms.isLoading
 export default roomsReducer
