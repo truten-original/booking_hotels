@@ -4,7 +4,6 @@ const roomsMock = require('../mock/rooms.json')
 const Type = require('../models/Type')
 const Convenience = require('../models/Convenience')
 const Room = require('../models/Room')
-console.log(roomsMock)
 module.exports = async () => {
 const types = await Type.find()
 if(types.length !== typesMock.length){
@@ -14,10 +13,10 @@ const facilities = await Convenience.find()
 if(facilities.length !== facilitiesMock.length){
     createInitialEntity(Convenience, facilitiesMock)
 }
-const rooms = await Room.find()
-if(rooms.length !== roomsMock.length){
-    createInitialEntity(Room, roomsMock)
-}
+// const rooms = await Room.find()
+// if(rooms.length !== roomsMock.length){
+//     createInitialEntity(Room, roomsMock)
+// }
 }
 
 async function createInitialEntity(Model, data) {

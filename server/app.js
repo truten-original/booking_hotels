@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const mongoose = require('mongoose')
 const config = require('config')
 const chalk = require('chalk')
@@ -10,7 +11,7 @@ const app = express()
 // } else {
 //     console.log('development')
 // }
-
+app.use(cors())
 app.use(express.json(), express.urlencoded({extended: false}))
 app.use('/api', routes)
 const PORT = config.get('port') ?? 8080

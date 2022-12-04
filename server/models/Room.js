@@ -5,15 +5,11 @@ const schema = new Schema(
     name: {
       type: String,
     },
-    images: {
-      type: Array,
-    },
+    images: [String],
     price: Number,
     sleepingPlaces: Number,
-    completeMeetings: Number,
-    type: {type: Schema.Types.ObjectId, ref: 'Type'},
-    qualities: [{type: Schema.Types.ObjectId, ref: 'Convenience'}],
-    rate: Number,
+    type: { type: Schema.Types.ObjectId, ref: 'Type' },
+    facilities: [{ type: Schema.Types.ObjectId, ref: 'Convenience' }],
   },
   {
     timestamps: true,

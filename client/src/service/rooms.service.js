@@ -7,7 +7,7 @@ const roomService = {
     const {content} = data 
     return content
   },
-  create: async (data) => await httpService.put(roomEndpoint, data),
+  create: async (data) => await httpService.post(roomEndpoint, data),
   delete: async (id) => await httpService.delete(roomEndpoint + id)
 }
 
