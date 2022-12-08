@@ -10,7 +10,7 @@ const MyAccardion = ({ items }) => {
   return (
     <div>
       {items.map((item) => (
-        <Accordion key={item.id}>
+        <Accordion key={item._id}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -25,7 +25,7 @@ const MyAccardion = ({ items }) => {
               интервал: {getStringDate(item.arrivalDate)}-
               {getStringDate(item.departureDate)}
             </Typography>
-            <Typography>сумма: {item.price.price} рублей</Typography>
+            <Typography>сумма: {item.price} рублей</Typography>
           </AccordionDetails>
         </Accordion>
       ))}

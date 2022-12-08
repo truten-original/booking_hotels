@@ -9,9 +9,10 @@ import ItemsContainer from '../../../UI/ItemsContainer/ItemsContainer'
 
 const FavouritesList = () => {
   const userId = useSelector(getAuthId)
+
   const favourites = useSelector(userId ? getFavourites : getLocalFavs)
   const favRooms = useSelector(getCurrentRooms(favourites))
-
+  console.log(favRooms)
   return (
     <ContentLayout>
       <Typography sx={{ color: '#eee' }} variant="h6">
@@ -21,7 +22,7 @@ const FavouritesList = () => {
       </Typography>
       <ItemsContainer>
         {favRooms.map((room) => (
-          <FavouriteListItem key={room.id} room={room} />
+          <FavouriteListItem key={room._id} room={room} />
         ))}
       </ItemsContainer>
     </ContentLayout>

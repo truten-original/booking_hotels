@@ -2,24 +2,22 @@ const { Schema, model } = require('mongoose')
 
 const schema = new Schema(
   {
-    content: {
+    comment: {
       type: String,
-      required: true,
+      required: true},
       roomId: {
         type: Schema.Types.ObjectId,
         ref: 'Room',
         required: true
       },
-      // кто оставил комментарий
-      userId: {
+       userId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
-      }
+      },
     },
-  },
   {
-    timestamps: {createdAt: 'created_at'},
+    timestamps: true,
   }
 )
 

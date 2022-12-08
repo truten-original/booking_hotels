@@ -5,16 +5,16 @@ const favouritesService = {
   get: async (userId) => {
     const { data } = await httpService.get(favouritesEndpoint, {
       params: {
-        orderBy: '"userId"',
-        equalTo: `"${userId}"`,
+        orderBy: 'userId',
+        equalTo: `${userId}`,
       },
     })
     const { content } = data
     return content
   },
   create: async (payload) => {
-    const {data} = await httpService.put(
-      favouritesEndpoint + payload.id,
+    const {data} = await httpService.post(
+      favouritesEndpoint,
       payload
     )
     const { content } = data

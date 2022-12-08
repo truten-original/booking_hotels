@@ -14,7 +14,9 @@ const favouritesSlice = createSlice({
       state.isLoading = true
     },
     favouritesRecieved: (state, { payload }) => {
-      state.entities = payload
+      if(payload.length){
+        state.entities = payload
+      } 
       state.isLoading = false
     },
     favouritesRequestFailed: (state, { payload }) => {
@@ -25,7 +27,7 @@ const favouritesSlice = createSlice({
       state.entities.push(payload)
     },
     favouriteRemoved: (state, { payload }) => {
-      state.entities = state.entities.filter((item) => item.id !== payload)
+      state.entities = state.entities.filter((item) => item._id !== payload)
     },
     localFavouriteCreated: (state, { payload }) => {
       state.localEntities.push(payload)
@@ -64,7 +66,12 @@ const favouriteRemoveRequesteFailed = createAction(
 export const loadFavourites = (userId) => async (dispatch) => {
   dispatch(favouritesRequested())
   try {
-    const data = await favouritesService.get(userId)
+    let data
+    if(userId){
+       data = await favouritesService.get(userId)
+    } else {
+      data = []
+    }
     dispatch(favouritesRecieved(data))
   } catch (error) {
     dispatch(favouritesRequestFailed(error.message))
@@ -88,7 +95,7 @@ export const removeFavourite = (id) => async (dispatch) => {
   dispatch(favouriteRemoveRequested())
   try {
     const data = await favouritesService.remove(id)
-    if (data === null) {
+    if (data === null || data === '') {
       dispatch(favouriteRemoved(id))
     }
   } catch (error) {

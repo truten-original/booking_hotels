@@ -9,7 +9,7 @@ import TextButton from '../../../UI/TextButton/TextButton'
 
 const AdminRoomItem = ({ room, fullBooks }) => {
   const [showBookings, setShowBookings] = useState(false)
-  const currentBookings = fullBooks.filter((book) => book.roomId === room.id)
+  const currentBookings = fullBooks.filter((book) => book.roomId === room._id)
   const handleClick = () => {
     setShowBookings(true)
   }

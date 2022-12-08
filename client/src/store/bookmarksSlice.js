@@ -26,7 +26,7 @@ const bookmarksSlice = createSlice({
       state.entities.push(payload)
     },
     bookmarkUpdated: (state, { payload }) => {
-      const index = state.entities.findIndex((b) => b.id === payload.id)
+      const index = state.entities.findIndex((b) => b._id === payload._id)
       state.entities[index] = payload
     },
   },
@@ -60,9 +60,11 @@ export const loadBookmarks = () => async (dispatch) => {
 export const createOrUpadateBookmark =
   (payload) => async (dispatch, getState) => {
     const { entities } = getState().bookmarks
-    if (entities.findIndex((item) => item.id === payload.id) !== -1) {
+    const index = entities.findIndex((item) => item.userId === payload.userId)
+    if ( index !== -1) {
       dispatch(updateRequested())
       try {
+        console.log(payload)
         const data = await bookmarksService.update(payload)
         dispatch(bookmarkUpdated(data))
       } catch (error) {
@@ -87,9 +89,9 @@ export const getCurrentUserForCurrentRoomBookmark = (payload) => (state) => {
     (book) => (book.roomId === payload.roomId && book.userId === payload.userId)
   )
   if (book !== undefined) {
-    return book.bookmark
+    return book
   } else {
-    return 0
+    return null
   }
 }
 

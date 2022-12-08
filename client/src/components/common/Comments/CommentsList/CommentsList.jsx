@@ -11,6 +11,7 @@ const CommentsList = ({ roomId }) => {
   const [show, setShow] = useState(true)
   const isLoading = useSelector(getCommentsLoadingStatus())
   const comments = useSelector(getCommentsForCurrentRoom(roomId))
+  console.log(comments)
   const buttonHandleClick = () => {
     setShow((prev) => !prev)
   }
@@ -25,7 +26,7 @@ const CommentsList = ({ roomId }) => {
           {comments.length ? (
             <ul style={{ listStyleType: 'none' }}>
               {comments.map((comment) => (
-                <Comment key={comment.id} comment={comment} />
+                <Comment key={comment._id} comment={comment} />
               ))}
             </ul>
           ) : (

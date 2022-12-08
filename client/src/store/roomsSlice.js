@@ -42,7 +42,7 @@ export const loadRooms = () => async (dispatch) => {
   }
 }
 export const getCurrentRoom = (id) => (state) =>
-  state.rooms.entities.find((room) => room.id === id)
+  state.rooms.entities.find((room) => room._id === id)
 const allRooms = (state) => state.rooms.entities
 export const getRooms = createSelector(
   [allRooms, getCurrentFilter, getBookmarks],
@@ -70,9 +70,8 @@ export const getRooms = createSelector(
 export const getRoomsWithBookingStatus = createSelector(
   [allRooms, getBookings],
   (rooms, books) => {
-    // const roomsWithBookingStatus = []
     const roomsWithBookingStatus = rooms.map((room) => {
-      const currentBooks = books.filter((item) => item.roomId === room.id)
+      const currentBooks = books.filter((item) => item.roomId === room._id)
       if (currentBooks.length) {
         return  currentBooks.map((book) => {
           return {
@@ -96,7 +95,7 @@ export const getCurrentRooms = (favArr) => (state) => {
   const rooms = state.rooms.entities
   for (const room of rooms) {
     for (const fav of favArr) {
-      if (room.id === fav.roomId) {
+      if (room._id === fav.roomId) {
         resArr.push(room)
       }
     }
@@ -104,7 +103,7 @@ export const getCurrentRooms = (favArr) => (state) => {
   return resArr
 }
 export const getRoom = (id) => (state) =>
-  state.rooms.entities.find((r) => r.id === id)
+  state.rooms.entities.find((r) => r._id === id)
 export const getAllRooms = (state) => state.rooms.entities
 export const getRoomsSortParams = () => (state) => state.rooms.sortItems
 export const getRoomsLoadingStatus = (state) => state.rooms.isLoading

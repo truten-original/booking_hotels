@@ -1,6 +1,7 @@
-import { useState } from 'react'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import { Button } from '@mui/material'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   createFavourite,
@@ -11,8 +12,6 @@ import {
   removeLocalFavourite,
 } from '../../../../store/favouritesSlice'
 import { getAuthId } from '../../../../store/usersSlice'
-import { createId } from '../../../../utils/createId'
-import { Button } from '@mui/material'
 const FavouriteIcon = ({ roomId, ...props }) => {
   const userId = useSelector(getAuthId)
   const dispatch = useDispatch()
@@ -25,13 +24,12 @@ const FavouriteIcon = ({ roomId, ...props }) => {
   const changeFavourite = () => {
     if (userId) {
       if (favourite) {
-        dispatch(removeFavourite(currentFavourite.id))
+        dispatch(removeFavourite(currentFavourite._id))
       } else {
         dispatch(
           createFavourite({
             roomId,
             userId,
-            id: createId(),
           })
         )
       }

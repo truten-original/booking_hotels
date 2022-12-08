@@ -18,7 +18,7 @@ const RoomItem = ({ room }) => {
   const isLoading = useSelector(getRoomsLoadingStatus)
   const isLoadingFavourites = useSelector(getFavouritesLoadingStatus)
   const AboutPageHandleClick = () => {
-    navigate(`/rooms/${room.id}`)
+    navigate(`/rooms/${room._id}`)
   }
   return (
     <>
@@ -54,10 +54,8 @@ const RoomItem = ({ room }) => {
               >
                 Подробнее
               </Button>
-              {/* <Button color="secondary" size="medium"> */}
-              <FavouriteIcon roomId={room.id} />
-              {/* </Button> */}
-              <BookmarkComponent roomId={room.id} />
+              <FavouriteIcon roomId={room._id} />
+              <BookmarkComponent roomId={room._id} />
             </CardActions>
             <CardContent sx={{ display: 'flex', flexDirection: 'column' }}>
               <Typography gutterBottom variant="h5" component="div">

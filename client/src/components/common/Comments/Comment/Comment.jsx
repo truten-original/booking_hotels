@@ -7,10 +7,10 @@ import { removeComment } from '../../../../store/commentsSlice'
 const Comment = ({ comment }) => {
   const dispatch = useDispatch()
   const authUserId = useSelector(getAuthId)
-  const createdTime = displayDate(comment.createdTime)
+  const createdTime = displayDate(Date.parse(comment.createdAt))
   const currentUser = useSelector(getUserById(comment.userId))
   const handleClick = () => {
-    dispatch(removeComment(comment.id))
+    dispatch(removeComment(comment._id))
   }
   return (
     <>

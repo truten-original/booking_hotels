@@ -45,9 +45,9 @@ router.post(
         })
         const tokens = tokenService.generate({ _id: newUser._id })
         await tokenService.save(newUser._id, tokens.refreshToken)
-        res.status(201).send({ ...tokens, userId: newUser._id })
+        res.status(201).send({ ...tokens, userId: newUser._id, currentUser: newUser })
       } catch (error) {
-        console.log("catch")
+        console.log(error)
         res.status(500).json({ message: 'на сервере произошла ошибка' })
       }
     },
@@ -91,7 +91,7 @@ router.post('/signInWithPassword', [
       }
       const tokens = tokenService.generate({ _id: existingUser._id })
       await tokenService.save(existingUser._id, tokens.refreshToken)
-      res.status(200).send({ ...tokens, userId: existingUser._id })
+      res.status(200).send({ ...tokens, userId: existingUser._id, currentUser: existingUser })
     } catch (error) {
       res.status(500).json({ message: 'на сервере произошла ошибка' })
     }

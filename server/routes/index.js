@@ -9,4 +9,5 @@ router.use('/type', require('./type.routes'))
 router.use('/convenience', require('./convenience.routes'))
 router.use('/booking', require('./booking.routes'))
 router.use('/bookmark', require('./bookmark.routes'))
+router.use('/favourite', require('./favourite.routes'))
 module.exports = router

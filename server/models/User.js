@@ -5,7 +5,7 @@ const schema = new Schema(
     name: {
       type: String,
     },
-    surName: {
+    surname: {
       type: String,
     },
     email: {
@@ -18,6 +18,11 @@ const schema = new Schema(
     },
     image: String,
     sex: { type: String, enum: ['male', 'female'] },
+    role: {
+      type: String,
+      enum: ['admin', 'user'],
+      default: 'user'
+    }
   },
   {
     timestamps: true,

@@ -7,7 +7,6 @@ import {
   getCurrentUserForCurrentRoomBookmark,
 } from '../../../store/bookmarksSlice'
 import { getAuthId } from '../../../store/usersSlice'
-import { createId } from '../../../utils/createId'
 import SubmitField from '../../UI/SubmitField/SubmitField'
 
 const BookMarkForm = ({ roomId }) => {
@@ -16,15 +15,16 @@ const BookMarkForm = ({ roomId }) => {
   const book = useSelector(
     getCurrentUserForCurrentRoomBookmark({ userId, roomId })
   )
-  const [bookmarkData, setBookmarkData] = useState({
-    userId,
-    id: createId(),
-    roomId: roomId,
-    bookmark: book,
+  const [bookmarkData, setBookmarkData] = useState(() => {
+    return {
+      userId,
+      roomId,
+      bookmark: book ? book.bookmark : 0,
+    }
   })
   const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(createOrUpadateBookmark(bookmarkData))
+    dispatch(createOrUpadateBookmark({ ...book, ...bookmarkData }))
   }
   return (
     <Box
@@ -33,8 +33,9 @@ const BookMarkForm = ({ roomId }) => {
       onSubmit={(e) => handleSubmit(e)}
     >
       <Typography variant="h6">оценка:</Typography>
+
       <Rating
-        size="large"
+        size="medium"
         sx={{ color: '#1976d2', px: '10px' }}
         value={bookmarkData.bookmark}
         onChange={(e) => {
@@ -44,7 +45,11 @@ const BookMarkForm = ({ roomId }) => {
           }))
         }}
       />
-      <SubmitField value="отправить" type="submit" />
+      <SubmitField
+        disabled={bookmarkData.bookmark === 0}
+        value="отправить"
+        type="submit"
+      />
     </Box>
   )
 }

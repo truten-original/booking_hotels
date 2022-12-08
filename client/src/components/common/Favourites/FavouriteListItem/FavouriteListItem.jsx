@@ -17,8 +17,12 @@ const FavouriteListItem = ({ room }) => {
           borderRadius: '10px',
         }}
       >
-        <FavouriteIcon roomId={room.id} />
-        <TextButton onClick={bookingHandleClick} id={room.id} color="secondary">
+        <FavouriteIcon roomId={room._id} />
+        <TextButton
+          onClick={bookingHandleClick}
+          id={room._id}
+          color="secondary"
+        >
           забронировать
         </TextButton>
       </Box>

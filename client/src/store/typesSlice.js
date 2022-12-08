@@ -40,6 +40,6 @@ export const loadTypes = () => async (dispatch) => {
 }
 export const getTypes = () => (state) => state.types.entities
 export const getCurrentType = (id) => (state) =>
-  state.types.entities.find((type) => type.id === id)
+  state.types.entities.find((type) => type._id === id)
 export const getTypesLoadingStatus = () => (state) => state.types.isLoading
 export default typesReducer

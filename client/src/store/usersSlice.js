@@ -34,7 +34,7 @@ const usersSlice = createSlice({
     },
     usersRecieved: (state, { payload }) => {
       state.entities = payload
-      state.currentUser = state.entities.find(user => user.id === state.auth.userId)
+      state.currentUser = state.entities.find(user => user._id === state.auth.userId)
       state.isLoading = false
     },
     usersRequestFailed: (state, { payload }) => {
@@ -49,12 +49,10 @@ const usersSlice = createSlice({
       state.entities.push(payload)
       state.isLoading = false
     },
-    userRemoved: (state, { payload }) => {
-      state.entities.filter((user) => user.id !== payload)
-    },
     userUpdated: (state, { payload }) => {
-      const index = state.entities.findIndex((user) => user.id === payload.id)
+      const index = state.entities.findIndex((user) => user._id === payload._id)
       state.entities[index] = { ...payload }
+      state.currentUser = payload
     },
     userLoggedout: (state) => {
       state.isLoggedIn = false
@@ -69,13 +67,15 @@ const usersSlice = createSlice({
     },
     authRequestSucces: (state, { payload }) => {
       state.auth = payload
-      state.currentUser = state.entities.find(user => user.id === payload.userId)
       state.isLoggedIn = true
       state.isAuthLoading = false
     },
     authRequestFailed: (state, { payload }) => {
       state.error = payload
       state.isAuthLoading = false
+    },
+    currentUserRecieved: (state, {payload}) => {
+      state.currentUser = payload
     },
     adminLoggedIn: (state) => {
       state.isAdmin = true
@@ -84,10 +84,7 @@ const usersSlice = createSlice({
 })
 const userUpdateRequested = createAction('users/userUpdateRequested')
 const userUpdateRequestFailed = createAction('users/userUpdateRequestFailed')
-const userRemoveRequested = createAction('users/userRemoveRequest')
-const userRemoveRequestFailed = createAction('users/userRemoveRequest')
-const userCreateRequestFailed = createAction('users/userCreateRequestFailed')
-
+const currentUserRecieveFailed = createAction('users/currentUserRecieveFailed')
 const { reducer: usersReducer, actions } = usersSlice
 const {
   authRequestFailed,
@@ -95,34 +92,20 @@ const {
   authRequested,
   userLoggedout,
   userUpdated,
-  userRemoved,
-  userCreated,
   usersRequestFailed,
   usersRecieved,
   usersRequested,
-  adminLoggedIn
+  adminLoggedIn,
+  currentUserRecieved
 } = actions
-const userCreatedRequest = createAction('users/userCreatedRequest')
 export const signUp =
-  ({ email, password, type, ...rest }) =>
+  ({type, ...rest}) =>
   async (dispatch) => {
     dispatch(authRequested())
     try {
-      const data = await authService.register({ email, password })
+      const data = await authService.register(rest)
       localStorageService.setTokens(data)
-      dispatch(authRequestSucces({ userId: data.localId }))
-      dispatch(
-        userCreate({
-          id: data.localId,
-          email,
-          image: `https://avatars.dicebear.com/api/avataaars/${(
-            Math.random() + 1
-          )
-            .toString(36)
-            .substring(7)}.svg`,
-          ...rest,
-        })
-      )
+      dispatch(authRequestSucces({ userId: data.userId}))
       redirect('/rooms')
     } catch (error) {
       const { response } = error
@@ -141,12 +124,12 @@ export const signIn =
     try {
       const data = await authService.login({ email, password })
       console.log(data)
-      if (data.localId === process.env.REACT_APP_ADMIN_ID) {
+      if (data.userId === process.env.REACT_APP_ADMIN_ID) {
         localStorageService.setAdminToken()
         dispatch(adminLoggedIn())
       }
       localStorageService.setTokens(data)
-      dispatch(authRequestSucces({ userId: data.localId }))
+      dispatch(authRequestSucces({ userId: data.userId}))
       redirect('/rooms')
     } catch (error) {
       const { response } = error
@@ -161,21 +144,18 @@ export const signIn =
       }
     }
   }
-const userCreate = (payload) => async (dispatch) => {
-  dispatch(userCreatedRequest())
-  try {
-    const data = await usersService.create(payload)
-    dispatch(userCreated(data))
-  } catch (error) {
-    dispatch(userCreateRequestFailed(error.message))
-  }
-}
-
 export const userLogout = () => (dispatch) => {
   dispatch(userLoggedout())
   localStorageService.removeAuthData()
 }
-
+export const getCurrentUserData = (payload) => async (dispatch) => {
+  try {
+    const data = await usersService.getCurrentUser(payload)
+    dispatch(currentUserRecieved(data))
+  } catch (error) {
+    dispatch(currentUserRecieveFailed(error.message))
+  }
+} 
 export const updateUser = (payload) => async (dispatch) => {
   dispatch(userUpdateRequested())
   try {
@@ -205,9 +185,9 @@ export const getUsers  = (state) => state.users.entities
 export const getUsersLoadingStatus = (state) => state.users.isLoading
 export const getAuthLoadingStatus = (state) => state.users.isAuthLoading
 export const getUserById = (id) => (state) =>
-  state.users.entities.find((user) => user.id === id)
+  state.users.entities.find((user) => user._id === id)
 export const getAuthId = (state) => state.users.auth?.userId
 export const getLoggedStatus = () => (state) => state.users.isLoggedIn
 export const getLoggedUser = () => (state) =>
-  state.users.entities.find((user) => user.id === state.users.auth.userId)
+  state.users.entities.find((user) => user._id === state.users.auth.userId)
 export default usersReducer

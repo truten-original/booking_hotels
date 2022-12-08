@@ -15,7 +15,7 @@ const BookingsList = () => {
       </Typography>
       <Box sx={{ display: 'flex', flexDirection: 'column', rowGap: '2vh' }}>
         {bookings.map((book) => (
-          <BookingListItem key={book.id} book={book} />
+          <BookingListItem key={book._id} book={book} />
         ))}
       </Box>
     </ContentLayout>

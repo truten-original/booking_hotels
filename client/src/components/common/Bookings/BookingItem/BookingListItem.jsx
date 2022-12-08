@@ -29,7 +29,7 @@ const BookingListItem = ({ book }) => {
         >{`${getStringDate(book.arrivalDate)} - ${getStringDate(
           book.departureDate
         )}`}</Typography>
-        <TextButton onClick={deleteBooking} id={book.id} color="secondary">
+        <TextButton onClick={deleteBooking} id={book._id} color="secondary">
           отказаться от бронирования
         </TextButton>
       </Box>

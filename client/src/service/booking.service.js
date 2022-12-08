@@ -19,13 +19,15 @@ const bookingService = {
     return content
   },
   create: async (payload) => {
-    const { data } = await httpService.put(bookingEndpoint + payload.id, payload)
+    const { data } = await httpService.post(bookingEndpoint, payload)
     const { content } = data
     return content
   },
   delete: async (id) => {
     const { data } = await httpService.delete(bookingEndpoint + id)
     const { content } = data
+    console.log(data)
+    console.log(content)
     return content
   },
 }

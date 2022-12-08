@@ -21,7 +21,7 @@ const commentsSlice = createSlice({
     },
     
     commentRemoved: (state, { payload }) => {
-      state.entities = state.entities.filter((comment) => comment.id !== payload)
+      state.entities = state.entities.filter((comment) => comment._id !== payload)
     },
     commentRemoveRequestFailed: (state, { paylaod }) => {
       state.error = paylaod
@@ -74,7 +74,7 @@ export const removeComment = (id) => async (dispatch) => {
   dispatch(commentRemoveRequest())
   try {
     const data = await commentsService.delete(id)
-    if (data === null) {
+    if (data === null || data === '') {
       dispatch(commentRemoved(id))
     }
   } catch (error) {
@@ -82,7 +82,7 @@ export const removeComment = (id) => async (dispatch) => {
   }
 }
 
-export const getCommentsForCurrentRoom = () => (state) => _.orderBy(state.comments.entities, ['createdTime'], ['desc']) 
+export const getCommentsForCurrentRoom = () => (state) => _.orderBy(state.comments.entities, ['createdAt'], ['desc']) 
 export const getCommentsLoadingStatus = () => (state) => state.comments.isLoading
 
 export default commentsReducer

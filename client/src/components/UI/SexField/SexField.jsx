@@ -15,12 +15,21 @@ const SexField = ({ register, defaultValue }) => {
     >
       <RadioGroup
         row
-        defaultValue={defaultValue || 'female'}
+        defaultValue={defaultValue || 'male'}
         name="radio-buttons-group"
-        {...register('sex')}
       >
-        <FormControlLabel value="female" control={<Radio />} label="Женщина" />
-        <FormControlLabel value="male" control={<Radio />} label="Мужчина" />
+        <FormControlLabel
+          {...register('sex')}
+          value="female"
+          control={<Radio />}
+          label="Женщина"
+        />
+        <FormControlLabel
+          {...register('sex')}
+          value="male"
+          control={<Radio />}
+          label="Мужчина"
+        />
       </RadioGroup>
     </Box>
   )

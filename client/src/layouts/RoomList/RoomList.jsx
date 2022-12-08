@@ -142,7 +142,7 @@ const RoomList = () => {
             {!isLoadingBookings && !isLoadingBookmarks && (
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
                 {filteredRooms.map((room) => (
-                  <RoomItem room={room} key={room.id} />
+                  <RoomItem room={room} key={room._id} />
                 ))}
               </Box>
             )}

@@ -32,18 +32,14 @@ const BookingForm = ({ room }) => {
   const [bookingData, setBookingData] = useState({
     arrivalDate: Date.now(),
     departureDate: Date.now() + 86400000,
-    userId,
-    roomId: room.id,
+    roomId: room._id,
     guestsCount: 1,
-    id: createId(),
-    price: {
-      price: isFullPay
-        ? getRoomPrice(room.price, 5).price
-        : getRoomPrice(room.price).price,
-      discount: isFullPay
-        ? getRoomPrice(room.price, 5).discount
-        : getRoomPrice(room.price).discount,
-    },
+    price: isFullPay
+      ? getRoomPrice(room.price, 5).price
+      : getRoomPrice(room.price).price,
+    discount: isFullPay
+      ? getRoomPrice(room.price, 5).discount
+      : getRoomPrice(room.price).discount,
   })
 
   const [isValidDate, setIsValidDate] = useState(null)

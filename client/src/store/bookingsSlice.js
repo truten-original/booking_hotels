@@ -34,9 +34,9 @@ const bookingsSlice = createSlice({
       state.isLoading = false
     },
     bookingRemoved: (state, { payload }) => {
-      state.entities = state.entities.filter((b) => b.id !== payload)
+      state.entities = state.entities.filter((b) => b._id !== payload)
       state.currentRoomEntities = state.currentRoomEntities.filter(
-        (b) => b.id !== payload
+        (b) => b._id !== payload
       )
     },
     bookingCreated: (state, { payload }) => {
@@ -102,7 +102,7 @@ export const removeBooking = (id) => async (dispatch) => {
   dispatch(bookingRemoveRequested())
   try {
     const data = await bookingService.delete(id)
-    if (data === null) {
+    if (data === null || data === '') {
       dispatch(bookingRemoved(id))
     }
   } catch (error) {
@@ -126,8 +126,8 @@ export const getFullInfoBookings = createSelector(
   (books, rooms, users) => {
     if (rooms.length && users.length) {
       const resArr = books.map((book) => {
-        const user = users.find((user) => user.id === book.userId)
-        const room = rooms.find((room) => room.id === book.roomId)
+        const user = users.find((user) => user._id === book.userId)
+        const room = rooms.find((room) => room._id === book.roomId)
         return {
           ...book,
           roomName: room.name,

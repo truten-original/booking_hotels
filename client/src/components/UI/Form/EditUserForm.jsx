@@ -15,6 +15,7 @@ const EditUserForm = ({ user, setModalVisible }) => {
   } = useForm()
 
   const handlerFormSubmit = (data) => {
+    console.log(data)
     setModalVisible(false)
     dispatch(updateUser({ ...user, ...data }))
   }

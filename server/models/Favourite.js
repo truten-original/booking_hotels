@@ -2,23 +2,6 @@ const { Schema, model } = require('mongoose')
 
 const schema = new Schema(
   {
-    arrivalDate: {
-      type: Number,
-      required: true,
-    },
-    departureDate: {
-      type: Number,
-      required: true,
-    },
-    guestsCount: {
-      type: Number,
-      required: true,
-      default: 1,
-      min: 1,
-      max: 8
-    },
-    price: Number,
-    discount: Number,
       roomId: {
         type: Schema.Types.ObjectId,
         ref: 'Room',
@@ -35,4 +18,4 @@ const schema = new Schema(
   }
 )
 
-module.exports = model('Booking', schema)
+module.exports = model('Favourite', schema)

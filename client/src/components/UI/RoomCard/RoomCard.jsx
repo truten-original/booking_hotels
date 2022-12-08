@@ -1,6 +1,4 @@
 import { Typography } from '@mui/material'
-import { useState } from 'react'
-import MyModal from '../MyModal/MyModal'
 import RoomFacilities from '../RoomFacilities/RoomFacilities'
 import RoomPrice from '../RoomPrice/RoomPrice'
 

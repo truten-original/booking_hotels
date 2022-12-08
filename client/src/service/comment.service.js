@@ -14,7 +14,7 @@ const commentsService = {
     return content
   },
   create: async (payload) => {
-    const { data } = await httpService.put(commentEndpoint + payload.id, payload)
+    const { data } = await httpService.post(commentEndpoint, payload)
     const { content } = data
     return content
   },

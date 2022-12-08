@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { createComment } from '../../../../store/commentsSlice'
 import { getAuthId } from '../../../../store/usersSlice'
-import { createId } from '../../../../utils/createId'
 import SubmitField from '../../../UI/SubmitField/SubmitField'
 
 const CommentForm = ({ roomId }) => {
@@ -27,7 +26,6 @@ const CommentForm = ({ roomId }) => {
       ...data,
       roomId,
       userId: currentUserId,
-      id: createId(),
       createdTime: Date.now(),
     }
     setInputValue('')

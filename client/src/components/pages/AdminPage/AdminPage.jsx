@@ -24,7 +24,7 @@ const AdminPage = () => {
         )
         const resArr = []
         for (const book of allBookingsRooms) {
-          if (!resArr.find((item) => item.id === book.id)) {
+          if (!resArr.find((item) => item._id === book._id)) {
             resArr.push(book)
           }
         }
@@ -53,7 +53,7 @@ const AdminPage = () => {
       />
       <ItemsContainer>
         {currentGroup?.map((room) => (
-          <AdminRoomItem key={room.id} room={room} fullBooks={fullInfoBooks} />
+          <AdminRoomItem key={room._id} room={room} fullBooks={fullInfoBooks} />
         ))}
       </ItemsContainer>
     </ContentLayout>

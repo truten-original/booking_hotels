@@ -2,12 +2,12 @@ const { Schema, model } = require('mongoose')
 
 const schema = new Schema(
   {
-    value: {
+    bookmark: {
       type: Number,
       required: true,
-      default: 0,
       min: 1,
       max: 5,
+    },
       roomId: {
         type: Schema.Types.ObjectId,
         ref: 'Room',
@@ -19,9 +19,8 @@ const schema = new Schema(
         required: true
       }
     },
-  },
   {
-    timestamps: {createdAt: 'created_at'},
+    timestamps: true,
   }
 )
 

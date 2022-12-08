@@ -20,6 +20,7 @@ const RegisterForm = ({ isLoading }) => {
     resolver: yupResolver(schemaRegister),
   })
   const handlerFormSubmit = (data) => {
+    console.log(data)
     dispatch(signUp({ ...data, registerDate: Date.now(), type: 'signUp' }))
   }
   return (
