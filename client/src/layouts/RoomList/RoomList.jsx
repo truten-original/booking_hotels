@@ -6,8 +6,9 @@ import Select from '@mui/material/Select'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useParams } from 'react-router-dom'
-import ContentLayout from '../../components/UI/ContentLayout/ContentLayout'
-import RoomItem from '../../components/UI/RoomItem'
+import ContentLayout from '../../components/common/ContentLayout'
+import RoomItem from '../../components/common/RoomItem/RoomItem'
+import Footer from '../../components/UI/Footer/Footer'
 import {
   getBookingLoadingStatus,
   getCurrentUserBookings,
@@ -64,100 +65,121 @@ const RoomList = () => {
     : availableRooms
   if (rooms)
     return (
-      <ContentLayout>
-        {roomId ? (
-          <Outlet />
-        ) : (
-          <>
-            <Box sx={{ display: 'flex', alignItems: 'baseline' }}>
-              <TextField
-                color="secondary"
-                label="Поиск"
-                type="search"
-                variant="standard"
-                value={searchQuery}
-                onChange={(event) => {
-                  setSearchQuery(event.target.value)
-                }}
+      <>
+        <ContentLayout>
+          {roomId ? (
+            <Outlet />
+          ) : (
+            <>
+              <Box
                 sx={{
-                  mb: 2,
-                  fontSize: '20px',
-                  width: '33%',
+                  display: 'flex',
+                  mb: '20px',
                   backgroundColor: '#eee',
                   borderRadius: '10px',
-                }}
-              />
-              <FormControl
-                color="secondary"
-                variant="standard"
-                sx={{
-                  m: 1,
-                  minWidth: 210,
-                  backgroundColor: '#eee',
-                  borderRadius: '10px',
+                  p: '4px 5px',
+                  justifyContent: 'space-around',
+                  flexDirection: {
+                    xs: 'column',
+                    md: 'row',
+                  },
+                  rowGap: '0.5vh',
                 }}
               >
-                <InputLabel>сортировать:</InputLabel>
-                <Select
-                  value={sortParam}
-                  onChange={(e) => {
-                    dispatch(changeFilter(e.target.value))
+                <TextField
+                  color="secondary"
+                  label="Поиск"
+                  type="search"
+                  variant="standard"
+                  value={searchQuery}
+                  onChange={(event) => {
+                    setSearchQuery(event.target.value)
+                  }}
+                  sx={{
+                    fontSize: '20px',
+                    width: {
+                      xs: '100%',
+                      md: '40%',
+                    },
+                    backgroundColor: '#eee',
+                    borderRadius: '10px',
+                  }}
+                />
+                <FormControl
+                  color="secondary"
+                  variant="standard"
+                  sx={{
+                    borderRadius: '10px',
+                    minWidth: '200px',
                   }}
                 >
-                  {sortParams.map((item) => (
-                    <MenuItem key={item.value} value={item.value}>
-                      {item.description}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl
-                color="secondary"
-                variant="standard"
-                sx={{
-                  m: 1,
-                  minWidth: 210,
-                  backgroundColor: '#eee',
-                  borderRadius: '10px',
-                }}
-              >
-                <InputLabel>отобразить:</InputLabel>
-                <Select
-                  value={quantityItems.quantity}
-                  onChange={(e) => {
-                    setQuantityItems((prev) => ({
-                      ...prev,
-                      quantity: e.target.value,
-                    }))
+                  <InputLabel>сортировать:</InputLabel>
+                  <Select
+                    value={sortParam}
+                    onChange={(e) => {
+                      dispatch(changeFilter(e.target.value))
+                    }}
+                  >
+                    {sortParams.map((item) => (
+                      <MenuItem key={item.value} value={item.value}>
+                        {item.description}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl
+                  color="secondary"
+                  variant="standard"
+                  sx={{
+                    minWidth: 210,
+                    backgroundColor: '#eee',
                   }}
                 >
-                  {quantityArr.map((item) => (
-                    <MenuItem key={item} value={item}>
-                      {'по ' + item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-            {!isLoadingBookings && !isLoadingBookmarks && (
-              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-                {filteredRooms.map((room) => (
-                  <RoomItem room={room} key={room._id} />
-                ))}
+                  <InputLabel>отобразить:</InputLabel>
+                  <Select
+                    value={quantityItems.quantity}
+                    onChange={(e) => {
+                      setQuantityItems((prev) => ({
+                        ...prev,
+                        quantity: e.target.value,
+                      }))
+                    }}
+                  >
+                    {quantityArr.map((item) => (
+                      <MenuItem key={item} value={item}>
+                        {'по ' + item}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </Box>
-            )}
-            <Pagination
-              page={quantityItems.currentPage}
-              onChange={(_, page) =>
-                setQuantityItems((prev) => ({ ...prev, currentPage: page }))
-              }
-              sx={{ mt: '1rem', alignContent: 'center' }}
-              count={Math.ceil(rooms.length / quantityItems.quantity)}
-              color="secondary"
-            />
-          </>
-        )}
-      </ContentLayout>
+              {!isLoadingBookings && !isLoadingBookmarks && (
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '20px',
+                    justifyContent: 'space-around',
+                  }}
+                >
+                  {filteredRooms.map((room) => (
+                    <RoomItem room={room} key={room._id} />
+                  ))}
+                </Box>
+              )}
+              <Pagination
+                page={quantityItems.currentPage}
+                onChange={(_, page) =>
+                  setQuantityItems((prev) => ({ ...prev, currentPage: page }))
+                }
+                sx={{ mt: '1rem', alignContent: 'center' }}
+                count={Math.ceil(rooms.length / quantityItems.quantity)}
+                color="secondary"
+              />
+            </>
+          )}
+        </ContentLayout>
+      </>
     )
 }
 

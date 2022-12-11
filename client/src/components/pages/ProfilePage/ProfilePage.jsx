@@ -3,17 +3,18 @@ import { Box } from '@mui/system'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { getCurrentUser, getLoggedUser } from '../../../store/usersSlice'
+import { getCurrentUser } from '../../../store/usersSlice'
 import { getGender } from '../../../utils/getGender'
 import { getStringDate } from '../../../utils/getStringDate'
-import ContentLayout from '../../UI/ContentLayout/ContentLayout'
-import EditUserForm from '../../UI/Form/EditUserForm'
-import MyModal from '../../UI/MyModal/MyModal'
-import TextButton from '../../UI/TextButton/TextButton'
+import ContentLayout from '../../common/ContentLayout'
+import EditUserForm from '../../UI/EditUserForm'
+import MyModal from '../../common/MyModal'
+import TextButton from '../../common/TextButton'
+import { useToggle } from '../../../hooks/useToggle'
 const ProfilePage = () => {
   const navigate = useNavigate()
   const user = useSelector(getCurrentUser)
-  const [modalVisible, setModalVisible] = useState(false)
+  const [modalVisible, setModalVisible] = useToggle(false)
   const handleBookingClick = () => {
     navigate('/booking')
   }
@@ -33,6 +34,11 @@ const ProfilePage = () => {
               alignItems: 'center',
               justifyContent: 'space-around',
               pointerEvents: modalVisible ? 'none' : 'auto',
+              flexDirection: {
+                xs: 'column',
+                md: 'row',
+              },
+              rowGap: '1vh',
             }}
           >
             <Box
@@ -71,6 +77,10 @@ const ProfilePage = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-around',
+                flexDirection: {
+                  xs: 'column',
+                  md: 'row',
+                },
               }}
             >
               <Box
@@ -93,7 +103,7 @@ const ProfilePage = () => {
               <Box>
                 <Typography>пол: {getGender(user.sex)}</Typography>
                 <Typography>
-                  дата регистрации: {getStringDate(user.registerDate)}
+                  дата регистрации: {getStringDate(Date.parse(user.createdAt))}
                 </Typography>
               </Box>
               <TextButton

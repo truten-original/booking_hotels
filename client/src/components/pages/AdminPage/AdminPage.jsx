@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { getFullInfoBookings } from '../../../store/bookingsSlice'
 import { getRoomsWithBookingStatus } from '../../../store/roomsSlice'
-import ContentLayout from '../../UI/ContentLayout/ContentLayout'
-import ItemsContainer from '../../UI/ItemsContainer/ItemsContainer'
-import MyToogleButton from '../../UI/MyToogleButton/MyToogleButton'
-import AdminRoomItem from './AdminRoomItem/AdminRoomItem'
+import ContentLayout from '../../common/ContentLayout'
+import ItemsContainer from '../../common/ItemsContainer'
+import MyToogleButton from '../../common/MyToogleButton/MyToogleButton'
+import AdminRoomItem from './AdminRoomItem'
 
 const AdminPage = () => {
   const [value, setValue] = useState('bookingRooms')

@@ -10,11 +10,11 @@ import {
   getCurrentRoom,
   getRoomsLoadingStatus,
 } from '../../../store/roomsSlice'
-import BookMarkForm from '../../common/BookamrkForm/BookMarkForm'
-import BookingForm from '../../common/Bookings/BookingForm/BookingForm'
-import CommentWrapper from '../../common/Comments/CommentWrapper/CommentWrapper'
-import RoomDescription from '../../common/RoomDescription/RoomDescription'
-import ImagesSlider from '../../common/Slider/ImagesSlider'
+import BookMarkForm from '../../UI/Bookmarks/BookamrkForm'
+import BookingForm from '../../UI/Bookings/BookingForm'
+import CommentWrapper from '../../UI/Comments/CommentWrapper'
+import RoomDescription from '../../UI/RoomDescription'
+import ImagesSlider from '../../UI/Slider/ImagesSlider'
 
 const RoomPage = () => {
   const dispatch = useDispatch()

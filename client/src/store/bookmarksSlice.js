@@ -64,7 +64,6 @@ export const createOrUpadateBookmark =
     if ( index !== -1) {
       dispatch(updateRequested())
       try {
-        console.log(payload)
         const data = await bookmarksService.update(payload)
         dispatch(bookmarkUpdated(data))
       } catch (error) {

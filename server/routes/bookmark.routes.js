@@ -17,7 +17,6 @@ router.route('/')
     const newBookmark = await Bookmark.create({...req.body, userId: req.user._id})
     res.status(201).send(newBookmark)
   } catch (error) {
-    console.log(error)
     res.status(500).json({ message: 'на сервере произошла ошибка' })
   }
 })
@@ -25,9 +24,7 @@ router.patch('/:bookmarkId',auth, async (req, res) => {
   try{
 
     const {bookmarkId} = req.params
-    console.log(chalk.bgBlue(bookmarkId))
     const currentBookmark = await Bookmark.findById(bookmarkId)
-    console.log(chalk.bgGray(currentBookmark))
     if(currentBookmark.userId.toString() === req.user._id){
         const updatedBookmark = await Bookmark.findByIdAndUpdate(bookmarkId, req.body, {new: true})
       res.send(updatedBookmark)

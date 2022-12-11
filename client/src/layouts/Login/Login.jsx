@@ -2,8 +2,8 @@ import { Typography } from '@mui/material'
 import { Box } from '@mui/system'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-import LoginForm from '../../components/UI/Form/LoginForm'
-import RegisterForm from '../../components/UI/Form/RegisterForm'
+import LoginForm from '../../components/UI/AuthForms/LoginForm'
+import RegisterForm from '../../components/UI/AuthForms/RegisterForm'
 import { getAuthLoadingStatus } from '../../store/usersSlice'
 
 const Login = () => {

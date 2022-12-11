@@ -14,6 +14,7 @@ const commentsService = {
     return content
   },
   create: async (payload) => {
+    console.log(payload)
     const { data } = await httpService.post(commentEndpoint, payload)
     const { content } = data
     return content

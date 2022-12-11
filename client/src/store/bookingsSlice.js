@@ -73,7 +73,7 @@ export const loadBookings = () => async (dispatch) => {
     dispatch(booKingsRecieved(actualData))
     data.forEach((b) => {
       if (b.departureDate < Date.now()) {
-        bookingService.delete(b.id)
+        bookingService.delete(b._id)
       }
     })
   } catch (error) {

@@ -42,7 +42,7 @@ export const getCurrentFacilities = (arr) => (state) => {
   const currentFacilities = []
   for (const el of arr) {
     for (const facil of state.facilities.entities) {
-      if (el === facil.id) {
+      if (el === facil._id) {
         currentFacilities.push(facil)
         break
       }

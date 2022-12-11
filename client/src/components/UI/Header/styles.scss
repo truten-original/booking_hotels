@@ -1,0 +1,21 @@
+.header_navigation_button {
+  opacity: 0.7;
+  &:hover {
+    opacity: 1;
+  }
+ 
+}
+.nav_btn_active {
+  opacity: 1;
+  text-shadow: 0 0 10px pink, 0 0 20px pink;
+}
+.header_container {
+  a {
+    text-decoration: none;
+    margin-left: 10px;
+  }
+}
+.menu_link {
+  text-decoration: none;
+  color: black;
+}

@@ -11,7 +11,9 @@ const commentsSlice = createSlice({
   name: 'comments',
   initialState,
   reducers: {
-    commentsRequested: (state) => {state.isLoading = true},
+    commentsRequested: (state) => {
+      state.isLoading = true
+    },
     commentsRecieved: (state, { payload }) => {
       state.entities = payload
       state.isLoading = false
@@ -19,15 +21,19 @@ const commentsSlice = createSlice({
     commentsRequestFailed: (state, { payload }) => {
       state.entities = payload
     },
-    
+
     commentRemoved: (state, { payload }) => {
-      state.entities = state.entities.filter((comment) => comment._id !== payload)
+      state.entities = state.entities.filter(
+        (comment) => comment._id !== payload
+      )
     },
     commentRemoveRequestFailed: (state, { paylaod }) => {
       state.error = paylaod
       state.isLoading = false
     },
-    commentCreateRequest: (state) => {state.isLoading = true},
+    commentCreateRequest: (state) => {
+      state.isLoading = true
+    },
     commentCreateSucces: (state, { payload }) => {
       state.entities.push(payload)
       state.isLoading = false
@@ -51,7 +57,7 @@ const {
   commentsRequested,
 } = actions
 const commentRemoveRequest = createAction('comments/commentRemoveRequest')
-export const loadComments =  (roomId) => async (dispatch) => {
+export const loadComments = (roomId) => async (dispatch) => {
   dispatch(commentsRequested)
   try {
     const data = await commentsService.get(roomId)
@@ -64,11 +70,11 @@ export const createComment = (payload) => async (dispatch) => {
   dispatch(commentCreateRequest())
   try {
     const data = await commentsService.create(payload)
-    dispatch (commentCreateSucces(data))
+    dispatch(commentCreateSucces(data))
   } catch (error) {
-    dispatch (commentCreateRequestFailed(error.message))
+    dispatch(commentCreateRequestFailed(error.message))
   }
-} 
+}
 
 export const removeComment = (id) => async (dispatch) => {
   dispatch(commentRemoveRequest())
@@ -82,7 +88,9 @@ export const removeComment = (id) => async (dispatch) => {
   }
 }
 
-export const getCommentsForCurrentRoom = () => (state) => _.orderBy(state.comments.entities, ['createdAt'], ['desc']) 
-export const getCommentsLoadingStatus = () => (state) => state.comments.isLoading
+export const getCommentsForCurrentRoom = (roomId) => (state) =>
+  _.orderBy(state.comments.entities.filter(com => com.roomId === roomId), ['createdAt'], ['desc'])
+export const getCommentsLoadingStatus = () => (state) =>
+  state.comments.isLoading
 
 export default commentsReducer

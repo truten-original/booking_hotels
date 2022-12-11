@@ -34,7 +34,6 @@ const usersSlice = createSlice({
     },
     usersRecieved: (state, { payload }) => {
       state.entities = payload
-      state.currentUser = state.entities.find(user => user._id === state.auth.userId)
       state.isLoading = false
     },
     usersRequestFailed: (state, { payload }) => {
@@ -123,7 +122,6 @@ export const signIn =
     dispatch(authRequested())
     try {
       const data = await authService.login({ email, password })
-      console.log(data)
       if (data.userId === process.env.REACT_APP_ADMIN_ID) {
         localStorageService.setAdminToken()
         dispatch(adminLoggedIn())

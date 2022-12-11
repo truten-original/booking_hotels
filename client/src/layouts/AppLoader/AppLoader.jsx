@@ -4,7 +4,11 @@ import { loadBookings } from '../../store/bookingsSlice'
 import { loadFacilities } from '../../store/facilitiesSlice'
 import { loadRooms } from '../../store/roomsSlice'
 import { loadTypes } from '../../store/typesSlice'
-import { getAuthId, getCurrentUserData } from '../../store/usersSlice'
+import {
+  getAuthId,
+  getCurrentUserData,
+  loadUsers,
+} from '../../store/usersSlice'
 
 const AppLoader = () => {
   const dispatch = useDispatch()
@@ -14,6 +18,7 @@ const AppLoader = () => {
     dispatch(loadTypes())
     dispatch(loadFacilities())
     dispatch(loadBookings())
+    dispatch(loadUsers())
   }, [dispatch])
   useEffect(() => {
     if (authId) {

@@ -1,0 +1,10 @@
+.svg_icon {
+    height: 30px;
+    width: 30px;
+    fill: white;
+    opacity: 0.7;
+    cursor: pointer;
+    &:hover{
+        opacity: 1;
+    }
+}

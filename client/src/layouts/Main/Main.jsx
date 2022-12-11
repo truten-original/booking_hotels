@@ -1,5 +1,5 @@
 import { Container } from '@mui/system'
-import ImagesSlider from '../../components/common/Slider/ImagesSlider'
+import ImagesSlider from '../../components/UI/Slider/ImagesSlider'
 import images from '../../assets/images/sliderImages/sliderImages'
 import classes from './Main.module.scss'
 const Main = () => {

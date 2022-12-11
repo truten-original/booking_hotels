@@ -8,8 +8,9 @@ const checkBookingInterval = (currentDate, interval) => {
   const getDateObj = (date) => moment(date).toObject()
   const arrivalCurrentDateObj = getDateObj(currentDate[0])
   const departureCurrentDateObj = getDateObj(currentDate[1])
-  const currentArrivalDateString = moment(getDate(arrivalCurrentDateObj).arr)
-  const departureString = moment(getDate(departureCurrentDateObj).arr)
+  const currentArrivalDateString = moment(getDate(arrivalCurrentDateObj).string, 'YYYY-MM-DD')
+  const departureString = moment(getDate(departureCurrentDateObj).string, 'YYYY-MM-DD')
+
   const daysQuantity = departureString.diff(currentArrivalDateString, 'days')
   const boolResultArr = []
   if (!!interval.length) {
@@ -19,9 +20,9 @@ const checkBookingInterval = (currentDate, interval) => {
     ])
     const intervalArr = interArr.flat()
     if (daysQuantity === 0) {
-      return !moment(getDate(arrivalCurrentDateObj).string).isBetween(
-        intervalArr[0],
-        intervalArr[1],
+      return !moment(getDate(arrivalCurrentDateObj).string,  'YYYY-MM-DD').isBetween(
+       moment(intervalArr[0], 'YYYY-MM-DD') ,
+        moment(intervalArr[1], 'YYYY-MM-DD'),
         undefined,
         '[]'
       )
@@ -39,9 +40,9 @@ const checkBookingInterval = (currentDate, interval) => {
     for (const currentDate of resultArr) {
       for (const interval of interArr) {
         if (
-          moment(currentDate).isBetween(
-            interval[0],
-            interval[1],
+          moment(moment(currentDate, 'YYYY-MM-DD')).isBetween(
+            moment(interval[0], 'YYYY-MM-DD'),
+            moment(interval[1], 'YYYY-MM-DD'),
             undefined,
             '[]'
           )

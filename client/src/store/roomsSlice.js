@@ -54,7 +54,7 @@ export const getRooms = createSelector(
       return _.orderBy(rooms, ['price'], ['asc'])
     } else if (filter === 'raiting') {
       const roomsWithBooksArr = rooms.map((room) => {
-        const currentBookArr = books.filter((b) => b.roomId === room.id)
+        const currentBookArr = books.filter((b) => b.roomId === room._id)
         if (currentBookArr.length !== 0) {
           return { ...room, bookmark: calculateRaiting(currentBookArr) }
         } else {
@@ -63,7 +63,9 @@ export const getRooms = createSelector(
       })
       return _.orderBy(roomsWithBooksArr, ['bookmark'], ['desc'])
     } else {
-      return _.orderBy(rooms, [`${filter}`], ['desc'])
+      return [...rooms].sort(
+        (a, b) => b[`${filter}`].length - a[`${filter}`].length
+      )
     }
   }
 )
@@ -73,7 +75,7 @@ export const getRoomsWithBookingStatus = createSelector(
     const roomsWithBookingStatus = rooms.map((room) => {
       const currentBooks = books.filter((item) => item.roomId === room._id)
       if (currentBooks.length) {
-        return  currentBooks.map((book) => {
+        return currentBooks.map((book) => {
           return {
             ...room,
             booking: {
@@ -84,8 +86,7 @@ export const getRoomsWithBookingStatus = createSelector(
             },
           }
         })
-        
-      } else return {...room, booking: false}
+      } else return { ...room, booking: false }
     })
     return roomsWithBookingStatus.flat()
   }

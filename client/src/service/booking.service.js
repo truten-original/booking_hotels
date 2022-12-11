@@ -9,10 +9,10 @@ const bookingService = {
     return content
   },
   getCurrentBookings: async (roomId) => {
-    const { data } = await httpService.get(bookingEndpoint, {
+    const { data } = await httpService.get(bookingEndpoint + roomId, {
       params: {
-        orderBy: '"roomId"',
-        equalTo: `"${roomId}"`,
+        orderBy: 'roomId',
+        equalTo: `${roomId}`,
       },
     })
     const { content } = data
@@ -26,8 +26,6 @@ const bookingService = {
   delete: async (id) => {
     const { data } = await httpService.delete(bookingEndpoint + id)
     const { content } = data
-    console.log(data)
-    console.log(content)
     return content
   },
 }

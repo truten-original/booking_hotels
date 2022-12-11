@@ -1,14 +1,14 @@
 import { Chip } from '@mui/material'
 import { Box } from '@mui/system'
-import { useState } from 'react'
-import MyAccardion from '../../../UI/MyAccardion/MyAccardion'
-import MyModal from '../../../UI/MyModal/MyModal'
-import RoomCard from '../../../UI/RoomCard/RoomCard'
-import RoomCardWrapper from '../../../UI/RoomCardWrapper/RoomCardWrapper'
-import TextButton from '../../../UI/TextButton/TextButton'
+import { useToggle } from '../../../../hooks/useToggle'
+import MyAccardion from '../../../common/MyAccardion'
+import MyModal from '../../../common/MyModal'
+import RoomCard from '../../../common/RoomCard'
+import RoomCardWrapper from '../../../common/RoomCardWrapper'
+import TextButton from '../../../common/TextButton'
 
 const AdminRoomItem = ({ room, fullBooks }) => {
-  const [showBookings, setShowBookings] = useState(false)
+  const [showBookings, setShowBookings] = useToggle(false)
   const currentBookings = fullBooks.filter((book) => book.roomId === room._id)
   const handleClick = () => {
     setShowBookings(true)

@@ -24,22 +24,18 @@ router.get('/:roomId', async (req, res) => {
   try {
     const { orderBy, equalTo } = req.query
     const list = await Booking.find({ [orderBy]: equalTo })
-    res.status.send(list)
+    res.send(list)
   } catch (error) {
     res.status(500).json({ message: 'на сервере произошла ошибка' })
   }
 })
-router.delete('/:bookingId', auth, async (req, res) => {
+router.delete('/:bookingId', async (req, res) => {
   try {
     const { bookingId } = req.params
+    console.log(bookingId)
     const removedBooking = await Booking.findById(bookingId)
-    console.log(removedBooking)
-    if (removedBooking.userId.toString() === req.user._id) {
       await removedBooking.remove()
       return res.send(null)
-    } else {
-      res.status(401).json({ message: 'Unauthorized' })
-    }
   } catch (error) {
     console.log(error)
   }

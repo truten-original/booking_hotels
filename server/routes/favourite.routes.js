@@ -8,7 +8,6 @@ router
         try {
             const {orderBy, equalTo} = req.query
             const list = await Favourite.find({[orderBy]: equalTo})
-            console.log(list)
             res.send(list)
         } catch (error) {
             res.status(500).json({ message: 'на сервере произошла ошибка' })

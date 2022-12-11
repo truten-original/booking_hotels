@@ -9,10 +9,10 @@ const bookmarksService = {
   create: async (payload) => {
     const {data} = await httpService.post(bookmarksEndpoint, payload) 
     const {content} = data
+
     return content
   },
   update: async (payload) => {
-    console.log(payload)
     const {data} = await httpService.patch(bookmarksEndpoint + payload._id, payload)
     const {content} = data
     return content

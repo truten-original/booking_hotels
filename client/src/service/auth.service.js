@@ -3,9 +3,6 @@ import localStorageService from './localStorage.service'
 import configFile from './config.json'
 const httpAuth = axios.create({
   baseURL: configFile.apiEndpoint + '/auth/'
-  // params: {
-  //   key: process.env.REACT_APP_FIREBASE_KEY,
-  // },
 })
 
 const authService = {
@@ -17,7 +14,6 @@ const authService = {
     const { data } = await httpAuth.post(`signInWithPassword`, {
       email,
       password,
-      // returnSecureToken: true,
     })
     return data
   },
