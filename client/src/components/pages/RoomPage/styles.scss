@@ -1,0 +1,36 @@
+@import '../../../styles/variables.scss';
+
+.card_container {
+  &.MuiContainer-root {
+    position: relative;
+    margin-top: 15vh;
+    min-height: 90vh;
+    // height: 100vh - 15vh;
+    display: grid;
+    grid-template-columns: (1fr 1fr 10px 1fr);
+    grid-template-rows: repeat(auto);
+    grid-template-areas:
+      'slider slider ...  form'
+      'descrip descrip  ... form'
+      'bookmark bookmark  ... ...'
+      'comment comment ... ...';
+    row-gap: 10px;
+    @include breakpoint(sm) {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+    }
+  }
+  .slider_container {
+    grid-area: slider;
+    background-color: #eee;
+    border-radius: 10px;
+    &.MuiBox-root {
+      width: 100%;
+      margin-inline: left;
+      @include breakpoint(sm) {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+.comment_wrapper_container {
+    grid-area: comment;
+    &.MuiBox-root {
+        background-color: #eee;
+         width: 100%;
+        border-radius: 10px;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-self: flex-start;
+    //   @include breakpoint(sm) {
+    //     width: 100%;
+    //   }
+    }
+  }
+.comment_form {
+    &.MuiTextField-root {
+        width: 100%;
+        font-size: 14px;
+        height: auto;
+    }
+}
+.comment_button{
+    &.MuiTextField-root {
+        width: 100%;
+        font-size: 14px;
+        height: auto;
+    }
+}

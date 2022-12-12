@@ -1,0 +1,190 @@
+[
+	{
+		"_id": "-vrUNEnN4H4d2A2G9BTXC",
+		"type": "s46kHnyPKM7pgdGczLae2",
+		"price": 5000,
+		"facilities": [
+			"3GjSFCgAoDLAEU7y990kc",
+			"j9kMAaoN0cfYIsTT97goH",
+			"vxNsE82Kxp_i0SOEH4pb1"
+		],
+		"sleepingPlaces": 2,
+		"images": [
+			"https://i.ibb.co/Gk9JDr6/9.jpg"
+		],
+		"name": "Dream"
+	},
+	{
+		"_id": "-GB3sVza8G6LLT2M7_wVJS",
+		"type": "s46kHnyPKM7pgdGczLae2",
+		"price": 4500,
+		"facilities": [
+			"3GjSFCgAoDLAEU7y990kc",
+			"j9kMAaoN0cfYIsTT97goH"
+		],
+		"sleepingPlaces": 2,
+		"images": [
+			"https://i.ibb.co/NS7RBPK/10.jpg"
+		],
+		"name": "Lagoon"
+	},
+	{
+		"_id": "-j71yV50Y9JhmuDYYRA1hd",
+		"type": "s46kHnyPKM7pgdGczLae2",
+		"price": 4600,
+		"facilities": [
+			"3GjSFCgAoDLAEU7y990kc",
+			"j9kMAaoN0cfYIsTT97goH"
+		],
+		"sleepingPlaces": 2,
+		"images": [
+			"https://i.ibb.co/tCkDdbt/11.jpg"
+		],
+		"name": "Pleasure"
+	},
+	{
+		"_id": "-XOMOhNOgIXPN6pQDEag_K",
+		"type": "s46kHnyPKM7pgdGczLae2",
+		"price": 4700,
+		"facilities": [
+			"3GjSFCgAoDLAEU7y990kc",
+			"j9kMAaoN0cfYIsTT97goH",
+			"vxNsE82Kxp_i0SOEH4pb1"
+		],
+		"sleepingPlaces": 2,
+		"images": [
+			"https://i.ibb.co/QJZJxhT/12.jpg"
+		],
+		"name": "Happy place"
+	},
+	{
+		"_id": "-dT5L3iateYXKtXBZ5fTtA",
+		"type": "FnXVR9c5lzbhe4cpzwwxb",
+		"price": 2800,
+		"facilities": [
+			"3GjSFCgAoDLAEU7y990kc",
+			"j9kMAaoN0cfYIsTT97goH"
+		],
+		"sleepingPlaces": 2,
+		"images": [
+			"https://i.ibb.co/FHFbm7P/1.jpg"
+		],
+		"name": "Everything for life"
+	},
+	{
+		"_id": "-7DyM0dyMh-eJdL0gXvxbP",
+		"type": "FnXVR9c5lzbhe4cpzwwxb",
+		"price": 2500,
+		"facilities": [
+			"3GjSFCgAoDLAEU7y990kc",
+			"j9kMAaoN0cfYIsTT97goH"
+		],
+		"sleepingPlaces": 2,
+		"images": [
+			"https://i.ibb.co/nrCjn68/2.jpg"
+		],
+		"name": "Cosy room"
+	},
+	{
+		"_id": "-2MnogYbGPqNw93gWlEDGl",
+		"type": "joqXCgjJHCqrI4AVf_kw5",
+		"price": 10000,
+		"facilities": [
+			"6MRJcHFWSqhjP2ZSOvaoy",
+			"vxNsE82Kxp_i0SOEH4pb1",
+			"j9kMAaoN0cfYIsTT97goH",
+			"7W9iBWhjjWUxClGR0FsDj",
+			"3GjSFCgAoDLAEU7y990kc",
+			"nqIg6U3mASLPsrDgGDZMB"
+		],
+		"sleepingPlaces": 5,
+		"images": [
+			"https://i.ibb.co/txZgS6n/3.jpg"
+		],
+		"name": "Res_idence"
+	},
+	{
+		"_id": "-URzRDMXJ7YNZRlayOZxCq",
+		"type": "joqXCgjJHCqrI4AVf_kw5",
+		"price": 11000,
+		"facilities": [
+			"6MRJcHFWSqhjP2ZSOvaoy",
+			"vxNsE82Kxp_i0SOEH4pb1",
+			"j9kMAaoN0cfYIsTT97goH",
+			"7W9iBWhjjWUxClGR0FsDj",
+			"3GjSFCgAoDLAEU7y990kc",
+			"nqIg6U3mASLPsrDgGDZMB"
+		],
+		"sleepingPlaces": 4,
+		"images": [
+			"https://i.ibb.co/vCFL7RW/4.jpg"
+		],
+		"name": "Business room"
+	},
+	{
+		"_id": "-XGiQuSzm5EqrHtFjwR1oT",
+		"type": "s46kHnyPKM7pgdGczLae2",
+		"price": 4000,
+		"facilities": [
+			"3GjSFCgAoDLAEU7y990kc",
+			"j9kMAaoN0cfYIsTT97goH",
+			"vxNsE82Kxp_i0SOEH4pb1"
+		],
+		"sleepingPlaces": 2,
+		"images": [
+			"https://i.ibb.co/tB002xt/5.jpg"
+		],
+		"name": "Good vibe"
+	},
+	{
+		"_id": "-iFE26mlX_iSimAwCzv4wp",
+		"type": "s46kHnyPKM7pgdGczLae2",
+		"price": 4100,
+		"facilities": [
+			"3GjSFCgAoDLAEU7y990kc",
+			"j9kMAaoN0cfYIsTT97goH",
+			"vxNsE82Kxp_i0SOEH4pb1"
+		],
+		"sleepingPlaces": 2,
+		"images": [
+			"https://i.ibb.co/t3hq7w3/6.jpg"
+		],
+		"name": "Simply room"
+	},
+	{
+		"_id": "-0ICbVbEnvUurFhvj4YeZ0",
+		"type": "5KgYE66Zp8b4PuAYxnf8W",
+		"price": 20000,
+		"facilities": [
+			"6MRJcHFWSqhjP2ZSOvaoy",
+			"vxNsE82Kxp_i0SOEH4pb1",
+			"j9kMAaoN0cfYIsTT97goH",
+			"7W9iBWhjjWUxClGR0FsDj",
+			"3GjSFCgAoDLAEU7y990kc",
+			"nqIg6U3mASLPsrDgGDZMB"
+		],
+		"sleepingPlaces": 6,
+		"images": [
+			"https://i.ibb.co/fnJrBZr/8.jpg"
+		],
+		"name": "Pres_ident"
+	},
+	{
+		"_id": "-7jl4sG8UnszxROTTJVp3O", 
+		"type": "5KgYE66Zp8b4PuAYxnf8W",
+		"price": 25000,
+		"facilities": [
+			"6MRJcHFWSqhjP2ZSOvaoy",
+			"vxNsE82Kxp_i0SOEH4pb1",
+			"j9kMAaoN0cfYIsTT97goH",
+			"7W9iBWhjjWUxClGR0FsDj",
+			"3GjSFCgAoDLAEU7y990kc",
+			"nqIg6U3mASLPsrDgGDZMB"
+		],
+		"sleepingPlaces": 5,
+		"images": [
+			"https://i.ibb.co/n1b81Z9/7.jpg"
+		],
+		"name": "King room"
+	}
+]
