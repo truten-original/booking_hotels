@@ -9,14 +9,14 @@
   display: none;
   justify-content: center;
   align-items: center;
-  &__content {
+  }
+  .modal__content{
     display: flex;
     flex-direction: column;
     padding: 20px;
     background-color: #eee;
     border-radius: 10px;
   }
-}
 .modal-active{
   display: flex;
 }
