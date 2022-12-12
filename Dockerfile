@@ -16,7 +16,7 @@ WORKDIR /app
 
 COPY server/package.json /app
 
-RUN npm install
+RUN npm rebuild
 
 COPY server /app
 
