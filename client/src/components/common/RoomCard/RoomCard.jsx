@@ -14,7 +14,6 @@ const RoomCard = ({ room, facilities }) => {
           borderRadius: '10px',
           border: '1px solid #9c2780',
           padding: '10px',
-          borderRadius: '10px',
         }}
       />
       <Typography sx={{ color: 'black' }}>{room.name}</Typography>

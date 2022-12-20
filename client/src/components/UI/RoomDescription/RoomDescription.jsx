@@ -25,7 +25,7 @@ const RoomDescription = ({ description, facilitiesArr }) => {
           }}
         >
           <Typography>{currentType.description}</Typography>
-          <Typography variant="h6">удобства:</Typography>
+          <Typography variant="h6">Удобства:</Typography>
           <RoomFacilities facilitiesArr={facilitiesArr} />
         </Box>
       )}

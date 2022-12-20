@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Outlet, useParams } from 'react-router-dom'
 import ContentLayout from '../../components/common/ContentLayout'
 import RoomItem from '../../components/common/RoomItem/RoomItem'
-import Footer from '../../components/UI/Footer/Footer'
 import {
   getBookingLoadingStatus,
   getCurrentUserBookings,
@@ -43,26 +42,27 @@ const RoomList = () => {
   const books = useSelector(getCurrentUserBookings(userId))
   const { roomId } = useParams()
   const rooms = useSelector(getRooms)
-  const arr = paginate(
-    checkAvailableRooms([...rooms], books),
-    quantityItems.quantity,
-    quantityItems.currentPage
-  )
+  const arr = checkAvailableRooms([...rooms], books)
   useEffect(() => {
     dispatch(loadBookings())
     dispatch(loadBookmarks())
     dispatch(loadFavourites(userId))
-  }, [dispatch])
+  }, [dispatch, userId])
   useEffect(() => {
     setQuantityItems((prev) => ({ ...prev, currentPage: 1 }))
   }, [quantityItems.quantity])
-  const availableRooms = arr
   const quantityArr = [3, 6, 12]
   const filteredRooms = searchQuery
-    ? availableRooms.filter((room) =>
-        room.name.toLowerCase().includes(searchQuery)
+    ? arr.filter((room) =>
+        room.name.toLowerCase().includes(searchQuery.toLowerCase())
       )
-    : availableRooms
+    : [...arr]
+
+  const currentRooms = paginate(
+    filteredRooms,
+    quantityItems.quantity,
+    quantityItems.currentPage
+  )
   if (rooms)
     return (
       <>
@@ -162,20 +162,22 @@ const RoomList = () => {
                     justifyContent: 'space-around',
                   }}
                 >
-                  {filteredRooms.map((room) => (
+                  {currentRooms.map((room) => (
                     <RoomItem room={room} key={room._id} />
                   ))}
                 </Box>
               )}
-              <Pagination
-                page={quantityItems.currentPage}
-                onChange={(_, page) =>
-                  setQuantityItems((prev) => ({ ...prev, currentPage: page }))
-                }
-                sx={{ mt: '1rem', alignContent: 'center' }}
-                count={Math.ceil(rooms.length / quantityItems.quantity)}
-                color="secondary"
-              />
+              {!!filteredRooms.length && (
+                <Pagination
+                  page={quantityItems.currentPage}
+                  onChange={(_, page) =>
+                    setQuantityItems((prev) => ({ ...prev, currentPage: page }))
+                  }
+                  sx={{ mt: '1rem', alignContent: 'center' }}
+                  count={Math.ceil(arr.length / quantityItems.quantity)}
+                  color="secondary"
+                />
+              )}
             </>
           )}
         </ContentLayout>

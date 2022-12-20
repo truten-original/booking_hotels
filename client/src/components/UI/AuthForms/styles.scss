@@ -20,9 +20,12 @@
   }
 }
 .form_textField_button {
+  &.MuiTextField-root {
   border-radius: 10px;
   background-color: blanchedalmond;
   width: 100%;
+  cursor: pointer;
+  }
 }
 .form_input {
   &.MuiInputBase-root {

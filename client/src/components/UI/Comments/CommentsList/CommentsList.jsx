@@ -18,9 +18,11 @@ const CommentsList = ({ roomId }) => {
   return (
     !isLoading && (
       <>
-        <TextButton onClick={setShow} color="secondary">
-          {show ? 'скрыть комментарии' : 'показать комментарии'}
-        </TextButton>
+        <Box>
+          <TextButton onClick={setShow} color="secondary">
+            {show ? 'скрыть комментарии' : 'показать комментарии'}
+          </TextButton>
+        </Box>
 
         <Box sx={{ display: show ? 'block' : 'none' }}>
           {comments.length ? (

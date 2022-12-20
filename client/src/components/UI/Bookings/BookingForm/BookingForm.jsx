@@ -80,10 +80,10 @@ const BookingForm = ({ room }) => {
     setBookingData((prev) => ({ ...prev, guestsCount: e.target.value }))
   }
   const handleArrivalDateChange = (e) => {
-    setBookingData((prev) => ({ ...prev, arrivalDate: e.$d.valueOf() }))
+    setBookingData((prev) => ({ ...prev, arrivalDate: e._d.getTime() }))
   }
   const handleDepatureDateChange = (e) => {
-    setBookingData((prev) => ({ ...prev, departureDate: e.$d.valueOf() }))
+    setBookingData((prev) => ({ ...prev, departureDate: e._d.getTime() }))
   }
   const handleSubmit = (data) => {
     if (userId) {
@@ -112,9 +112,10 @@ const BookingForm = ({ room }) => {
         handleSubmit(bookingData)
       }}
     >
-      <FavouriteIcon roomId={room._id} />
-      <Divider light />
-      <Typography variant="h6">{room.name}</Typography>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography variant="h6">{room.name}</Typography>
+        <FavouriteIcon roomId={room._id} />
+      </Box>
       <RoomType type={room.type} />
       <RoomPrice price={room.price} />
       <Divider light />

@@ -47,29 +47,35 @@ const CommentForm = ({ roomId }) => {
       onSubmit={handleSubmit(handlerSubmit)}
       sx={{ mb: '2vh' }}
     >
-      <Typography variant="h6">оставить комментарий</Typography>
-      <TextField
-        sx={{ mb: 1 }}
-        value={inputValue}
-        onChangeCapture={(e) => setInputValue(e.target.value)}
-        fullWidth
-        label="комментарий"
-        multiline
-        // rows="auto"
-        {...register('comment', {
-          required: {
-            value: true,
-            message: 'обязательное поле для отправки комментария',
-          },
-        })}
-      />
-      {errors.comment && <ErrorWrapper>{errors.comment.message}</ErrorWrapper>}
-
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <Typography variant="h6">Оставить комментарий</Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          pt: '10px',
+          pb: '10px',
+        }}
+      >
+        <TextField
+          color="secondary"
+          sx={{ width: '90%' }}
+          value={inputValue}
+          onChangeCapture={(e) => setInputValue(e.target.value)}
+          label="комментарий"
+          multiline
+          {...register('comment', {
+            required: {
+              value: true,
+              message: 'обязательное поле для отправки комментария',
+            },
+          })}
+        />
         <SvgButton type="submit" color="black">
           <MailComponent />
         </SvgButton>
       </Box>
+      {errors.comment && <ErrorWrapper>{errors.comment.message}</ErrorWrapper>}
     </Box>
   )
 }

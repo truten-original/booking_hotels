@@ -41,10 +41,10 @@ const BookMarkForm = ({ roomId }) => {
       onSubmit={(e) => handleSubmit(e)}
     >
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="h6">оценка:</Typography>
+        <Typography variant="h6">Оценка:</Typography>
         <Rating
           size="medium"
-          sx={{ color: '#1976d2', px: '10px' }}
+          sx={{ color: '#9c27b0', px: '10px' }}
           value={bookmarkData.bookmark}
           onChange={(e) => {
             setBookmarkData((prev) => ({

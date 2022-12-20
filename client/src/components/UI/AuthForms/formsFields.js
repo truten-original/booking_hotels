@@ -7,7 +7,7 @@ export const registerFormFields = [
   { value: 'Зарегестрироваться', type: 'submit' },
 ]
 export const loginFormFields = [
-  { name: 'email', label: 'Email' },
-  { name: 'password', label: 'Password' },
+  { name: 'email', label: 'Почта' },
+  { name: 'password', label: 'Пароль' },
   { value: 'Войти', type: 'submit' },
 ]

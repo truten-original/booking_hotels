@@ -8,7 +8,6 @@
     background-color: #eee;
     border-radius: 10px;
     padding: 15px;
-    position: sticky;
     grid-area: form;
     @include breakpoint(sm) {
       width: 95%;

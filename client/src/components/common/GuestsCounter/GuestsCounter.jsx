@@ -11,12 +11,13 @@ const GuestsCounter = ({ guestsCount, handleChangeCount }) => {
         }}
       >
         <Slider
+          color="secondary"
           className="slider_root"
           size="md"
           value={guestsCount}
           min={1}
           step={1}
-          max={8}
+          max={10}
           onChange={(e) => handleChangeCount(e)}
           valueLabelDisplay="auto"
           aria-labelledby="non-linear-slider"

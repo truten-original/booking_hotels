@@ -25,7 +25,7 @@ const Login = () => {
         }}
         variant="h2"
       >
-        {formType === 'login' ? 'вход' : 'регистрация'}:
+        {formType === 'login' ? 'Вход' : 'Регистрация'}:
       </Typography>
       {formType === 'login' ? (
         <LoginForm isLoading={isLoading} />
@@ -41,7 +41,7 @@ const Login = () => {
           mt: 2,
         }}
       >
-        {formType === 'login' ? 'зарегестрироваться' : 'войти'}
+        {formType === 'login' ? 'Регистрация' : 'Войти'}
       </Typography>
     </Box>
   )

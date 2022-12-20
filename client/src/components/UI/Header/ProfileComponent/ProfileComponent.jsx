@@ -105,7 +105,7 @@ const ProfileComponent = () => {
               textDecoration: 'none',
             }}
           >
-            авторизация
+            личный кабинет
           </Typography>
         </NavLink>
       )}

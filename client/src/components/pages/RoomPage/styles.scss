@@ -22,6 +22,8 @@
     }
   }
   .slider_container {
+    pointer-events: none;
+    padding: 10px;
     grid-area: slider;
     background-color: #eee;
     border-radius: 10px;

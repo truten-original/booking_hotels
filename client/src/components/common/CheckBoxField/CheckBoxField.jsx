@@ -9,7 +9,11 @@ const CheckBoxField = ({ description, isFullPay, fullPayHandleChange }) => {
         justifyContent: 'space-arround',
       }}
     >
-      <Checkbox checked={isFullPay} onChange={fullPayHandleChange} />
+      <Checkbox
+        color="secondary"
+        checked={isFullPay}
+        onChange={fullPayHandleChange}
+      />
       <p>{description}</p>
     </Box>
   )

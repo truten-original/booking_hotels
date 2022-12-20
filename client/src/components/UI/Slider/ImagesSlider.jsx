@@ -1,33 +1,31 @@
-import { motion } from 'framer-motion'
-import { useRef, useEffect, useState } from 'react'
-import classes from './ImagesSlider.module.scss'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, Pagination, Navigation } from 'swiper'
+import { Box } from '@mui/system'
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
 const ImagesSlider = ({ size, images }) => {
-  const [width, setWidth] = useState(0)
-  const carousel = useRef()
-  useEffect(() => {
-    setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth)
-  }, [])
   return (
-    <div>
-      <motion.div
-        className={classes.carousel}
-        ref={carousel}
-        whileTap={{ cursor: 'grabbing' }}
-        style={{ maxWidth: size }}
+    <Box sx={{ maxWidth: size }}>
+      <Swiper
+        style={{
+          '--swiper-navigation-color': '#eee',
+          '--swiper-pagination-color': '#eee',
+        }}
+        autoplay={{ delay: 1500, disableOnInteraction: false }}
+        modules={[Autoplay, Pagination, Navigation]}
+        navigation={true}
+        pagination
+        spaceBetween={50}
+        slidesPerView={1}
       >
-        <motion.div
-          drag="x"
-          dragConstraints={{ right: 0, left: -width }}
-          className={classes.inner_carousel}
-        >
-          {images.map((image) => (
-            <motion.div key={image} className={classes.carousel_item}>
-              <img alt="rooom img" src={image} />
-            </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
-    </div>
+        {images.map((i) => (
+          <SwiperSlide key={i} className="swiper-slide">
+            <img src={i} alt="rooom img" />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </Box>
   )
 }
 

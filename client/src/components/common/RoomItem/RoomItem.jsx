@@ -34,10 +34,12 @@ const RoomItem = ({ room }) => {
           }}
         >
           <CardMedia
+            onClick={AboutPageHandleClick}
             component="img"
             height="200"
             image={room.images[0]}
             alt="green iguana"
+            sx={{ cursor: 'pointer' }}
           />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <CardActions

@@ -5,6 +5,7 @@ const SubmitField = ({ type, value, size, error, disabled, fullWidth }) => {
     <>
       {error && <ErrorWrapper>{error}</ErrorWrapper>}
       <TextField
+        sx={{ cursor: 'pointer' }}
         size={size || 'small'}
         fullWidth={fullWidth ? fullWidth : false}
         className="form_textField_button"
