@@ -6,6 +6,8 @@ COPY client/package.json /app/client
 
 RUN npm install
 
+ENV REACT_APP_ADMIN_ID 6391bbee92bfe2e27bea8c3d
+
 COPY client /app/client
 
 RUN npm run build
