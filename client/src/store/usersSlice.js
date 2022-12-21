@@ -56,7 +56,6 @@ const usersSlice = createSlice({
     userLoggedout: (state) => {
       state.isLoggedIn = false
       state.auth = null
-      state.entities = []
       state.isAdmin = null
       state.currentUser = null
     },

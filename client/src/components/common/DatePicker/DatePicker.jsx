@@ -2,7 +2,7 @@ import { TextField } from '@mui/material'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
-import { ruLocale } from '../../../assets/localeConfig/localeConfig'
+import { ruLocale } from '../../../localeConfig/localeConfig'
 ruLocale()
 const DatePicker = ({
   handleArrivalDateChange,
