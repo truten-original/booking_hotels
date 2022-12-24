@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { loadBookings } from '../../store/bookingsSlice'
 import { loadFacilities } from '../../store/facilitiesSlice'
+import { loadFavourites } from '../../store/favouritesSlice'
 import { loadRooms } from '../../store/roomsSlice'
 import { loadTypes } from '../../store/typesSlice'
 import {
@@ -19,6 +20,7 @@ const AppLoader = () => {
     dispatch(loadFacilities())
     dispatch(loadBookings())
     dispatch(loadUsers())
+    dispatch(loadFavourites())
   }, [dispatch])
   useEffect(() => {
     if (authId) {

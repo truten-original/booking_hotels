@@ -2,10 +2,10 @@ import { Typography } from '@mui/material'
 import { useSelector } from 'react-redux'
 import {
   getCurrentFacilities,
-  getFacilitiesStatus,
+  getFacilitiesLoadingStatus,
 } from '../../../store/facilitiesSlice'
 const RoomFacilities = ({ facilitiesArr, nameSize }) => {
-  const isLoading = useSelector(getFacilitiesStatus())
+  const isLoading = useSelector(getFacilitiesLoadingStatus)
   const facils = useSelector(getCurrentFacilities(facilitiesArr))
   return (
     <ul style={{ listStyleType: 'none' }}>

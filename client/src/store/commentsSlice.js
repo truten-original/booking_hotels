@@ -90,7 +90,7 @@ export const removeComment = (id) => async (dispatch) => {
 
 export const getCommentsForCurrentRoom = (roomId) => (state) =>
   _.orderBy(state.comments.entities.filter(com => com.roomId === roomId), ['createdAt'], ['desc'])
-export const getCommentsLoadingStatus = () => (state) =>
+export const getCommentsLoadingStatus =  (state) =>
   state.comments.isLoading
 
 export default commentsReducer

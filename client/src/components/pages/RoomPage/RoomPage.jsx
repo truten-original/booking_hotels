@@ -6,42 +6,71 @@ import {
   getBookingLoadingStatus,
   loadCurrentRoomBookings,
 } from '../../../store/bookingsSlice'
+import { getBookmarksLoadingStatus } from '../../../store/bookmarksSlice'
+import {
+  getCommentsLoadingStatus,
+  loadComments,
+} from '../../../store/commentsSlice'
+import { getFacilitiesLoadingStatus } from '../../../store/facilitiesSlice'
 import {
   getCurrentRoom,
   getRoomsLoadingStatus,
 } from '../../../store/roomsSlice'
-import BookMarkForm from '../../UI/Bookmarks/BookamrkForm'
+import Loader from '../../common/Loader/Loader'
 import BookingForm from '../../UI/Bookings/BookingForm'
+import BookMarkForm from '../../UI/Bookmarks/BookamrkForm'
 import CommentWrapper from '../../UI/Comments/CommentWrapper'
 import RoomDescription from '../../UI/RoomDescription'
 import ImagesSlider from '../../UI/Slider/ImagesSlider'
 
 const RoomPage = () => {
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(loadCurrentRoomBookings(roomId))
-  }, [])
+
   const { roomId } = useParams()
   const currentRoom = useSelector(getCurrentRoom(roomId))
-  const isLoading = useSelector(getRoomsLoadingStatus)
+  const isLoadingRooms = useSelector(getRoomsLoadingStatus)
   const isLoadingCurrentBooking = useSelector(getBookingLoadingStatus)
+  const isLoadingBookmark = useSelector(getBookmarksLoadingStatus)
+  const isLoadingComments = useSelector(getCommentsLoadingStatus)
+  const isLoadingFacils = useSelector(getFacilitiesLoadingStatus)
+  useEffect(() => {
+    dispatch(loadCurrentRoomBookings(roomId))
+    dispatch(loadComments(roomId))
+  }, [dispatch, roomId])
   return (
-    <Container className="card_container">
-      {!isLoading && (
-        <>
-          <Box className="slider_container">
-            <ImagesSlider images={currentRoom.images} size="100%" />
-          </Box>
-          <RoomDescription
-            description={currentRoom?.type}
-            facilitiesArr={currentRoom?.facilities}
-          />
-          <BookMarkForm roomId={roomId} />
-          <CommentWrapper roomId={roomId} />
-          {!isLoadingCurrentBooking && <BookingForm room={currentRoom} />}
-        </>
+    <>
+      {!isLoadingRooms &&
+      !isLoadingCurrentBooking &&
+      !isLoadingBookmark &&
+      !isLoadingComments &&
+      !isLoadingFacils ? (
+        <Container className="card_container">
+          <>
+            <Box className="slider_container">
+              <ImagesSlider images={currentRoom.images} size="100%" />
+            </Box>
+            <RoomDescription
+              description={currentRoom?.type}
+              facilitiesArr={currentRoom?.facilities}
+            />
+            <BookMarkForm roomId={roomId} />
+            <CommentWrapper roomId={roomId} />
+            <BookingForm room={currentRoom} />
+          </>
+        </Container>
+      ) : (
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '85vh',
+          }}
+        >
+          <Loader width="350px" />
+        </Box>
       )}
-    </Container>
+    </>
   )
 }
 

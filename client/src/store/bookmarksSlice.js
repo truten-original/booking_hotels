@@ -94,7 +94,7 @@ export const getCurrentUserForCurrentRoomBookmark = (payload) => (state) => {
   }
 }
 
-export const getBookmarksLoadingStatus = () => (state) =>
+export const getBookmarksLoadingStatus =  (state) =>
   state.bookmarks.isLoading
 
 export default bookmarksReducer

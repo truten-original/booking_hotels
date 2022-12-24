@@ -15,7 +15,7 @@ const initialState = localStorageService.getAccessToken()
       error: null,
     }
   : {
-      isAuthLoading: true,
+      isAuthLoading: false,
       isLoading: true,
       auth: null,
       currentUser: null,
@@ -64,15 +64,16 @@ const usersSlice = createSlice({
       state.error = null
     },
     authRequestSucces: (state, { payload }) => {
-      state.auth = payload
       state.isLoggedIn = true
+      state.auth = payload
       state.isAuthLoading = false
     },
     authRequestFailed: (state, { payload }) => {
+      state.isLoggedIn = false
       state.error = payload
       state.isAuthLoading = false
     },
-    currentUserRecieved: (state, {payload}) => {
+    currentUserRecieved: (state, { payload }) => {
       state.currentUser = payload
     },
     adminLoggedIn: (state) => {
@@ -94,17 +95,16 @@ const {
   usersRecieved,
   usersRequested,
   adminLoggedIn,
-  currentUserRecieved
+  currentUserRecieved,
 } = actions
 export const signUp =
-  ({type, ...rest}) =>
+  ({ type, ...rest }) =>
   async (dispatch) => {
     dispatch(authRequested())
     try {
       const data = await authService.register(rest)
       localStorageService.setTokens(data)
-      dispatch(authRequestSucces({ userId: data.userId}))
-      redirect('/rooms')
+      dispatch(authRequestSucces({ userId: data.userId }))
     } catch (error) {
       const { response } = error
       if (response.data.error.message === 'EMAIL_EXISTS') {
@@ -113,6 +113,7 @@ export const signUp =
       } else {
         dispatch(authRequestFailed(error.message))
       }
+      return 'error'
     }
   }
 export const signIn =
@@ -126,8 +127,7 @@ export const signIn =
         dispatch(adminLoggedIn())
       }
       localStorageService.setTokens(data)
-      dispatch(authRequestSucces({ userId: data.userId}))
-      redirect('/rooms')
+      dispatch(authRequestSucces({ userId: data.userId }))
     } catch (error) {
       const { response } = error
       if (
@@ -139,6 +139,7 @@ export const signIn =
       } else {
         dispatch(authRequestFailed(error.message))
       }
+      return 'error'
     }
   }
 export const userLogout = () => (dispatch) => {
@@ -152,7 +153,7 @@ export const getCurrentUserData = (payload) => async (dispatch) => {
   } catch (error) {
     dispatch(currentUserRecieveFailed(error.message))
   }
-} 
+}
 export const updateUser = (payload) => async (dispatch) => {
   dispatch(userUpdateRequested())
   try {
@@ -165,7 +166,7 @@ export const updateUser = (payload) => async (dispatch) => {
 export const loadUsers = () => async (dispatch) => {
   dispatch(usersRequested())
   try {
-    const data = await usersService.get()
+    let data = await usersService.get()
     if (data === null) {
       data = []
     }
@@ -175,16 +176,16 @@ export const loadUsers = () => async (dispatch) => {
   }
 }
 export const getCurrentUser = (state) => state.users.currentUser
-export const getAdminMeaning = (state) => state.users.isAdmin 
+export const getAdminMeaning = (state) => state.users.isAdmin
 export const getSignUpError = (state) => state.users.error?.signUp
 export const getLoginError = (state) => state.users.error?.login
-export const getUsers  = (state) => state.users.entities
+export const getUsers = (state) => state.users.entities
 export const getUsersLoadingStatus = (state) => state.users.isLoading
 export const getAuthLoadingStatus = (state) => state.users.isAuthLoading
 export const getUserById = (id) => (state) =>
   state.users.entities.find((user) => user._id === id)
 export const getAuthId = (state) => state.users.auth?.userId
-export const getLoggedStatus = () => (state) => state.users.isLoggedIn
+export const getLoggedStatus = (state) => state.users.isLoggedIn
 export const getLoggedUser = () => (state) =>
   state.users.entities.find((user) => user._id === state.users.auth.userId)
 export default usersReducer

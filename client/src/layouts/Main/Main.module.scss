@@ -3,7 +3,7 @@
 .container {
   background: url('../../assets/images/jpg/Background.jpg') 0 0 / cover
     no-repeat;
-  height: 90vh;
+  min-height: 90vh;
   margin: 0;
   text-decoration-style: solid;
   overflow: hidden;

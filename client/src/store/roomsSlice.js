@@ -1,10 +1,12 @@
 import { createSelector, createSlice } from '@reduxjs/toolkit'
 import roomService from '../service/rooms.service'
 import * as _ from 'lodash'
-import { getCurrentFilter } from './roomsFilterSlice'
+import { getClasses, getCurrentClass, getCurrentFilter } from './roomsFilterSlice'
 import { getBookmarks } from './bookmarksSlice'
 import { calculateRaiting } from '../utils/calculateRaiting'
 import { getBookings } from './bookingsSlice'
+import { getFacilities } from './facilitiesSlice'
+import { getTypes } from './typesSlice'
 const initialState = {
   entities: [],
   isLoading: true,
@@ -45,15 +47,23 @@ export const getCurrentRoom = (id) => (state) =>
   state.rooms.entities.find((room) => room._id === id)
 const allRooms = (state) => state.rooms.entities
 export const getRooms = createSelector(
-  [allRooms, getCurrentFilter, getBookmarks],
-  (rooms, filter, books) => {
+  [allRooms, getCurrentFilter, getBookmarks, getTypes, getCurrentClass],
+  (rooms, filter, books, types, curClass) => {
+    const roomsWithTypes = rooms.map(r => {
+      const currentType = types.find(t => t._id === r.type)
+      return {...r, type: currentType}
+    })
+    const getResArr = (curClass) =>  {
+      if(curClass === 'indeterminately') return roomsWithTypes 
+      else return roomsWithTypes.filter(r => r.type.name === curClass)
+      }
+      const resArr = getResArr(curClass)
     if (filter === 'expensive') {
-      const arr = _.orderBy(rooms, ['price'], ['desc'])
-      return arr
+      return _.orderBy(resArr, ['price'], ['desc'])
     } else if (filter === 'cheaper') {
-      return _.orderBy(rooms, ['price'], ['asc'])
+      return _.orderBy(resArr, ['price'], ['asc'])
     } else if (filter === 'raiting') {
-      const roomsWithBooksArr = rooms.map((room) => {
+      const roomsWithBooksArr = resArr.map((room) => {
         const currentBookArr = books.filter((b) => b.roomId === room._id)
         if (currentBookArr.length !== 0) {
           return { ...room, bookmark: calculateRaiting(currentBookArr) }
@@ -63,7 +73,7 @@ export const getRooms = createSelector(
       })
       return _.orderBy(roomsWithBooksArr, ['bookmark'], ['desc'])
     } else {
-      return [...rooms].sort(
+      return [...resArr].sort(
         (a, b) => b[`${filter}`].length - a[`${filter}`].length
       )
     }

@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { getLoginError, signIn } from '../../../store/usersSlice'
 import { schemaLogin } from '../../../utils/validationSchema'
 import MyPassField from '../../common/MyPassField'
@@ -9,6 +10,7 @@ import MyTextField from '../../common/MyTextField'
 import SubmitField from '../../common/SubmitField'
 import { loginFormFields } from './formsFields'
 const LoginForm = () => {
+  const navigate = useNavigate()
   const error = useSelector(getLoginError)
   const dispatch = useDispatch()
   const {
@@ -19,8 +21,12 @@ const LoginForm = () => {
     reValidateMode: 'onBlur',
     resolver: yupResolver(schemaLogin),
   })
-  const handlerFormSubmit = (data) => {
-    dispatch(signIn({ ...data, type: 'login' }))
+
+  const handlerFormSubmit = async (data) => {
+    const res = await dispatch(signIn({ ...data, type: 'login' }))
+    if (res !== 'error') {
+      navigate('/rooms')
+    }
   }
   return (
     <Box component="form" onSubmit={handleSubmit(handlerFormSubmit)}>

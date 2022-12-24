@@ -1,15 +1,15 @@
 import { Skeleton } from '@mui/material'
 
-const RoomItemSkeleton = () => {
+const BookingFormSkeleton = () => {
   return (
     <Skeleton
       animation="pulse"
       variant="rounded"
-      width={350}
-      height={520}
+      width={365}
+      height={735}
       sx={{ borderRadius: '10px' }}
     />
   )
 }
 
-export default RoomItemSkeleton
+export default BookingFormSkeleton

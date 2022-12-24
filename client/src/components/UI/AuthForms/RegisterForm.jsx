@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import Box from '@mui/material/Box'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import { getSignUpError, signUp } from '../../../store/usersSlice'
 import { schemaRegister } from '../../../utils/validationSchema'
 import MyPassField from '../../common/MyPassField'
@@ -10,6 +11,7 @@ import SexField from '../../common/SexField'
 import SubmitField from '../../common/SubmitField'
 import { registerFormFields } from './formsFields'
 const RegisterForm = () => {
+  const navigate = useNavigate()
   const error = useSelector(getSignUpError)
   const dispatch = useDispatch()
   const {
@@ -22,6 +24,7 @@ const RegisterForm = () => {
   })
   const handlerFormSubmit = (data) => {
     dispatch(signUp({ ...data, registerDate: Date.now(), type: 'signUp' }))
+    navigate('/rooms')
   }
   return (
     <Box component="form" onSubmit={handleSubmit(handlerFormSubmit)}>

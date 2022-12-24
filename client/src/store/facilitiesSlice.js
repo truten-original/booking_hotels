@@ -37,7 +37,7 @@ export const loadFacilities = () => async (dispatch) => {
   }
 }
 export const getFacilities = () => (state) => state.facilities.entities
-export const getFacilitiesStatus = () => (state) => state.facilities.isLoading
+export const getFacilitiesLoadingStatus = (state) => state.facilities.isLoading
 export const getCurrentFacilities = (arr) => (state) => {
   const currentFacilities = []
   for (const el of arr) {

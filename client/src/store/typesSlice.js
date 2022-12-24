@@ -38,8 +38,8 @@ export const loadTypes = () => async (dispatch) => {
     dispatch(typesRequestFailed(error.message))
   }
 }
-export const getTypes = () => (state) => state.types.entities
+export const getTypes = (state) => state.types.entities
 export const getCurrentType = (id) => (state) =>
   state.types.entities.find((type) => type._id === id)
-export const getTypesLoadingStatus = () => (state) => state.types.isLoading
+export const getTypesLoadingStatus = (state) => state.types.isLoading
 export default typesReducer

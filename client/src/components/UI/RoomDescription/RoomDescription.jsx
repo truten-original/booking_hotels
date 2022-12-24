@@ -7,7 +7,7 @@ import {
 } from '../../../store/typesSlice'
 
 const RoomDescription = ({ description, facilitiesArr }) => {
-  const isLoading = useSelector(getTypesLoadingStatus())
+  const isLoading = useSelector(getTypesLoadingStatus)
   const currentType = useSelector(getCurrentType(description))
   return (
     <>

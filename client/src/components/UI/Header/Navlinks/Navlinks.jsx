@@ -8,7 +8,7 @@ import { getAdminMeaning, getLoggedStatus } from '../../../../store/usersSlice'
 import { navigateLinks } from '../../../../router/links'
 const Navlinks = () => {
   const isAdmin = useSelector(getAdminMeaning)
-  const isLoggedIn = useSelector(getLoggedStatus())
+  const isLoggedIn = useSelector(getLoggedStatus)
   const [anchorElNav, setAnchorElNav] = useState(null)
 
   const handleOpenNavMenu = (event) => {
