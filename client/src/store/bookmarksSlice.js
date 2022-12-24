@@ -60,7 +60,8 @@ export const loadBookmarks = () => async (dispatch) => {
 export const createOrUpadateBookmark =
   (payload) => async (dispatch, getState) => {
     const { entities } = getState().bookmarks
-    const index = entities.findIndex((item) => item.userId === payload.userId)
+
+    const index = entities.findIndex((item) => item.roomId === payload.roomId && item.userId === payload.userId)
     if ( index !== -1) {
       dispatch(updateRequested())
       try {

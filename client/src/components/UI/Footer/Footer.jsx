@@ -2,7 +2,7 @@ import { Box } from '@mui/material'
 import CopyRightComponent from '../../common/CopyRightComponent'
 import SocialComponent from '../../common/SocialComponent/SocialComponent'
 
-const Footer = ({ position }) => {
+const Footer = () => {
   return (
     <Box
       sx={{
